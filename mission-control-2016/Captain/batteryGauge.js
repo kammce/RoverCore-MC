@@ -5,6 +5,7 @@ $(() => {
     Highcharts.chart('batteryGauge', {
         chart: {
             type: 'gauge',
+			backgroundColor: 'transparent',
             plotBackgroundColor: null,
             plotBackgroundImage: null,
             plotBorderWidth: 0,
@@ -12,7 +13,7 @@ $(() => {
         },
 
         title: {
-            text: 'Battery Gauge'
+            text: ''
         },
 
         pane: {

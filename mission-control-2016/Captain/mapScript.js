@@ -11,6 +11,8 @@ document.getElementById("latitude").innerHTML = latitude;
 document.getElementById("longitude").innerHTML = longitude;
 //START MAP
 var mymap = L.map('mapid').setView([latitude, longitude], 15);
+mymap.doubleClickZoom.disable();
+mymap.on('click',onMapClick);
 mymap.doubleClickZoom = false;
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
 	maxZoom: 18,
@@ -24,7 +26,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/
 var marker = L.marker([latitude, longitude]).addTo(mymap);
 marker.bindPopup("<b>Lat: </b>"+ latitude + "<br> <b>Lon: "+longitude + "<br> <b>Alt: "+altitude);
 
-mymap.on('click',onMapClick);
+
 
 
 function goToMarker(){
