@@ -35,10 +35,6 @@ function goToRover(){
   mymap.setView([latitude, longitude]);
 }
 
-function removeMarker(e){
-	
-}
-
 function getMarkerPosition(){
 
 }
@@ -50,8 +46,6 @@ function onMapClick(e) {
 	document.getElementById("latitude").innerHTML = tempLat;
 	document.getElementById("longitude").innerHTML = tempLon;
 	document.getElementById("altitude").innerHTML = tempAlt;
-	var marker = L.marker([tempLat,tempLon,tempAlt]);
-	marker.bindPopup("<b>Lat: </b>"+ tempLat + "<br> <b>Lon: "+tempLon);
-	marker.addTo(mymap);
+	var marker = L.marker([tempLat,tempLon,tempAlt]).addTo(mymap).bindPopup("<b>Lat: </b>"+ tempLat + "<br> <b>Lon: "+tempLon +"<br>" + $('<b>Remove ME</b>').click(function() {mymap.removeLayer(marker);})[0]);
 	
 }
