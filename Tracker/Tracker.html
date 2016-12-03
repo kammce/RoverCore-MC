@@ -34,22 +34,14 @@
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">
       <div class="container">
-        <div id="tab_h_camera" style="background-color: white">
+        <div id="tab_h_camera" style="background-color: white"  onkeypress="myFunction(event)">
           <div>
             <div style="position: absolute; margin-top:455px; margin-left:864px">
-              <input type="text" class="h-pitch" data-width="80" data-angleOffset=-125 data-angleArc=250 data-fgColor="red" data-rotation="clockwise" value="3" data-min="0" data-max="6" data-step="0.01">
-              <script>
-                function show(){
-                  alert("123");
-                }
-              </script>
+              <input type="text" class="h-pitch" data-width="80" data-angleOffset=-125 data-angleArc=250 data-fgColor="red" data-rotation="clockwise" value="3" data-min="0" data-max="6" data-step="0.01" readonly="readonly">
             </div>
             <div style="position: absolute; margin-top:455px; margin-left:951px">
-              <input type="text" class="h-yaw" data-width="80" data-angleOffset=-125 data-angleArc=250 data-fgColor="red" data-rotation="clockwise" value="3" data-min="0" data-max="6" data-step="0.01">
+              <input type="text" class="h-yaw" data-width="80" data-angleOffset=-125 data-angleArc=250 data-fgColor="red" data-rotation="clockwise" value="3" data-min="0" data-max="6" data-step="0.01" readonly="readonly">
               <script>
-                function show(){
-                  alert("123");
-                }
                 $(function() {
                   $(".h-pitch").knob();
                   $(".h-yaw").knob();
@@ -58,33 +50,24 @@
             </div>
           </div>
           <div id="sliders">
+            <div style="position: absolute; margin-top:40px; margin-left:432px">
+              <input id="top_slider" data-slider-id="topSlider" type="text" data-slider-min="-225" data-slider-max="225" data-slider-step="1" data-slider-value="0" style="display: none;" data-value="0" value="0" data-slider-handle="triangle" />
+             </div>
             <div style="position: absolute; margin-top:186px; margin-left:368px">
               <input id="ex2" data-slider-id="ex2Slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" style="display: none;" data-value="0" value="0" data-slider-handle="round" data-slider-orientation="vertical" />
              </div>
             <div style="position: absolute; margin-top:186px; margin-left:688px">
               <input id="ex1" data-slider-id="ex1Slider" type="text" data-slider-min="-60" data-slider-max="60" data-slider-step="1" data-slider-value="0" style="display: none;" data-value="0" value="0" data-slider-handle="triangle" data-slider-orientation="vertical" />
-              <script type="text/javascript">
-                $(document).ready(function() {
-                  $('#ex1').slider({
-                    formatter: function(value) {
-                      return value;
-                    }
-                  });
-                  $('#ex2').slider({
-                    formatter: function(value) {
-                      return value;
-                    }
-                  });
-                });
-              </script>
              </div>
           </div>
           <div id="preset_buttons">
-            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:542px; margin-left:8px">panorama</button>
-            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:512px; margin-left:124px">front</button>
-            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:532px; margin-left:88px">left</button>
-            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:532px; margin-left:168px">right</button>
-            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:552px; margin-left:123px">back</button>
+            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:542px; margin-left:8px" value="panorama" onclick="alert(this.value);">panorama</button>
+            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:512px; margin-left:124px" value="front" onclick="alert(this.value);">front</button>
+            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:532px; margin-left:88px" value="left" onclick="alert(this.value);">left</button>
+            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:532px; margin-left:168px" value="right" onclick="alert(this.value);">right</button>
+            <button type="button" class="btn btn-default btn-xs" style="position: absolute; margin-top:552px; margin-left:123px" value="back" onclick="alert(this.value);">back</button>
+            <script type="text/javascript">
+            </script>
           </div>
           <img src="images/small.png" width="100%">
         </div>
@@ -141,5 +124,38 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      /*alert("document.ready");*/
+      $('#ex1').slider({
+        formatter: function(value) {
+          return value;
+        }
+      });
+      $('#ex2').slider({
+        formatter: function(value) {
+          return value;
+        }
+      });
+      $('#top_slider').slider({
+        formatter: function(value) {
+          return value;
+        }
+      });
+    });
+
+    window.onkeypress = function(e) {
+       var key = e.keyCode ? e.keyCode : e.which;
+       if (key == 119 || key == 87) {
+        alert("up");
+       }else if (key == 115 || key == 83) {
+        alert("down");
+       }else if (key == 97 || key == 65) {
+        alert("left");
+       }else if (key == 100 || key == 68) {
+        alert("right");
+       }
+    }
+  </script>
 </body>
 </html>
