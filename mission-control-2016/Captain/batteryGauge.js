@@ -9,11 +9,22 @@ $(() => {
             plotBackgroundColor: null,
             plotBackgroundImage: null,
             plotBorderWidth: 0,
-            plotShadow: false
+            plotShadow: false,
+			
         },
 
+		navigation: {
+            buttonOptions: {
+                enabled: false
+            }
+        },
+		
+		credits: {
+            enabled: false
+        },
+		
         title: {
-            text: ''
+            text: null
         },
 
         pane: {

@@ -6,7 +6,6 @@ $(() => {
             chart: {
                 type: 'spline',
                 animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
                 events: {
                     load: function () {
 
@@ -21,8 +20,13 @@ $(() => {
                 }
             },
             title: {
-                text: ''
+				text: null
             },
+			
+			credits: {
+            enabled: false
+			},
+			
             xAxis: {
                 type: 'datetime',
                 tickPixelInterval: 150
@@ -57,13 +61,14 @@ $(() => {
                     var data = [],
                         time = (new Date()).getTime(),
                         i;
-
+					
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
                             x: time + i * 1000,
-                            y: Math.random()
+                            y: currentTemp
                         });
                     }
+					
                     return data;
                 }())
             }]
