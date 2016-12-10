@@ -1,0 +1,168 @@
+/*  ===========
+    BEGIN MAIN 
+    ===========
+*/
+
+.active{
+
+}
+
+
+#mainscreen{
+    height:775px; /* make dynamic according to screens selected and if man contorl on/off */
+    min-width: 100%;
+    background-color: black;
+}
+
+#videoElement{
+    height:775px; /* make dynamic according to screens selected and if man contorl on/off */
+    min-width: 100%;
+    background-color: black;
+}
+
+#threedeescreen{
+    width: 0%;
+}
+
+
+#test{ /*placeholder... delete later */
+    color: white;
+    font-size: 100px;
+}
+
+
+.col{
+    border: 2px solid black;
+    background-color: #e9e9e9;
+    font-size: 16px;
+
+}
+
+.container{
+    min-width: 100%;
+}
+
+.row{
+    min-width: 100%;
+}
+
+.mainbutton{
+
+
+}
+
+
+#body {
+    width: 100%;
+    height: 100%;
+}
+
+html {
+
+}
+
+
+/*  -------------
+    on/off switch 
+    ------------- */
+
+    .manualswitch {
+        position: relative; width: 90px;
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+        padding-top: 5px;
+
+    }
+    .manualswitch-checkbox {
+        display: none;
+    }
+    .manualswitch-label {
+        display: block; overflow: hidden; cursor: pointer;
+        border: 2px solid #999999; border-radius: 20px;
+    }
+    .manualswitch-inner {
+        display: block; width: 200%; margin-left: -100%;
+        transition: margin 0.3s ease-in 0s;
+    }
+    .manualswitch-inner:before, .manualswitch-inner:after {
+        display: block; float: left; width: 50%; height: 12px; padding: 0; line-height: 15px;
+        font-size: 12px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+        box-sizing: border-box;
+    }
+
+    .manualswitch-inner:before {
+        content: "ON";
+        padding-left: 10px;
+        background-color: #34A7C1; color: white;
+    }
+    .manualswitch-inner:after {
+        content: "OFF";
+        padding-right: 10px;
+        background-color: red; color: white;
+        text-align: right;
+    }
+    .manualswitch-switch {
+        display: block; width: 18px; margin: 6px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 56px;
+        border: 2px solid #999999; border-radius: 20px;
+        transition: all 0.3s ease-in 0s; 
+    }
+
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-inner {
+        margin-left: 0;
+    }
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-switch {
+        right: 0px; 
+    }
+
+
+/*  ===========
+    END MAIN 
+    ===========
+*/
+
+
+
+/*  ============
+    BEGIN MANUAL 
+    ============
+*/
+
+
+.manualcontrol
+{
+    width: 200%;
+}
+
+#first-col, #second-col, #third-col
+{
+    border: 2px solid black;
+    height: 130px;
+    padding-left: 10px;
+    background-color: #c6c6c6;
+
+}
+ 
+.col1-row, .col2-row, .col3-row,
+{
+  width: 150%;
+  margin: 0;
+
+}
+
+
+.block {
+  display: inline-block;
+  width: 200px;
+
+}
+
+.labels
+{
+    font-size: 16px;
+}
+/*  ============
+    END MANUAL 
+    ============
+*/

@@ -1,0 +1,22 @@
+NOTES.txt
+
+- adjustable slider for input/screen
+- adjustable slider for camera/3d views
+- use henry's code for 3d interface but adjust to our arm's parameters
+
+
+1) camera feed
+2) 3d buttons partition mainscreen
+3) adjust font size
+4) go over notes to ensure all necessary features are displayed
+5) standardize button css and add "active" effect
+5) add screenshots to presentation
+
+- try to have camera buttons link to webcam feed
+	- have one be set by default
+- rename divs so easier to call
+- look at henry's code and see how page is structured
+- try to integrate 3d views for 3d buttons already OR just have it display screenshots of the proposed 3d view but have it partition the main screen so camera feed is always displayed with the 3d view taking up a portion of it
+- make screen size dynamic AKA fill the screen
+- have the page be full screen
+- ensure IDs are not conflicting
