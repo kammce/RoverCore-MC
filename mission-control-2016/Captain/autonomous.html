@@ -20,7 +20,17 @@
     </div>
 
 	<!-- start of camera -->
-    <div class="container-fluid map">
+    <div class="container-fluid map" style="position: relative">
+	  <div id="startButton" style="z-index:2">
+	  <div class="manualswitch" style="z-index:2">
+                <input type="checkbox" name="manualswitch" 
+                class="manualswitch-checkbox" id="mymanualswitch" checked>
+                <label class="manualswitch-label" for="mymanualswitch">
+                <span class="manualswitch-inner"></span>
+                <span class="manualswitch-switch"></span>
+                </label>
+      </div>
+	  </div>
 	  <div id="camera" style="z-index:1"></div>
       <div id="mapid" style="z-index:2"></div>
       <div class="row" style="margin-top: 8px;">
@@ -65,6 +75,7 @@
     <script src="batteryGauge.js"></script>
 	<script src="batteryGraph.js"></script>
     <script src="mapScript.js"></script>
+	<script src="manualswitch.js"></script>
   </body>
 
 </html>

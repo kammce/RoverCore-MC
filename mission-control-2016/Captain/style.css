@@ -36,8 +36,8 @@ body {
 
 #mapid {
 	position: absolute;
-	bottom: 324px;
-	left: 32px;
+	bottom: 0px;
+	left: 8px;
 	margin-top: 5px;
     height: 250px;
 	width: 250px;
@@ -131,3 +131,55 @@ body {
     -o-transform:rotate(0deg);
     -ms-transform:rotate(0deg);
 }
+
+/*  -------------
+    on/off switch 
+    ------------- */
+
+    .manualswitch {
+        position: absolute; width: 90px; height: 15px; top: 5px;
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    }
+    .manualswitch-checkbox {
+        display: none;
+    }
+    .manualswitch-label {
+        display: block; overflow: hidden; cursor: pointer;
+        border: 2px solid #999999; border-radius: 20px;
+    }
+    .manualswitch-inner {
+        display: block; width: 200%; margin-left: -100%;
+        transition: margin 0.3s ease-in 0s;
+    }
+    .manualswitch-inner:before, .manualswitch-inner:after {
+        display: block; float: left; width: 50%; height: 12px; padding: 0; line-height: 15px;
+        font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+        box-sizing: border-box;
+    }
+
+    .manualswitch-inner:before {
+        content: "ON";
+        padding-left: 10px;
+        background-color: #34A7C1; color: #FFFFFF;
+    }
+    .manualswitch-inner:after {
+        content: "OFF";
+        padding-right: 10px;
+        background-color: #EEEEEE; color: #999999;
+        text-align: right;
+    }
+    .manualswitch-switch {
+        display: block; width: 18px; margin: 6px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 56px;
+        border: 2px solid #999999; border-radius: 20px;
+        transition: all 0.3s ease-in 0s; 
+    }
+
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-inner {
+        margin-left: 0;
+    }
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-switch {
+        right: 0px; 
+    }
