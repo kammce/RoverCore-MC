@@ -39,7 +39,7 @@ $(document).ready(function () {
     });
     $('.arm').click(function() {
         var xhr2 = new XMLHttpRequest();
-        xhr2.open('GET', 'http://localhost:8080/toDo.html', true);
+        xhr2.open('GET', 'http://localhost:8080/mission-control-2016/Captain/autonomous.html', true);
         xhr2.responseType = 'document';
         xhr2.onload = function(e) {
           var doc2 = e.target.response;

@@ -9,26 +9,85 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
+  <script type="text/javascript" src="node_modules\primus\index.js"></script>
   <script type="text/javascript" src="script.js"></script>
-  <script type="text/javascript" src="toDoScript.js"></script>
   <link type="text/css" rel="stylesheet" href="style.css"></link>
   <script type="text/javascript" src="primus.js"></script>
 
-  <script>
-      var Socket = Primus.createSocket({})
-      , client = new Socket('http://localhost:9000', {
-        reconnect: {
-          max: 2000, //// Number: The max delay before we try to reconnect.
-          min: 500, //// Number: The minimum delay before we try reconnect.
-          retries: Infinity //// Number: How many times we shoult try to reconnect.
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+ 
+  
+  <script type="text/javascript">
+      var connection = Primus.connect("http://127.0.0.1:9000", {
+        reconnect: 
+        {
+          max: 2000, // Number: The max delay before we try to reconnect.
+          min: 500, // Number: The minimum delay before we try reconnect.
+          retries: Infinity // Number: How many times we should try to reconnect.
         }
       });
 
-      pimus.on('end', function end(){
-        log('end', 'End', 'The connections has ended.');
+      /** Connect to Signal Relay **/
+      // Cortex should act as a client and connect to Signal
+      // Using primus.js and websockets as the transport.
+      var send_protolobe_interval;
+      connection.on('open', () =>
+      {
+        clearInterval(send_protolobe_interval);
+        console.log('Connected to RoverCore!');
+        send_protolobe_interval = setInterval(function() {
+          connection.write({
+            target: 'Protolobe',
+            command: 'test_data'
+          });
+        }, 2500);
+        connection.write(
+        {
+          target: 'Cortex',
+          command: 'Protolobe',
+        });
+        console.log("CONNECTED! I AM HERE!");
       });
-      primus.on('open',function open() {
-        log('open', 'Open', 'The connection has been established.');
+      connection.on('data', (data) =>
+      {
+        console.log('PRINTED FROM SERVER:', data);
+      });
+      connection.on('error',  (err) =>
+      {
+        console.log('CONNECTION error!', err.stack);
+      });
+      connection.on('reconnect', () =>
+      {
+        console.log('RECONNECTION attempt started!');
+      });
+      connection.on('reconnect scheduled', (opts) =>
+      {
+        console.log(`Reconnecting in ${opts.scheduled} ms`);
+        console.log(`This is attempt ${opts.attempt} out of ${opts.retries}`);
+      });
+      connection.on('reconnected', (opts) =>
+      {
+        console.log(`It took ${opts.duration} ms to reconnect`);
+      });
+      connection.on('reconnect timeout', (err) =>
+      {
+        console.log(`Timeout expired: ${err.message}`);
+      });
+      connection.on('reconnect failed', (err) =>
+      {
+        console.log(`The reconnection failed: ${err.message}`);
+      });
+      connection.on('end', () =>
+      {
+        console.log('Disconnected from RoverCore');
+        clearInterval(send_protolobe_interval);
       });
     </script>
 
@@ -115,5 +174,14 @@
 <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
 <script>CFInstall.check({mode: 'overlay'});</script>
 <![endif]-->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<script src="C:\Users\Alyssa\Documents\robotics\rovercore-mc\mission-control-2016\Captain\batteryGauge.js"></script>
+	<script src="C:\Users\Alyssa\Documents\robotics\rovercore-mc\mission-control-2016\Captain\batteryGraph.js"></script>
+	<script src="C:\Users\Alyssa\Documents\robotics\rovercore-mc\mission-control-2016\Captain\mapScript.js"></script>
+	<script src="C:\Users\Alyssa\Documents\robotics\rovercore-mc\mission-control-2016\Captain\manualswitch.js"></script>
+	
 </body>
 </html>
