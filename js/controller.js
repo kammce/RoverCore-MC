@@ -27,26 +27,34 @@ var connection = Primus.connect("http://127.0.0.1:9000", {
 // Cortex should act as a client and connect to Signal
 // Using primus.js and websockets as the transport.
 var send_protolobe_interval;
+var connection_flag = false;
+var model = {};
 connection.on('open', () =>
 {
 	clearInterval(send_protolobe_interval);
+	connection_flag = true;
 	console.log('Connected to RoverCore!');
-	send_protolobe_interval = setInterval(function() {
-		connection.write({
-			target: 'Protolobe',
-			command: 'test_data'
-		});
-	}, 2500);
-	connection.write(
-	{
-		target: 'Cortex',
-		command: 'Protolobe',
-	});
+	// send_protolobe_interval = setInterval(function() {
+	// 	connection.write(
+	// 	{
+	// 		target: 'Protolobe',
+	// 		command: 'test_data'
+	// 	});
+	// }, 2500);
+	// connection.write(
+	// {
+	// 	target: 'Cortex',
+	// 	command: 'Protolobe',
+	// });
 	console.log("CONNECTED! I AM HERE!");
 });
 connection.on('data', (data) =>
 {
 	console.log('PRINTED FROM SERVER:', data);
+	if(data.target == "model")
+	{
+		model = data.message;
+	}
 });
 connection.on('error',  (err) =>
 {
