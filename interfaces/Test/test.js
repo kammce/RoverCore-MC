@@ -31,6 +31,11 @@ var DriveInterval = setInterval(function()
 			target: 'Cortex',
 			command: 'DriveSystem',
 		});
+		connection.write(
+		{
+			target: 'Cortex',
+			command: 'Arm',
+		});
 		clearInterval(DriveInterval);
 	}
 }, 500);
