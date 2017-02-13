@@ -1,9 +1,9 @@
 {
-	"Arm": "Arm.html",
-	"Captain": "Captain.html",
-	"Drive": "Drive.html",
+	"Test": "test.html",
+	"Arm": "arm.html",
+	"Captain": "captain.html",
+	"Drive": "drive.html",
 	"PODS": "PODS.html",
-	"Telemetry": "Telemetry.html",
-	"Test": "Test.html",
-	"Tracker": "Tracker.html"
+	"Telemetry": "telemetry.html",
+	"Tracker": "tracker.html"
 }

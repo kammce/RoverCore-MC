@@ -1,88 +1,147 @@
-"use strict";
-
-var interfaces = {};
-
-$.get( "interfaces/interfaces.json", function( data )
-{
-	interfaces = data;
-	console.log( interfaces );
-});
-
-$.get( "interfaces/Test/test.html", function( data )
-{
-	$("#container").html( data );
-	console.log( "Load of Test.html was performed." );
-});
-
-var connection = Primus.connect("http://127.0.0.1:9000", {
-	reconnect:
-	{
-		max: 2000, // Number: The max delay before we try to reconnect.
-		min: 500, // Number: The minimum delay before we try reconnect.
-		retries: Infinity // Number: How many times we should try to reconnect.
-	}
-});
-
-/** Connect to Signal Relay **/
-// Cortex should act as a client and connect to Signal
-// Using primus.js and websockets as the transport.
+var modules = {};
+var connection;
 var send_protolobe_interval;
 var connection_flag = false;
 var model = {};
-connection.on('open', () =>
-{
-	clearInterval(send_protolobe_interval);
-	connection_flag = true;
-	console.log('Connected to RoverCore!');
-	// send_protolobe_interval = setInterval(function() {
-	// 	connection.write(
-	// 	{
-	// 		target: 'Protolobe',
-	// 		command: 'test_data'
-	// 	});
-	// }, 2500);
-	// connection.write(
-	// {
-	// 	target: 'Cortex',
-	// 	command: 'Protolobe',
-	// });
-	console.log("CONNECTED! I AM HERE!");
-});
-connection.on('data', (data) =>
-{
-	console.log('PRINTED FROM SERVER:', data);
-	if(data.target == "model")
+var states = {};
+var messages = "";
+var navbar_width = 12.5;
+
+$(function() {
+	$.get( "interfaces/interfaces.json", function( data )
 	{
-		model = data.message;
-	}
+		modules = data;
+		var navigation_items = "";
+		navbar_width = (100/(Object.keys(modules).length+1));
+
+		for( interface in modules )
+		{
+			navigation_items += `
+			<li id="${interface}" class="rover-inactive" style="width:${navbar_width}%">
+				<a href="#${modules[interface]}">${interface}</a>
+			</li>`;
+		}
+
+		console.log($("li#navi-server"));
+		$("li#navi-server").css("width", `${navbar_width}%`);
+		$("ul#navigation").prepend(navigation_items);
+
+		var default_page = Object.keys(modules)[0];
+
+		var default_page_url = `interfaces/${default_page}/${modules[default_page]}`;
+
+		$.get(`${default_page_url}?random=${Math.random()}`, function( data )
+		{
+			$("#container").html( data );
+			console.log( `Load of ${default_page_url} was performed.` );
+		});
+	});
 });
-connection.on('error',  (err) =>
+
+$("#mc-disconnect").on('click', function()
 {
-	console.log('CONNECTION error!', err.stack);
+	connection.destroy();
+	connection = undefined;
 });
-connection.on('reconnect', () =>
+$("#mc-connect-kammce").on('click', function()
 {
-	console.log('RECONNECTION attempt started!');
+	primusConnect("http://kammce.io");
 });
-connection.on('reconnect scheduled', (opts) =>
+$("#mc-connect-rover").on('click', function()
 {
-	console.log(`Reconnecting in ${opts.scheduled} ms`);
-	console.log(`This is attempt ${opts.attempt} out of ${opts.retries}`);
+	primusConnect("http://192.168.1.10");
 });
-connection.on('reconnected', (opts) =>
+$("#mc-connect-localhost").on('click', function()
 {
-	console.log(`It took ${opts.duration} ms to reconnect`);
+	primusConnect("http://127.0.0.1");
 });
-connection.on('reconnect timeout', (err) =>
+
+function primusConnect(url)
 {
-	console.log(`Timeout expired: ${err.message}`);
-});
-connection.on('reconnect failed', (err) =>
-{
-	console.log(`The reconnection failed: ${err.message}`);
-});
-connection.on('end', () =>
-{
-	console.log('Disconnected from RoverCore');
-	clearInterval(send_protolobe_interval);
-});
+	if(connection) { connection.destroy(); }
+
+	connection = Primus.connect(`${url}:9000`,
+	{
+		reconnect:
+		{
+			max: 2000, // Number: The max delay before we try to reconnect.
+			min: 500, // Number: The minimum delay before we try reconnect.
+			retries: Infinity // Number: How many times we should try to reconnect.
+		}
+	});
+	connection.on('open', () =>
+	{
+		console.log('Connected to RoverCore-S!');
+		$("#navi-server").removeClass("rover-inactive rover-halted");
+		$("#navi-server").addClass("rover-active");
+	});
+	connection.on('data', (data) =>
+	{
+		//console.log('PRINTED FROM SERVER:', data);
+		if("target" in data)
+		{
+			switch(data.target)
+			{
+				case "model":
+					model = data.message;
+					break;
+				case "Cortex":
+					var lobe_status = {};
+				    try { lobe_status = JSON.parse(data.message); }
+				    catch (e)
+				    {
+						messages += data.message;
+						break;
+				    }
+					if("lobe" in lobe_status)
+					{
+						status[lobe_status["lobe"]] = lobe_status["state"];
+						var StatusMap = {
+							"IDLING": "rover-idling",
+							"RUNNING": "rover-active",
+							"HALTED": "rover-halted"
+						}
+						$(`li#Test`).removeClass().addClass(StatusMap[lobe_status["state"]]);
+						//{"lobe":"DriveSystem","controller":"LepuvXs","state":"IDLING"}
+					}
+					break;
+				default:
+					messages += data.message;
+					break;
+			}
+		}
+	});
+	connection.on('error',  (err) =>
+	{
+		console.log('CONNECTION error!', err.stack);
+	});
+	connection.on('reconnect', () =>
+	{
+		console.log('RECONNECTION attempt started!');
+		$("#navi-server").removeClass("rover-active rover-inactive");
+		$("#navi-server").addClass("rover-halted");
+	});
+	connection.on('reconnect scheduled', (opts) =>
+	{
+		console.log(`Reconnecting in ${opts.scheduled} ms`);
+		console.log(`This is attempt ${opts.attempt} out of ${opts.retries}`);
+	});
+	connection.on('reconnected', (opts) =>
+	{
+		console.log(`It took ${opts.duration} ms to reconnect`);
+	});
+	connection.on('reconnect timeout', (err) =>
+	{
+		console.log(`Timeout expired: ${err.message}`);
+	});
+	connection.on('reconnect failed', (err) =>
+	{
+		console.log(`The reconnection failed: ${err.message}`);
+	});
+	connection.on('end', () =>
+	{
+		console.log('Disconnected from RoverCore');
+		$("#navi-server").removeClass("rover-active rover-halted");
+		$("#navi-server").addClass("rover-inactive");
+	});
+}

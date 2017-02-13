@@ -35,21 +35,14 @@
     <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div style="width:100%" class="navbar-header">
-            <ul style="width:100%; text-align: center;" class="nav navbar-nav">
-                <li class="rover-inactive"><a href="#Drive">Drive</a></li>
-                <li class="rover-inactive"><a href="#Arm">Arm</a></li>
-                <li class="rover-inactive"><a href="#Tracker">Tracker</a></li>
-                <li class="rover-idling"><a href="#Science">Science</a></li>
-                <li class="rover-halted"><a href="#GPS">GPS</a></li>
-                <li class="rover-inactive"><a href="#Telemetry">Telemetry</a></li>
-                <li class="rover-inactive"><a href="#Test">Test Interface</a></li>
-                <li class="rover-active dropdown" style="width:12.5%">
+            <ul style="width:100%; text-align: center;" id="navigation" class="nav navbar-nav">
+                <li class="rover-inactive dropdown" id="navi-server">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Server <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="#"><strong>disconnect</strong></a></li>
-                    <li><a href="#"><strong>kammce.io /</strong>:9000</a></li>
-                    <li><a href="#"><strong>ubnt-rover /</strong> 192.168.0.10:9000</a></li>
-                    <li><a href="#"><strong>localhost /</strong> 127.0.0.1:9000</a></li>
+                    <li><a id="mc-disconnect" href="#"><strong>disconnect</strong></a></li>
+                    <li><a id="mc-connect-kammce" href="#"><strong>kammce.io /</strong>:9000</a></li>
+                    <li><a id="mc-connect-rover" href="#"><strong>ubnt-rover /</strong> 192.168.0.10:9000</a></li>
+                    <li><a id="mc-connect-localhost" href="#"><strong>localhost /</strong> 127.0.0.1:9000</a></li>
                   </ul>
                 </li>
             </ul>
