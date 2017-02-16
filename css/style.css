@@ -35,10 +35,6 @@ h1,h2 {
 	font-family: 'Orbitron', sans-serif;
 }
 
-h3,h4,p {
-
-}
-
 nav div ul li.rover-active {
 	border-bottom: 3px solid #00CC00;
 }
@@ -64,13 +60,7 @@ nav div ul li.rover-halted {
 	/*#ff1f1f;*/
 }
 
-
 .full {
-  /*background: url(http://127.0.0.1:9001/capture.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;*/
   background-color: darkgrey;
 }
 
