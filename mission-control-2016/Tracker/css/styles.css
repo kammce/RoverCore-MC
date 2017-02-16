@@ -1,0 +1,157 @@
+.leftFloat{
+	float: left;
+}
+
+tr:hover td {
+	background-color: #9ea1e2;
+}
+
+thead {
+     display: table-header-group;
+}
+
+img {
+	border: 0px;
+	padding: 0px;
+    max-width:100%;
+    max-height:100%;
+}
+
+div#container{
+	border: 0px;
+	padding: 0px;
+	overflow: hidden;
+	width: 1350px;
+	height: 750px;
+}
+
+div#camera{
+	border: 0px;
+	margin: 0px;
+	overflow: hidden;
+	width: 1080px;
+	height: 575px;
+	float: left;
+}
+
+div#map{
+	border: 0px;
+	margin-left: 10px;
+	overflow: hidden;
+	width: 260px;
+	height: 300px;
+	float: right;
+}
+
+div#waypoint{
+	border: 0px;
+	margin-left: 10px;
+	margin-top: 10px;
+	overflow: hidden;
+	width: 260px;
+	height: 450px;
+	float: right;
+}
+
+div#tracker{
+	border: 0px;
+	margin: 0px;
+	overflow: hidden;
+	width: 1080px;
+	height: 175px;
+	float: left;
+}
+
+div.container{
+	border: 0px;
+	padding: 0px;
+	/*overflow: hidden;*/
+	width: 1345px;
+	height: 725px;
+}
+
+div#tab_h_camera{
+	border: 0px;
+	margin: 0px;
+	overflow: hidden;
+	width: 1075px;
+	height: 575px;
+	float: left;
+}
+
+div#tab_h_map{
+	border: 0px;
+	margin-left: 10px;
+	overflow: hidden;
+	width: 260px;
+	height: 290px;
+	float: right;
+}
+
+div#tab_h_waypoint{
+	border: 0px;
+	margin-left: 10px;
+	margin-top: 10px;
+	overflow: hidden;
+	width: 260px;
+	height: 420px;
+	float: right;
+}
+
+div#tab_h_tracker{
+	border: 0px;
+	margin: 0px;
+	margin-top: 5px;
+	overflow: hidden;
+	width: 1075px;
+	height: 140px;
+	float: left;
+}
+
+div#tab_m_camera{
+	border: 0px;
+	margin: 0px;
+	overflow: hidden;
+	width: 260px;
+	height: 238px;
+	float: left;
+}
+
+div#tab_m_map{
+	border: 0px;
+	margin: 0px;
+	margin-left: 5px;
+	overflow: hidden;
+	width: 1080px;
+	height: 725px;
+	float: right;
+}
+
+div#tab_m_waypoint{
+	border: 0px;
+	margin: 0px;
+	margin-top: 5px;
+	overflow: hidden;
+	width: 260px;
+	height: 238px;
+	float: left;
+}
+
+div#tab_m_tracker{
+	border: 0px;
+	margin: 0px;
+	margin-top: 5px;
+	overflow: hidden;
+	width: 260px;
+	height: 238px;
+	float: left;
+}
+
+div#tab_f_camera{
+	border: 0px;
+	margin: 0px;
+	overflow: hidden;
+	width: 1345px;
+	height: 725px;
+	/*float: left;*/
+}

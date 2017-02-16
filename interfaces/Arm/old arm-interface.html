@@ -1,0 +1,535 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>ARM</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- jquery (CHANGE TO INTERNAL) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<!-- general style -->
+<link type="text/css" rel="stylesheet" href="css/arm-interface.css"></link>
+
+<!-- script to toggle manual control on/off -->
+<script src="js/manualswitch.js"></script>
+
+<!-- bootstrap internal files -->
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+<!-- ==========
+     BEGIN MAIN
+     ========== -->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id = "mainscreen">
+                <marquee id="test"> ... </marquee>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-sm-1">
+            <div class="manualswitch">
+                <input type="checkbox" name="manualswitch" 
+                class="manualswitch-checkbox" id="mymanualswitch" checked>
+                <label class="manualswitch-label" for="mymanualswitch">
+                <span class="manualswitch-inner"></span>
+                <span class="manualswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+        <div class="col col-sm-4">
+            <div class="camera">
+                CAMERA: Claw | Elbow | Base
+            </div>
+        </div>
+        <div class="col col-sm-4">
+            <div class="three-dee">
+                3D: Top | Bottom | Side
+            </div>
+        </div>
+        <div class="col col-sm-3">
+            <div class="claw-top">
+                CLAW () () | Obj Weight: ___g
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========
+     END MAIN
+     ======== -->
+
+<!-- ============
+     BEGIN MANUAL
+     ============ -->
+
+<!--
+Week 1 feedback: looks good so far, take out the word 'claw' from claw torque and claw grip, make sure to have the grip button integrated with the grip slider when you get to that point. (ie when you click grip/release the slider will move to the leftmost and rightmost)
+-->
+
+  <div class="manual-control">
+        <div class="col-sm-12" id="manual-row">
+
+    
+    <div class="col-sm-4" id="first-col">
+
+    		<table>
+    			<tr>
+                
+    				<tr>
+    					Rotation Control
+
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Wrist
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="-100"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="-100" max="100" class="number1">
+                         </th>
+    				</tr>
+                    
+    				<tr>
+    				 	<th>
+    				 		Base
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="-100"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="-100" max="100" class="number1">
+                         </th>
+    				</tr>
+
+
+    			</tr>
+    	
+   			</table>
+    </div>
+
+    <div class="col-sm-4" id="second-col">
+
+    <table>
+    			<tr>
+    				<tr>
+    					Pitch Control
+
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Wrist
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" class="number2">
+                         </th>
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Shoulder
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" class="number2">
+                         </th>
+    				</tr>
+
+    				
+    				<tr>
+    				 	<th>
+    				 		Elbow
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" class="number2">
+                         </th>
+    				</tr>
+
+
+    			</tr>
+    	
+   			</table>
+
+
+    </div>
+
+    <div class="col-sm-4" id="third-col">
+    	<table>
+    			<tr>
+    				<tr>
+    					Claw Control
+
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Torque
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100">
+                         </th>
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Grip
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" class="number3" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" >
+                         </th>
+    				</tr>
+
+    				
+    				<tr>
+    				 	<th>
+    				 		 
+    				 		 <button type="button">Drop</button>
+ 
+
+    				 	</th>
+
+    				 	<th>
+    				 		 
+    				 		 <button type="button">Retrieve</button>
+
+    				 	</th>
+                        <th>
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" 
+                                class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </th>
+    				</tr>
+
+
+    			</tr>
+    	
+   			</table>
+
+    </div>
+    
+</div>
+</div>
+<!-- ==========
+     END MANUAL
+     ========== -->
+
+</body>
+</html>
+
+=======
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>ARM</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- jquery (CHANGE TO INTERNAL) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<!-- general style -->
+<link type="text/css" rel="stylesheet" href="css/arm-interface.css"></link>
+
+<!-- script to toggle manual control on/off -->
+<script src="js/manualswitch.js"></script>
+
+<!-- bootstrap internal files -->
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+
+<!-- ==========
+     BEGIN MAIN
+     ========== -->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id = "mainscreen">
+                <marquee id="test"> ... </marquee>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-sm-1">
+            <div class="manualswitch">
+                <input type="checkbox" name="manualswitch" 
+                class="manualswitch-checkbox" id="mymanualswitch" checked>
+                <label class="manualswitch-label" for="mymanualswitch">
+                <span class="manualswitch-inner"></span>
+                <span class="manualswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+        <div class="col col-sm-4">
+            <div class="camera">
+                CAMERA: Claw | Elbow | Base
+            </div>
+        </div>
+        <div class="col col-sm-4">
+            <div class="three-dee">
+                3D: Top | Bottom | Side
+            </div>
+        </div>
+        <div class="col col-sm-3">
+            <div class="claw-top">
+                CLAW () () | Obj Weight: ___g
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========
+     END MAIN
+     ======== -->
+
+<!-- ============
+     BEGIN MANUAL
+     ============ -->
+
+<!--
+Week 1 feedback: looks good so far, take out the word 'claw' from claw torque and claw grip, make sure to have the grip button integrated with the grip slider when you get to that point. (ie when you click grip/release the slider will move to the leftmost and rightmost)
+-->
+
+  <div class="manual-control">
+        <div class="col-sm-12" id="manual-row">
+
+    
+    <div class="col-sm-4" id="first-col">
+
+    		<table>
+    			<tr>
+                
+    				<tr>
+    					Rotation Control
+
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Wrist
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="-100"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="-100" max="100" class="number1">
+                         </th>
+    				</tr>
+                    
+    				<tr>
+    				 	<th>
+    				 		Base
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="-100"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="-100" max="100" class="number1">
+                         </th>
+    				</tr>
+
+
+    			</tr>
+    	
+   			</table>
+    </div>
+
+    <div class="col-sm-4" id="second-col">
+
+    <table>
+    			<tr>
+    				<tr>
+    					Pitch Control
+
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Wrist
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" class="number2">
+                         </th>
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Shoulder
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" class="number2">
+                         </th>
+    				</tr>
+
+    				
+    				<tr>
+    				 	<th>
+    				 		Elbow
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" class="number2">
+                         </th>
+    				</tr>
+
+
+    			</tr>
+    	
+   			</table>
+
+
+    </div>
+
+    <div class="col-sm-4" id="third-col">
+    	<table>
+    			<tr>
+    				<tr>
+    					Claw Control
+
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Torque
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100">
+                         </th>
+    				</tr>
+
+    				<tr>
+    				 	<th>
+    				 		Grip
+    				 	</th>
+
+    				 	<th>
+    				 		<input type="range" min="0"
+    				 	 	max="100" value="0" class="number3" />
+    				 	 </th>
+                         <th>
+                         <input type="number" min="0" max="100" >
+                         </th>
+    				</tr>
+
+    				
+    				<tr>
+    				 	<th>
+    				 		 
+    				 		 <button type="button">Drop</button>
+ 
+
+    				 	</th>
+
+    				 	<th>
+    				 		 
+    				 		 <button type="button">Retrieve</button>
+
+    				 	</th>
+                        <th>
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" 
+                                class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </th>
+    				</tr>
+
+
+    			</tr>
+    	
+   			</table>
+
+    </div>
+    
+</div>
+</div>
+<!-- ==========
+     END MANUAL
+     ========== -->
+
+</body>
+</html>
+
+>>>>>>> Captain

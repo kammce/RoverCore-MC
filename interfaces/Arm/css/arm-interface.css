@@ -1,0 +1,399 @@
+<<<<<<< HEAD
+/*  ===========
+    BEGIN MAIN 
+    ===========
+*/
+
+
+#mainscreen{
+    height: 650px; /* make dynamic according to screens selected and if man contorl on/off */
+    min-width: 100%;
+    background-color: black;
+}
+
+
+#test{ /*placeholder... delete later */
+    color: white;
+    font-size: 100px;
+}
+
+
+.col{
+    border: 2px solid black;
+
+}
+
+.container{
+    min-width: 100%;
+}
+
+.row{
+    min-width: 100%;
+}
+
+.mainbutton{
+
+
+}
+
+/*  -------------
+    on/off switch 
+    ------------- */
+
+    .manualswitch {
+        position: relative; width: 90px;
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    }
+    .manualswitch-checkbox {
+        display: none;
+    }
+    .manualswitch-label {
+        display: block; overflow: hidden; cursor: pointer;
+        border: 2px solid #999999; border-radius: 20px;
+    }
+    .manualswitch-inner {
+        display: block; width: 200%; margin-left: -100%;
+        transition: margin 0.3s ease-in 0s;
+    }
+    .manualswitch-inner:before, .manualswitch-inner:after {
+        display: block; float: left; width: 50%; height: 12px; padding: 0; line-height: 15px;
+        font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+        box-sizing: border-box;
+    }
+
+    .manualswitch-inner:before {
+        content: "ON";
+        padding-left: 10px;
+        background-color: #34A7C1; color: #FFFFFF;
+    }
+    .manualswitch-inner:after {
+        content: "OFF";
+        padding-right: 10px;
+        background-color: #EEEEEE; color: #999999;
+        text-align: right;
+    }
+    .manualswitch-switch {
+        display: block; width: 18px; margin: 6px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 56px;
+        border: 2px solid #999999; border-radius: 20px;
+        transition: all 0.3s ease-in 0s; 
+    }
+
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-inner {
+        margin-left: 0;
+    }
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-switch {
+        right: 0px; 
+    }
+
+
+/*  ===========
+    END MAIN 
+    ===========
+*/
+
+
+
+/*  ============
+    BEGIN MANUAL 
+    ============
+*/
+
+
+.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    padding-top: 5px;
+
+
+}
+.onoffswitch-checkbox {
+    display: none;
+
+
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+
+
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 33px;
+    font-size: 10px; color: black; font-family: Trebuchet, Arial, ans-serif; font-weight: bold;
+    box-sizing: border-box;
+
+}
+
+.onoffswitch-inner:before {
+    content: "GRIP";
+    padding-left: 10px;
+    background-color: green; color: white;
+
+}
+.onoffswitch-inner:after {
+    content: "RELEASE";
+    padding-right: 10px;
+    background-color: red; color: white;
+    text-align: right;
+
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: black;
+    position: absolute; top: 0; bottom: 0;
+    right: 56px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+
+
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+
+
+
+body {
+    width: 100%;
+    margin: 2px;
+
+}
+
+#first-col, #second-col, #third-col
+{
+    border: 2px solid black;
+    height: 130px;
+    padding-left: 100px;
+}
+ 
+#header1
+{
+    padding-bottom: 20px;
+}
+
+#part
+{
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+#wrist-row
+{
+    padding-bottom: 10px;
+}
+/*  ============
+    END MANUAL 
+    ============
+*/
+=======
+/*  ===========
+    BEGIN MAIN 
+    ===========
+*/
+
+
+#mainscreen{
+    height: 650px; /* make dynamic according to screens selected and if man contorl on/off */
+    min-width: 100%;
+    background-color: black;
+}
+
+
+#test{ /*placeholder... delete later */
+    color: white;
+    font-size: 100px;
+}
+
+
+.col{
+    border: 2px solid black;
+
+}
+
+.container{
+    min-width: 100%;
+}
+
+.row{
+    min-width: 100%;
+}
+
+.mainbutton{
+
+
+}
+
+/*  -------------
+    on/off switch 
+    ------------- */
+
+    .manualswitch {
+        position: relative; width: 90px;
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    }
+    .manualswitch-checkbox {
+        display: none;
+    }
+    .manualswitch-label {
+        display: block; overflow: hidden; cursor: pointer;
+        border: 2px solid #999999; border-radius: 20px;
+    }
+    .manualswitch-inner {
+        display: block; width: 200%; margin-left: -100%;
+        transition: margin 0.3s ease-in 0s;
+    }
+    .manualswitch-inner:before, .manualswitch-inner:after {
+        display: block; float: left; width: 50%; height: 12px; padding: 0; line-height: 15px;
+        font-size: 10px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+        box-sizing: border-box;
+    }
+
+    .manualswitch-inner:before {
+        content: "ON";
+        padding-left: 10px;
+        background-color: #34A7C1; color: #FFFFFF;
+    }
+    .manualswitch-inner:after {
+        content: "OFF";
+        padding-right: 10px;
+        background-color: #EEEEEE; color: #999999;
+        text-align: right;
+    }
+    .manualswitch-switch {
+        display: block; width: 18px; margin: 6px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 56px;
+        border: 2px solid #999999; border-radius: 20px;
+        transition: all 0.3s ease-in 0s; 
+    }
+
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-inner {
+        margin-left: 0;
+    }
+    .manualswitch-checkbox:checked + .manualswitch-label .manualswitch-switch {
+        right: 0px; 
+    }
+
+
+/*  ===========
+    END MAIN 
+    ===========
+*/
+
+
+
+/*  ============
+    BEGIN MANUAL 
+    ============
+*/
+
+
+.onoffswitch {
+    position: relative; width: 90px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    padding-top: 5px;
+
+
+}
+.onoffswitch-checkbox {
+    display: none;
+
+
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+
+
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 33px;
+    font-size: 10px; color: black; font-family: Trebuchet, Arial, ans-serif; font-weight: bold;
+    box-sizing: border-box;
+
+}
+
+.onoffswitch-inner:before {
+    content: "GRIP";
+    padding-left: 10px;
+    background-color: green; color: white;
+
+}
+.onoffswitch-inner:after {
+    content: "RELEASE";
+    padding-right: 10px;
+    background-color: red; color: white;
+    text-align: right;
+
+}
+.onoffswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: black;
+    position: absolute; top: 0; bottom: 0;
+    right: 56px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+
+
+}
+
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+
+
+
+body {
+    width: 100%;
+    margin: 2px;
+
+}
+
+#first-col, #second-col, #third-col
+{
+    border: 2px solid black;
+    height: 130px;
+    padding-left: 100px;
+}
+ 
+#header1
+{
+    padding-bottom: 20px;
+}
+
+#part
+{
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+#wrist-row
+{
+    padding-bottom: 10px;
+}
+/*  ============
+    END MANUAL 
+    ============
+*/
+>>>>>>> Captain
