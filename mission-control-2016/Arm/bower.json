@@ -1,0 +1,20 @@
+{
+  "name": "mission",
+  "version": "0.0.0",
+  "authors": [
+    "Henry <henryquoctran@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "react": "~0.14.0",
+    "bootstrap": "~3.3.5",
+    "seiyria-bootstrap-slider": "~5.2.4",
+    "bootstrap-toggle": "~2.2.1",
+    "three.js": "threejs#*",
+    "jquery-knob": "aterrien/jQuery-Knob#~1.2.13"
+  },
+  "resolutions": {
+    "react": "~0.14.0"
+  }
+}

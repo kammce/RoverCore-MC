@@ -1,0 +1,37 @@
+Stream Documentation
+
+NOTE: Must be on Linux.
+
+1. Connect 2 H264/streaming-capable cameras
+2. Run 'grunt' in root directory of project folder
+3. Initialize 2 VLC transcoders
+
+	cvlc -v --live-caching 0 udp://@:9000 ":sout=#transcode{vcodec=MJPG,vb=1000}:standard{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:9001}}"
+	
+	cvlc -v --live-caching 0 udp://@:9002 ":sout=#transcode{vcodec=MJPG,vb=1000}:standard{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:9003}}"
+
+4. Initialize 2 ffmpeg streams
+	
+	ffmpeg -f video4linux2 -s 1280x720 -input_format h264 -i /dev/video0 -vcodec copy -an -f mpegts -copyts udp://127.0.0.1:9000
+
+	ffmpeg -f video4linux2 -s 1280x720 -input_format h264 -i /dev/video1 -vcodec copy -an -f mpegts -copyts udp://127.0.0.1:9002
+
+5. Run 'node server.js' to start a primus server
+
+
+
+Troubleshooting: 
+- If one of the VLC servers keep crashing with a 'Floating Point Error (core dumped)' close the ffmpeg stream sending data to that VLC server, and restart the VLC first THEN the ffmpeg stream (MUST be done in this order). This may need to be done a few times until successful, currently looking for a solution.
+- If using non-H264 capable camera, use following commands instead
+
+	for step 3:
+
+		cvlc --live-caching 0 udp://@:9000 ":sout=#standard{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:9001}}"
+
+		cvlc --live-caching 0 udp://@:9002 ":sout=#standard{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:9003}}"
+
+	for step 4:
+
+		ffmpeg -f video4linux2 -i /dev/video0 -s 1280x720 -r 20 -input_format mjpeg -q 5 -an -vf "crop=ih" -tune zerolatency -preset ultrafast -f mjpeg udp://127.0.0.1:9000
+
+		ffmpeg -f video4linux2 -i /dev/video1 -s 1280x720 -r 20 -input_format mjpeg -q 5 -an -vf "crop=ih" -tune zerolatency -preset ultrafast -f mjpeg udp://127.0.0.1:9002
