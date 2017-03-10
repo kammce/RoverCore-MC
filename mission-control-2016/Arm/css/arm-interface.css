@@ -1,0 +1,131 @@
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	/*background: url('/images/background.jpg');*/
+	background-size: cover;
+	background-attachment: fixed;
+	font-size: 18px;
+	color: white;
+	overflow-x: hidden;
+}
+
+#slideMe .slider-selection {
+		background-image: linear-gradient(to bottom, #87cefa 0%, #87cefa 100%);
+}
+
+
+#camerafeed{
+	height: 600px;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+.row {
+	font-size: 18px;
+	color: white;
+	padding-left: 10px;
+}
+
+
+#mancontrolbutton {
+  border: 2px solid white;
+  padding: 4px;
+  text-align: center;
+}
+
+#rovercon {
+	border: 2px solid white;
+	padding: 10.5px;
+	text-align: center;
+}
+
+#rovercon2 {
+	border: 2px solid white;
+	padding: 10.5px;
+	text-align: left;
+	color: red;
+}
+
+#mancontroloff {
+  border: 2px solid white;
+  padding: 4px;
+  text-align: center;
+}
+
+#mancontroloff2 {
+  border: 2px solid white;
+  padding: 6px;
+}
+
+
+
+#clawclaw {
+	border-top: 2px solid white;
+	padding: 6px;
+}
+
+#clawclawclaw {
+	border-bottom: 2px solid white;
+	padding: 6px;
+}
+
+#clawclaw1 {
+	border-top: 2px solid white;
+	padding: 7px;
+	border-right: 2px solid white;
+}
+
+
+#clawclawclaw2 {
+	border-bottom: 2px solid white;
+	border-right: 2px solid white;
+	padding: 7px;
+}
+
+#centered {
+	text-align: center;
+}
+
+#controlsection {
+ border: 2px solid #87cefa;
+ background-color: #191919;
+ padding-top: 2px;
+ padding-left: 6px;
+
+}
+
+.btn-info {
+	padding: 4px;
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+/* 
+commented out on the armandclaw page 
+when i uncomment it, uncomment this
+
+#maninput3 {
+	display: inline;
+	width: 10%;
+}
+
+#maninput1 {
+	display: inline;
+	width: 10%;
+}
+
+#maninput2 {
+	display: inline;
+	width: 10%;
+}
+
+#maninput4 {
+	display: inline;
+	width: 10%;
+}
+
+*/
