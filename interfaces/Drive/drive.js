@@ -1,31 +1,34 @@
+var arrow = document.querySelector("#arrow");
+
 var ModelInterval = setInterval(function()
 {
-	if(connection)
+	if(Connection.state === Connection.CONNECTED)
 	{
-		ModelJSONEditor.set(JSON.parse(model));
+		ModelJSONEditor.set(model);
 	}
 }, 100);
 
 var MessageInterval = setInterval(function()
 {
-	if(connection)
+	if(Connection.state === Connection.CONNECTED)
 	{
 		document.querySelector("#messages").innerHTML = messages;
 	}
 }, 100);
 
-var SetCommanderInterval = setInterval(function()
+var AssignmentInterval = setInterval(function()
 {
-	if(connection)
+	if(Connection.state === Connection.CONNECTED)
 	{
-		connection.write(
+		primus.write(
 		{
 			target: 'Cortex',
-			command: target,
+			command: 'DriveSystem',
 		});
-		clearInterval(SetCommanderInterval);
+		clearInterval(AssignmentInterval);
 	}
 }, 100);
+
 
 var options = {
     mode: 'code',
@@ -36,35 +39,26 @@ var options = {
     }
 };
 
-var default_json = {
-	"command":
-	{
-		"speed": 0,
-		"angle": 90,
-		 // S = Spin in Place
-		 // D = Drive Mode
-		"mode": "D"
-	}
+var command = {
+	speed: 0,
+	angle: 0,
+	mode: 'J'
 };
 
 var TestEditor = new JSONEditor(document.querySelector("#info"), options);
 var ModelJSONEditor = new JSONEditor(document.querySelector("#model"), options);
 
-TestEditor.set(default_json);
-
-console.log(TestEditor.get());
+TestEditor.set(command);
 
 document.querySelector("#send-ctrl-signal").onclick = function()
 {
-	if(connection)
+	if(Connection.state === Connection.CONNECTED)
 	{
-		var target = document.querySelector("#target").value;
-
 		var payload = {
-			target: target,
+			target: "DriveSystem",
 			command: TestEditor.get()
 		};
-		connection.write(payload);
+		primus.write(payload);
 	}
 };
 
@@ -78,13 +72,7 @@ window.addEventListener("gamepadconnected", function(e) {
 	);
 });
 
-
 var interval;
-
-if (!('ongamepadconnected' in window)) {
-  // No gamepad events available, poll instead.
-  interval = setInterval(pollGamepads, 500);
-}
 
 function pollGamepads() {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
@@ -93,8 +81,7 @@ function pollGamepads() {
     if (gp) {
       console.log("Gamepad connected at index " + gp.index + ": " + gp.id +
         ". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
-      gameLoop();
-      clearInterval(interval);
+      interval = setInterval(gameLoop, 150);
     }
   }
 }
@@ -106,29 +93,77 @@ function buttonPressed(b) {
   return b == 0.0;
 }
 
-var mode = 'D';
-
 function gameLoop() {
-  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-  if (!gamepads) {
-    return;
-  }
+	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+	if (!gamepads) {
+	return;
+	}
 
+	var gp = gamepads[0];
 
-  var gp = gamepads[0];
+	//console.log(command);
 
-  console.log(gp.axes[1]);
+	command.speed = Math.round(-1*gp.axes[1]*100);
+	if(Math.abs(gp.axes[3]) < 0.1 && Math.abs(gp.axes[2]) < 0.1)
+	{
+		command.angle = 0;
+	}
+	else if(gp.axes[3] > 0 && gp.axes[2] > 0)
+	{
+		command.angle = 90;
+	}
+	else if(gp.axes[3] > 0 && gp.axes[2] < 0)
+	{
+		command.angle = -90;
+	}
+	else
+	{
+		var angle = 0;
+		if(command.mode === 'J')
+		{
+			x_coord_tmp = Math.pow(gp.axes[2], 2);
+			x_coord = (gp.axes[2] < 0) ? -x_coord_tmp : x_coord_tmp;
+			angle = Math.atan(x_coord/gp.axes[3]);
+		}
+		else
+		{
+			angle = Math.atan(gp.axes[2]/gp.axes[3]);
+		}
+		angle = (180/Math.PI)*angle;
+		angle = -1*angle;
+		angle = Math.round(angle);
 
-  if (buttonPressed(gp.buttons[0])) // X
-  {
-  	console.log("Drive Mode");
-  	mode = 'D';
-  }
-  if (buttonPressed(gp.buttons[3])) // Triangle
-  {
-  	console.log("Spin in Place Mode");
-  	mode = 'S';
-  }
+		command.angle = angle;
+		arrow.style.transform = `rotate(${angle-90}deg)`;
+	}
 
-  start = requestAnimationFrame(gameLoop);
+	//command.angle = Math.round(gp.axes[2]*90);
+
+	if (buttonPressed(gp.buttons[2])) // X
+	{
+		console.log("Drive Mode");
+		command.mode = 'J';
+	}
+	else if (buttonPressed(gp.buttons[1])) // B
+	{
+		console.log("Spin in Place Mode");
+		command.mode = 'O';
+	}
+	else if (buttonPressed(gp.buttons[3])) // Y
+	{
+		console.log("Translate Mode");
+		command.mode = 'Y';
+	}
+
+	if(Connection.state === Connection.CONNECTED)
+	{
+		var payload = {
+			target: "DriveSystem",
+			command: command
+		};
+		//console.log(command);
+		primus.write(payload);
+	}
 }
+
+pollGamepads();

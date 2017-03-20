@@ -60,6 +60,9 @@ nav div ul li.rover-halted {
 	/*#ff1f1f;*/
 }
 
+div#mc-container {
+	height: 100%;
+}
 .full {
   background-color: darkgrey;
 }
@@ -69,4 +72,8 @@ div.jsoneditor {
 }
 div.jsoneditor-outer {
 	background-color: darkslategrey;
+}
+
+.dropdown-menu li a {
+	cursor: pointer;
 }

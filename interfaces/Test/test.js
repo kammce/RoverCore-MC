@@ -1,14 +1,14 @@
 var ModelInterval = setInterval(function()
 {
-	if(connection)
+	if(Connection.state === Connection.CONNECTED)
 	{
-		ModelJSONEditor.set(JSON.parse(model));
+		ModelJSONEditor.set(model);
 	}
 }, 100);
 
 var MessageInterval = setInterval(function()
 {
-	if(connection)
+	if(Connection.state === Connection.CONNECTED)
 	{
 		document.querySelector("#messages").innerHTML = messages;
 	}
@@ -26,37 +26,48 @@ var options = {
 var TestEditor = new JSONEditor(document.querySelector("#info"), options);
 var ModelJSONEditor = new JSONEditor(document.querySelector("#model"), options);
 
+var command = {
+	"rotunda": 1500,
+	"shoulder": 700,
+	"elbow": 125,
+	"wrist_pitch": 180,
+	"wrist_roll": 0,
+	"claw": 0,
+	"camera_select": 0,
+	"rotunda_camera": 0
+};
+
+TestEditor.set(command);
+
 document.querySelector("#send-ctrl-signal").onclick = function()
 {
-	if(connection)
+	if(Connection.state === Connection.CONNECTED)
 	{
 		var target = document.querySelector("#target").value;
-		connection.write(
+		primus.write(
 		{
 			target: 'Cortex',
 			command: target,
 		});
+		command = TestEditor.get();
 		var payload = {
 			target: target,
-			command: TestEditor.get()
+			command: command
 		};
-		connection.write(payload);
+
+		primus.write(payload);
 	}
 };
 
-// document.querySelector()
-// var DriveInterval = setInterval(function()
-// {
-// 		connection.write(
-// 		{
-// 			target: 'Cortex',
-// 			command: 'DriveSystem',
-// 		});
-// 		connection.write(
-// 		{
-// 			target: 'Cortex',
-// 			command: 'Arm',
-// 		});
-// 		clearInterval(DriveInterval);
-// 	}
-// }, 500);
+function SendPayload(json)
+{
+	if(Connection.state === Connection.CONNECTED)
+	{
+		var target = document.querySelector("#target").value;
+		var payload = {
+			target: target,
+			command: json
+		};
+		primus.write(payload);
+	}
+}

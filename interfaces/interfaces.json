@@ -1,7 +1,3 @@
 {
-	"Drive": "drive.html",
-	"Test": "test.html",
-	"Arm": "arm-interface.html",
-	"Captain": "captain.html",
-	"Telemetry": "index.html"
+	"Interfaces": [ "Test", "Drive", "Arm", "Captain", "Telemetry" ]
 }
