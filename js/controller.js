@@ -55,22 +55,28 @@ var PrimusDataHandler = (data) =>
 				break;
 			case "Cortex":
 				var lobe_status = {};
-			    try { lobe_status = JSON.parse(data.message); }
+				//// Check if data is JSON
+			    try
+			    {
+			    	lobe_status = JSON.parse(data.message);
+			    }
+		    	//// If JSON could not parse, then add to messages
 			    catch (e)
 			    {
 					messages = data.message+messages;
 					break;
 			    }
-			    console.log(lobe_status);
+			    //// Check if lobe property exists
 				if("lobe" in lobe_status)
 				{
+					//// Save lobe state and add it to status structure
 					status[lobe_status["lobe"]] = lobe_status["state"];
 					var StatusMap = {
 						"IDLING": "rover-idling",
 						"RUNNING": "rover-active",
 						"HALTED": "rover-halted"
 					}
-					console.log(lobe_status["lobe"]);
+					//// Change lobe status
 					$(`li#${lobe_status["lobe"]}`).removeClass().addClass(StatusMap[lobe_status["state"]]);
 					//// {"lobe":"DriveSystem","controller":"LepuvXs","state":"IDLING"}
 				}

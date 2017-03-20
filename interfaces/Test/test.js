@@ -4,7 +4,7 @@ var ModelInterval = setInterval(function()
 	{
 		ModelJSONEditor.set(model);
 	}
-}, 100);
+}, 200);
 
 var MessageInterval = setInterval(function()
 {
@@ -12,6 +12,21 @@ var MessageInterval = setInterval(function()
 	{
 		document.querySelector("#messages").innerHTML = messages;
 	}
+}, 200);
+
+var video_elem = document.querySelector("#video");
+
+video_elem.onerror = function()
+{
+	video_elem.onerror = undefined;
+	video_elem.src = "";
+	video_elem.style.visibility = "hidden";
+	console.log("Video Element Error");
+};
+
+var MessageInterval = setInterval(function()
+{
+	document.querySelector("#messages").innerHTML = messages;
 }, 100);
 
 var options = {
