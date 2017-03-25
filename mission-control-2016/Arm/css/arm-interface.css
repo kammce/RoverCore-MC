@@ -13,6 +13,10 @@ body {
 	overflow-x: hidden;
 }
 
+#sectionTitle {
+	color: #FFD700;
+}
+
 #slideMe .slider-selection {
 		background-image: linear-gradient(to bottom, #87cefa 0%, #87cefa 100%);
 }
@@ -103,6 +107,15 @@ body {
 	margin-left: 4px;
 	margin-right: 4px;
 }
+
+/*=======*/
+
+#text_box_name {
+	color: black;
+}
+
+/*=======*/
+
 
 /* 
 commented out on the armandclaw page 
