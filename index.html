@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html class="full" lang="en">
+<!-- Make sure the <html> tag is set to the .full CSS class. Change the background image in the full.css file. -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>RoverCore MC - Testing Area</title>
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Josefin+Sans|Julius+Sans+One|Jura|Orbitron|Play|Raleway|Ubuntu|Varela+Round|Source+Sans+Pro" rel="stylesheet">
+    <!-- Bootstrap Core CSS -->
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <!-- JSON Editor -->
+    <link href="node_modules/jsoneditor/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!--
+        class="rover-inactive"
+        class="rover-active"
+        class="rover-idling"
+        class="rover-halted"
+     -->
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div style="width:100%" class="navbar-header">
+            <ul style="width:100%; text-align: center;" class="nav navbar-nav">
+                <li class="rover-inactive"><a href="#Drive">Drive</a></li>
+                <li class="rover-inactive"><a href="#Arm">Arm</a></li>
+                <li class="rover-inactive"><a href="#Tracker">Tracker</a></li>
+                <li class="rover-idling"><a href="#Science">Science</a></li>
+                <li class="rover-halted"><a href="#GPS">GPS</a></li>
+                <li class="rover-inactive"><a href="#Telemetry">Telemetry</a></li>
+                <li class="rover-inactive"><a href="#Test">Test Interface</a></li>
+                <li class="rover-active dropdown" style="width:12.5%">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Server <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#"><strong>disconnect</strong></a></li>
+                    <li><a href="#"><strong>kammce.io /</strong>:9000</a></li>
+                    <li><a href="#"><strong>ubnt-rover /</strong> 192.168.0.10:9000</a></li>
+                    <li><a href="#"><strong>localhost /</strong> 127.0.0.1:9000</a></li>
+                  </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </nav>
+    <!-- Page Content -->
+    <div id="container"></div>
+    <!-- /.container -->
+    <!-- jQuery -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- Primus -->
+    <script type="text/javascript" src="js/primus.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- JSON Editor JavaScript -->
+    <script src="node_modules/jsoneditor/dist/jsoneditor.min.js"></script>
+    <!-- RoverCore-MC Controller -->
+    <script type="text/javascript" src="js/controller.js"></script>
+</body>
+</html>

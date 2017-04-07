@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/style-side-menu.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="css/dygraph.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript"
+            src="js/dygraph-combined-dev.js"></script>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="index.html">
+                    Sensors
+                </a>
+            </li>
+            <li>
+                <a href="pitch.html">
+                    <i class="fa fa-lg"></i> Pitch
+                </a>
+            </li>
+            <li>
+                <a href="roll.html">
+                    <i class="fa fa-lg"></i> Roll
+                </a>
+            </li>
+            <li>
+                <a href="heading.html">
+                    <i class="fa fa-lg"></i> Heading
+                </a>
+            </li>
+            <li>
+                <a href="signal-strength.html">
+                    <i class="fa fa-lg"></i> Signal Strength
+                </a>
+            </li>
+            <li>
+                <a href="coordinates.html">
+                    <i class="fa fa-lg"></i> Coordinates
+                </a>
+            </li>
+            <li>
+                <a href="distance.html">
+                    <i class="fa fa-lg"></i> Distance
+                </a>
+            </li>
+            <li>
+                <a href="altitude.html">
+                    <i class="fa fa-lg"></i> Altitude
+                </a>
+            </li>
+            <li>
+                <a href="temperature.html">
+                    <i class="fa fa-lg"></i> Temperature
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div id="graphdiv" style="width:600px; height:300px;">
+
+                        <script type="text/javascript">
+                            var data = [];
+                            var t = new Date();
+                            for (var i = 10; i >= 0; i--) {
+                                var x = new Date(t.getTime() - i * 1000);
+                                data.push([x, Math.random()]);
+                            }
+                            var g = new Dygraph(document.getElementById("graphdiv"), data,
+                                    {
+                                        title: 'Distance - Ultrasonic (Past 10 Seconds) ',
+                                        ylabel: 'Distance',
+                                        xlabel: 'Time',
+                                        drawPoints: true,
+                                        showRoller: true,
+                                        valueRange: [0.0, 1.2],
+                                        labels: ['Time', 'Random'],
+                                    });
+                            setInterval(function() {
+                                var x = new Date();  // current time
+                                var y = Math.random();
+                                data.push([x, y]);
+                                g.updateOptions( { 'file': data,
+                                    'dateWindow': [ x.getTime() - 10 * 1000, x.getTime()]
+                                } );
+                            }, 1000);
+                        </script>
+                    </div>
+
+                    <div id="graphdiv2" style="width:600px; height:300px;">
+
+                        <script type="text/javascript">
+                            var data = [];
+                            var t = new Date();
+                            for (var i = 10; i >= 0; i--) {
+                                var x = new Date(t.getTime() - i * 1000);
+                                data.push([x, Math.random()]);
+                            }
+                            var g2 = new Dygraph(document.getElementById("graphdiv2"), data,
+                                    {
+                                        title: 'Distance - Ultrasonic (Whole)',
+                                        ylabel: 'Distance',
+                                        xlabel: 'Time',
+                                        drawPoints: true,
+                                        showRoller: true,
+                                        valueRange: [0.0, 1.2],
+                                        labels: ['Time', 'Random'],
+                                        showRangeSelector: true,
+                                    });
+                            setInterval(function() {
+                                var x = new Date();  // current time
+                                var y = Math.random();
+                                data.push([x, y]);
+                                g2.updateOptions( { 'file': data } );
+                            }, 1000);
+                        </script>
+                    </div>
+
+                    <h2>RANDOM ANALYTIC STUFF COULD GO DOWN HERE OR RIGHT SIDE</h2>
+                    <p>The chart is interactive:</p>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+
+</body>
+
+</html>

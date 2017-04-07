@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <script src="C:\Users\Alyssa\Documents\robotics\rovercore-mc\node_modules\highcharts\js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Autonomous: Run Free Robot</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+  </head>
+
+  <body id="autobody">
+    <div class="text-center">
+      <h4 style="margin-top: 5px">Autonomous Page</h4>
+    </div>
+
+	<!-- start of camera -->
+    <div class="container-fluid map" style="position: relative">
+	  <div id="startButton" style="z-index:2">
+	  <div class="manualswitch" style="z-index:2">
+                <input type="checkbox" name="manualswitch" 
+                class="manualswitch-checkbox" id="mymanualswitch" checked>
+                <label class="manualswitch-label" for="mymanualswitch">
+                <span class="manualswitch-inner"></span>
+                <span class="manualswitch-switch"></span>
+                </label>
+      </div>
+	  </div>
+	  <div id="camera" style="z-index:1"></div>
+      <div id="mapid" style="z-index:2"></div>
+      <div class="row" style="margin-top: 8px;">
+      </div>
+    </div>
+<!-- end of camera -->
+
+    <div class="container-fluid" style="background: #3E606F; margin-left: 25px; margin-right: 25px; margin-top: 10px">
+      <div class="row">
+        <div class="col-lg-3 placeholder">
+          <h5><u>Battery Information</u></h5>
+              <div id="batteryGauge"></div>
+        </div>
+        <div class="col-lg-3 placeholder">
+          <h5><u>Battery Graph</u></h5>
+            <div id="batteryGraph"></div>
+        </div>
+        <div class="col-lg-3 placeholder">
+          <h5><u>Ultrasonic Sensor</u></h5>
+			<div id="ultrasonicSensor"></div>
+        </div>
+        <div class="col-lg-3 placeholder">
+          <h5><u>Other Stats</u></h5>
+		  <b>Current Temperature: <b id="currentTemp">0</b> </b> <br />
+		  <br />
+		  <b>Coordinates: <b id="latitude"></b>, <b id="longitude"></b> </b> <br />
+		  <br />
+		  <b>Altitude: <b id="altitude"></b> </b> <br />
+		  <br />
+		  <b>Pitch: <b id="pitch"></b> </b> <br />
+		  <br />
+		  <b>Roll: <b id="roll"></b> </b> <br />
+		  <br />
+        </div>
+      </div>
+    </div>
+
+    <!-- Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="batteryGauge.js"></script>
+	<script src="batteryGraph.js"></script>
+    <script src="mapScript.js"></script>
+	<script src="manualswitch.js"></script>
+  </body>
+
+</html>
