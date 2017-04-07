@@ -1,20 +1,11 @@
 /*
 =======================================================================================
-BEGIN excerpts from oldermishcontrol armInterface.js and rovercore-mc test interface 
+BEGIN excerpts from oldermishcontrol armInterface.js and rovercore-mc test interface
 Added to arm-interface.html:
 	<script type="text/javascript" src="js/testcontroller.js"></script>
 	<script type="text/javascript" src="js/testprimus.js"></script>
 =======================================================================================
 */
-
-//Necessary to include if I don't have ace/json editor?
-var options = {
-	mode: 'code',
-	modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
-	error: function(err) {
-		alert(err.toString());
-	}
-};
 
 var command = {
 	"rotunda": 400,
@@ -63,7 +54,7 @@ $("#ToggleManualControl").change(function(){
 		$("#manualControl").css("display", "block");
 		$("#manualControl").css("opacity", "1");
 		$("#camerafeed").css("height", "600px");
-		//$("#displayedArmComponent").val=$("ArmComponentSliderValue") 
+		//$("#displayedArmComponent").val=$("ArmComponentSliderValue")
 		//$("#RotundaState").html("MC");
 		//$("#Wrist_RollState").html("MC");
 		//$("#ShoulderState").html("MC");
@@ -84,7 +75,7 @@ $("#ToggleManualControl").change(function(){
 		$("#ClawState").html(torqueDegree);
 		*/
 
-	/* 
+	/*
 		This script may need to be in the same script as the gamepad in order to work
 		the __Degree is declared in the aforemetnioed script
 	 */
@@ -103,15 +94,14 @@ $("#RotundaSlider").slider({
 	    $( "#RotundaInputBox" ).val(ui.value);
 	    $( "#RotundaState" ).text(ui.value); //change this to converted degrees
 	    $( "#messages" ).html("Rotunda Changed!"); //make this more detailed and scrollable and add timestamp
+	    command.rotunda = ui.value;
 	}
 });
 
-	$("#RotundaInputBox").change(function () {
-		$("#RotundaSlider").slider("value", parseInt(this.value));
-		$("#RotundaState").text(parseInt(this.value)); //change this to converted degrees
-		$( "#messages" ).html("Rotunda Changed!"); //make this more detailed and scrollable and add timestamp
-		
-	connection.write(payload);
+$("#RotundaInputBox").change(function () {
+	$("#RotundaSlider").slider("value", parseInt(this.value));
+	$("#RotundaState").text(parseInt(this.value)); //change this to converted degrees
+	$( "#messages" ).html("Rotunda Changed!"); //make this more detailed and scrollable and add timestamp
 });
 
 $("#Wrist_RollSlider").slider({
@@ -291,7 +281,7 @@ $("#method4").click(function(){
 	$("#method5").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 4: Touch Ground!"); //add timestamp
-	//insert appropriate slider value			
+	//insert appropriate slider value
 	//arm.shoulder = 590;
 	//arm.wrist_pitch = 265;
 	//SendPayload(arm);
@@ -383,7 +373,7 @@ $("#method6").click(function(){
 	/*BEGIN MIMIC VALUE CONVERSION */
 
 	function gameLoop() {
-	var midBit = 512; 
+	var midBit = 512;
 
 	function controllerToBit(x)
 	{
@@ -425,7 +415,7 @@ $("#method6").click(function(){
 	  {
 	    decimal =-1;
 	  }
-	  else 
+	  else
 	  {
 	    decimal = ((x + 1)/midBit) - 1;
 	  }
@@ -446,82 +436,101 @@ $("#method6").click(function(){
 	if (buttonPressed(gp.buttons[0])) {
 	document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
 
-	} 
+	}
 
 	if (buttonPressed(gp.buttons[1])) {
 	document.getElementById("buttonDisplay").innerHTML = "1: Close Claw";
 
 
-	} 
+	}
 	if (buttonPressed(gp.buttons[2])) {
 	document.getElementById("buttonDisplay").innerHTML = "2: Drop POD";
 
 
-	} 
+	}
 	if (buttonPressed(gp.buttons[3])) {
 	document.getElementById("buttonDisplay").innerHTML = "3: Retrieve POD";
 
 
-	} 
+	}
 	if (buttonPressed(gp.buttons[4])) {
 	document.getElementById("buttonDisplay").innerHTML = "4: Touch Ground";
 
-	} 
+	}
 	if (buttonPressed(gp.buttons[5])) {
 	document.getElementById("buttonDisplay").innerHTML = "5: Reach Behind";
 
-	} 
+	}
 	if (buttonPressed(gp.buttons[6])) {
 	document.getElementById("buttonDisplay").innerHTML = "6: Reach Forward";
 
-	} 
+	}
 
 	if(gp.axes[0] != 0) {
 
 	 var baseRotationBit = controllerToBit(gp.axes[0]);
 	 var baseRotationDegree = posNegBitToDegree(baseRotationBit);
 	 document.getElementById("RotundaState").innerHTML = baseRotationDegree;
-	} 
+	}
 
 	if(gp.axes[1] != 0) {
 	var shoulderPitchBit = controllerToBit(gp.axes[1]);
 	 var shoulderPitchDegree = posBitToDegree(shoulderPitchBit);
 	 document.getElementById("ShoulderState").innerHTML = shoulderPitchDegree;
-	} 
+	}
 
 	if(gp.axes[2] != 0) {
 	  var elbowPitchBit = controllerToBit(gp.axes[2]);
 	 var elbowPitchDegree = posBitToDegree(elbowPitchBit);
 	 document.getElementById("ElbowState").innerHTML = elbowPitchDegree;
-	} 
+	}
 
 	if(gp.axes[3] != 0) {
 	  var torqueBit = controllerToBit(gp.axes[3]);
 	 var torqueDegree = posBitToDegree(torqueBit);
 	 document.getElementById("ClawState").innerHTML = torqueDegree;
-	} 
+	}
 
 
 	if(gp.axes[4] != 0) {
 	  var wristPitchBit = controllerToBit(gp.axes[4]);
 	 var wristPitchDegree = posBitToDegree(wristPitchBit);
 	 document.getElementById("Wrist_PitchState").innerHTML = wristPitchDegree;
-	} 
+	}
 
 
 	if(gp.axes[5] != 0) {
 	 var wristRotationBit = controllerToBit(gp.axes[5]);
 	 var wristRotationDegree = posNegBitToDegree(wristRotationBit);
 	 document.getElementById("Wrist_RollState").innerHTML = wristRotationDegree;
-	} 
+	}
 
 
 	ball.style.left = a*2 + "px";
 	ball.style.top = b*2 + "px";
 	var start = rAF(gameLoop);
+};
+
+var LobeAssignmentInterval = setInterval(function()
+{
+	if(Connection.state === Connection.CONNECTED)
+	{
+		primus.write(
+		{
+			target: 'Cortex',
+			command: 'Arm',
+		});
+		clearInterval(LobeAssignmentInterval);
+	}
+}, 100);
+
+var SendToRoverCoreS = setInterval(() =>
+{
+	var payload = {
+		target: target,
+		command: command
 	};
-
-
-
+	primus.write(payload);
+}, 100);
 
 

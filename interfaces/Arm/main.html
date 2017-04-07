@@ -1,173 +1,152 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Arm and End Effector - Loch</title>
+<link rel="stylesheet" type="text/css" href="interfaces/Arm/css/arm-interface.css?r={{ANTI-CACHE-MARKER}}">
+<link rel="stylesheet" type="text/css" href="interfaces/Arm/css/bootstrap-toggle.css?r={{ANTI-CACHE-MARKER}}">
+<link rel="stylesheet" type="text/css" href="interfaces/Arm/css/jquery-ui.css?r={{ANTI-CACHE-MARKER}}">
+<script type="text/javascript" src="interfaces/Arm/js/jquery.knob.min.js?r={{ANTI-CACHE-MARKER}}"></script>
+<script type="text/javascript" src="interfaces/Arm/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
+<script type="text/javascript" src="interfaces/Arm/js/jquery-ui.min.js?r={{ANTI-CACHE-MARKER}}"></script>
 
-	<!-- Custom Page Style -->
-	<link rel="stylesheet" type="text/css" href="css/arm-interface.css">
-	<link rel="shortcut icon" href="css/images/ArmPageIcon.png" type="image/x-icon" />
+<!-- BEGIN Cam View -->
+<div class="col-md-12">
+  <img id="camerafeed" ref="mainscreen"></img>
+    <!--
+    @1
+      Insert cam feed here
+      - Img tag with different src for diff sources
+      - Make camview an initial state
+    -->
+</div>
+<!-- END Cam View -->
 
-	<!-- General CSS + JS -->
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<!--<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">-->
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.css">
-	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.knob.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.js"></script>
-	<!--<script type="text/javascript" src="js/bootstrap-slider.min.js"></script>-->
-	<script type="text/javascript" src="js/bootstrap-toggle.js"></script>
-	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-</head>
-
-<body>
-	<!-- BEGIN Cam View -->
-	<div class="col-md-12">
-	  <img id="camerafeed" ref="mainscreen"></img>
-	    <!--
-	    @1
-	      Insert cam feed here
-	      - Img tag with different src for diff sources
-	      - Make camview an initial state
-	    -->
-	</div>
-	<!-- END Cam View -->
-
- 	<!--  BEGIN manual control off section -->
- 	<!-- Top row -->
- 	<div class="row">
- 		<div id="ball"></div>
- 		<div class="col-md-1 mancontrolbutton">
- 			<input type="checkbox" checked data-toggle="toggle" data-on="MC On" data-off="MC Off" id="ToggleManualControl"></input> 
- 			<!-- @2 -->
- 		</div>
- 		<div class="col-md-1 rovercon">
-        	<text id="gamepad-info"><b class="sectionTitle">MIMIC:</b> Off</text>
-        </div>
-		<div class="col-md-4 rovercon2">
-        	<text id="messages">Rover Feedback Log</text>
-        </div>
-		<div class="col-md-2" id="mancontroloff"><b class="sectionTitle">CAM: </b>
-			<button type="button" class="btn" id="ClawCam">Claw</button>&nbsp;
-			<button type="button" class="btn" id="ElbowCam">Elbow</button>&nbsp;
-			<button type="button" class="btn" id="BaseCam">Base</button>&nbsp;
-			<!-- @1 -->
-		</div>
-        <div class="col-md-2 clawclaw"><b class="sectionTitle">CLAW GRIP: </b>
-        	<text id ="GripStatus"></text>
-        	<!-- @3 -->
-        </div>
-        <div class="col-md-2 clawclaw1">
-			<b class="sectionTitle">(T)ORQUE: </b> <text id="ClawState"></text> n m &nbsp;
-			<!-- Sliders.. Analog# is for Gamepad/Mimic value display
-			@4
-			<b>PITCH / Claw?</b> &nbsp; <text id="ClawState"></text> &deg; &nbsp; &nbsp;
-			-->
-        </div>
- 	</div>
-	<!-- Bottom row -->
+	<!--  BEGIN manual control off section -->
+	<!-- Top row -->
 	<div class="row">
-		<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(R)OTATION: </b> &nbsp;
-			BASE <text id="RotundaState"></text> &deg; &nbsp;
-			WRIST <text id="Wrist_RollState"></text> &deg; &nbsp;
-			<!-- Sliders.. Analog# is for Gamepad/Mimic value display
-			
-			@5 BASE &nbsp; {this.state.Rotunda} &deg; &nbsp;
-			@6 WRIST &nbsp; {this.state.Wrist_Roll} &deg; &nbsp;
-			-->
+		<div id="ball"></div>
+		<div class="col-md-1 mancontrolbutton">
+			<input type="checkbox" checked data-toggle="toggle" data-on="MC On" data-off="MC Off" id="ToggleManualControl"></input>
+			<!-- @2 -->
 		</div>
-		<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(P)ITCH: </b> &nbsp;
-			SHOULDER <text id="ShoulderState"></text> &deg; &nbsp;
-			ELBOW <text id="ElbowState"></text> &deg; &nbsp;
-			WRIST <text id="Wrist_PitchState"></text> &deg; &nbsp; 
-			<!-- Sliders.. Analog# is for Gamepad/Mimic value display
-			@7
-			SHOULDER &nbsp; {this.state.Shoulder} &deg; &nbsp;
-			@8
-			ELBOW &nbsp; {this.state.Elbow} &deg; &nbsp;
-			@9
-			WRIST &nbsp; {this.state.Wrist_Pitch} &deg; &nbsp;
-			-->
-		</div>
-		<div class="col-md-4 clawclawclaw2"><b class="sectionTitle">LAST BUTTON POSITION: </b>
-        	<!-- @10 -->
-        	<text id="buttonDisplay"></text>
-		</div>
+		<div class="col-md-1 rovercon">
+    	<text id="gamepad-info"><b class="sectionTitle">MIMIC:</b> Off</text>
+    </div>
+	<div class="col-md-4 rovercon2">
+    	<text id="messages">Rover Feedback Log</text>
+    </div>
+	<div class="col-md-2" id="mancontroloff"><b class="sectionTitle">CAM: </b>
+		<button type="button" class="btn" id="ClawCam">Claw</button>&nbsp;
+		<button type="button" class="btn" id="ElbowCam">Elbow</button>&nbsp;
+		<button type="button" class="btn" id="BaseCam">Base</button>&nbsp;
+		<!-- @1 -->
 	</div>
-    <!--  END Manual Control Off Section -->
+    <div class="col-md-2 clawclaw"><b class="sectionTitle">CLAW GRIP: </b>
+    	<text id ="GripStatus"></text>
+    	<!-- @3 -->
+    </div>
+    <div class="col-md-2 clawclaw1">
+		<b class="sectionTitle">(T)ORQUE: </b> <text id="ClawState"></text> n m &nbsp;
+		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
+		@4
+		<b>PITCH / Claw?</b> &nbsp; <text id="ClawState"></text> &deg; &nbsp; &nbsp;
+		-->
+    </div>
+	</div>
+<!-- Bottom row -->
+<div class="row">
+	<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(R)OTATION: </b> &nbsp;
+		BASE <text id="RotundaState"></text> &deg; &nbsp;
+		WRIST <text id="Wrist_RollState"></text> &deg; &nbsp;
+		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
+
+		@5 BASE &nbsp; {this.state.Rotunda} &deg; &nbsp;
+		@6 WRIST &nbsp; {this.state.Wrist_Roll} &deg; &nbsp;
+		-->
+	</div>
+	<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(P)ITCH: </b> &nbsp;
+		SHOULDER <text id="ShoulderState"></text> &deg; &nbsp;
+		ELBOW <text id="ElbowState"></text> &deg; &nbsp;
+		WRIST <text id="Wrist_PitchState"></text> &deg; &nbsp;
+		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
+		@7
+		SHOULDER &nbsp; {this.state.Shoulder} &deg; &nbsp;
+		@8
+		ELBOW &nbsp; {this.state.Elbow} &deg; &nbsp;
+		@9
+		WRIST &nbsp; {this.state.Wrist_Pitch} &deg; &nbsp;
+		-->
+	</div>
+	<div class="col-md-4 clawclawclaw2"><b class="sectionTitle">LAST BUTTON POSITION: </b>
+    	<!-- @10 -->
+    	<text id="buttonDisplay"></text>
+	</div>
+</div>
+<!--  END Manual Control Off Section -->
 
 <!--  BEGIN Manual Control On Section -->
 <div class="row">
-	<div id="manualControl">
-		<!-- Rotation Control html -->
-		<div class="col-xs-4" id="controlsection">
+<div id="manualControl">
+	<!-- Rotation Control html -->
+	<div class="col-xs-4" id="controlsection">
+		<p>
+			<text class="controlTitle">(R) BASE</text> &nbsp;
+			<input id="RotundaInputBox" type="number" min="0" max="1023" value="400" class="InputBox"/>
+			<div id="RotundaSlider" class="ArmSlider"></div>
+		</p>
+		<p>
+			<text class="controlTitle">(R) WRIST</text> &nbsp;
+	        <input id="Wrist_RollInputBox" type="number" min="0" max="1023" value="0" class="InputBox"/>
+	        <div id="Wrist_RollSlider" class="ArmSlider"></div>
+		</p>
+	</div>
+	<!-- Pitch Control html -->
+	<div class="col-xs-4" id="controlsection">
+		<p>
+			<text class="controlTitle">(P) SHOULDER</text> &nbsp;
+			<input id="ShoulderInputBox" type="number" min="0" max="1023" value="333" class="InputBox"/>
+			<div id="ShoulderSlider" class="ArmSlider"></div>
+		</p>
+		<p>
+			<text class="controlTitle">(P) ELBOW</text>
+	        <input id="ElbowInputBox" type="number" min="0" max="1023" value="69" class="InputBox"/>
+	        <div id="ElbowSlider" class="ArmSlider"></div>
+		</p>
+		<p>
+			<text class="controlTitle">(P) WRIST</text>
+	        <input id="Wrist_PitchInputBox" type="number" min="0" max="1023" value="180" class="InputBox"/>
+	        <div id="Wrist_PitchSlider" class="ArmSlider"></div>
+		</p>
+	</div>
+	<!-- Claw Control html -->
+	<div class="col-xs-4" id="controlsection">
+		<p>
+			<text class="controlTitle">(T) CLAW</text> &nbsp;
+	        <input id="ClawInputBox" type="number" min="0" max="2" value="0" class="InputBox"/>
+	        <div id="ClawSlider" class="ArmSlider"></div>
+		</p>
+		<div id = "centered">
+			<p><b><text class="controlTitle">BUTTONS FOR PRE-SET POSITIONS</text></b></p>
+				<!--  @11
+				ASSIGN ONCHANGE SLIDER VALUES WHEN BUTTONS BELOW ARE CLICKED
+				-->
 			<p>
-				<text class="controlTitle">(R) BASE</text> &nbsp;
-				<input id="RotundaInputBox" type="number" min="0" max="1023" value="400" class="InputBox"/>
-				<div id="RotundaSlider" class="ArmSlider"></div>
+				<button type="button" class="btn" id="method0" value="method0">Open Claw</button>
+				<button type="button" class="btn" id="method1" value="method1">Close Claw</button>
 			</p>
 			<p>
-				<text class="controlTitle">(R) WRIST</text> &nbsp;
-		        <input id="Wrist_RollInputBox" type="number" min="0" max="1023" value="0" class="InputBox"/>
-		        <div id="Wrist_RollSlider" class="ArmSlider"></div>
-			</p>
-		</div>
-		<!-- Pitch Control html -->
-		<div class="col-xs-4" id="controlsection">
-			<p>
-				<text class="controlTitle">(P) SHOULDER</text> &nbsp;
-				<input id="ShoulderInputBox" type="number" min="0" max="1023" value="333" class="InputBox"/>
-				<div id="ShoulderSlider" class="ArmSlider"></div>
+				<button type="button" class="btn" id="method2" value="method2">Deploy POD</button>
+				<button type="button" class="btn" id="method3" value="method3">Retrieve POD</button>
 			</p>
 			<p>
-				<text class="controlTitle">(P) ELBOW</text>
-		        <input id="ElbowInputBox" type="number" min="0" max="1023" value="69" class="InputBox"/>
-		        <div id="ElbowSlider" class="ArmSlider"></div>
+				<button type="button" class="btn" id="method4" value="method4">Touch Ground</button>
+				<button type="button" class="btn" id="method5" value="method5">Reach Behind</button>
+				<button type="button" class="btn" id="method6" value="method6">Reach Forward</button>
 			</p>
-			<p>
-				<text class="controlTitle">(P) WRIST</text>
-		        <input id="Wrist_PitchInputBox" type="number" min="0" max="1023" value="180" class="InputBox"/>
-		        <div id="Wrist_PitchSlider" class="ArmSlider"></div>
-			</p>
-		</div>
-		<!-- Claw Control html -->
-		<div class="col-xs-4" id="controlsection">
-			<p>
-				<text class="controlTitle">(T) CLAW</text> &nbsp;
-		        <input id="ClawInputBox" type="number" min="0" max="2" value="0" class="InputBox"/>
-		        <div id="ClawSlider" class="ArmSlider"></div>
-			</p>
-			<div id = "centered">
-				<p><b><text class="controlTitle">BUTTONS FOR PRE-SET POSITIONS</text></b></p>
-					<!--  @11
-					ASSIGN ONCHANGE SLIDER VALUES WHEN BUTTONS BELOW ARE CLICKED
-					-->
-				<p>
-					<button type="button" class="btn" id="method0" value="method0">Open Claw</button>
-					<button type="button" class="btn" id="method1" value="method1">Close Claw</button>
-				</p>
-				<p>
-					<button type="button" class="btn" id="method2" value="method2">Deploy POD</button>
-					<button type="button" class="btn" id="method3" value="method3">Retrieve POD</button>
-				</p>
-				<p>
-					<button type="button" class="btn" id="method4" value="method4">Touch Ground</button>
-					<button type="button" class="btn" id="method5" value="method5">Reach Behind</button>
-					<button type="button" class="btn" id="method6" value="method6">Reach Forward</button>
-				</p>
-			</div>
 		</div>
 	</div>
 </div>
-<!--  END Manual Control On Section -->
-</body>
+</div>
 
 <footer>
-	<!-- Custom Page JS -->
-	<script type="text/javascript" src="js/arm-interface.js"></script>
-	<!--<script type="text/javascript" src="js/testcontroller.js"></script>-->
-	<!--<script type="text/javascript" src="js/testprimus.js"></script>-->
-
+<!-- Custom Page JS -->
+<script type="text/javascript" src="interfaces/Arm/js/arm-interface.js?r={{ANTI-CACHE-MARKER}}"></script>
+<!--<script type="text/javascript" src="js/testcontroller.js?r={{ANTI-CACHE-MARKER}}"></script>-->
+<!--<script type="text/javascript" src="js/testprimus.js?r={{ANTI-CACHE-MARKER}}"></script>-->
 </footer>
-</html>
