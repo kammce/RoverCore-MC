@@ -132,7 +132,7 @@ $("#RotundaSlider").slider({
 	    $( "#RotundaInputBox" ).val(ui.value);
 	    $( "#RotundaState" ).text(ui.value); //change this to converted degrees
 	    $( "#messages" ).html("Rotunda Changed!"); //make this more detailed and scrollable and add timestamp
-	    command.rotunda = ui.value; //command sent to 
+	    command.rotunda = ui.value; //command sent to
 	}
 });
 
@@ -461,7 +461,7 @@ Gamepad/Mimic Control @12
 		return b == 1.0;
 	}
 
-	//BEGIN MIMIC VALUE CONVERSION 
+	//BEGIN MIMIC VALUE CONVERSION
 	function gameLoop() {
 	var midBit = 512;
 
@@ -515,7 +515,7 @@ Gamepad/Mimic Control @12
 	}
 	*/
 
-	//END MIMIC VALUE CONVERSION 
+	//END MIMIC VALUE CONVERSION
 
 	//BEGIN MIMIC CONTROL
 
@@ -544,9 +544,9 @@ Gamepad/Mimic Control @12
 	//command.wrist_pitch = ;
 	command.wrist_roll = 1;
 	//command.claw = ;
-	}else{
-		command.wrist_roll = 0;
-	} else if (buttonPressed(gp.buttons[6])) {
+	}
+	else if (buttonPressed(gp.buttons[6]))
+	{
 	document.getElementById("buttonDisplay").innerHTML = "6: Wrist Roll B";
     document.getElementById("messages").innerHTML= "Position changed to 6: Wrist Roll B!"; //add timestamp
 	//command.rotunda = ;
@@ -594,7 +594,7 @@ Gamepad/Mimic Control @12
 	if(gp.axes[0] != 0) {
 	 var baseRotationBit = controllerToBit(gp.axes[0]);
 	 document.getElementById("RotundaState").innerHTML = baseRotationBit;
-	 command.rotunda = baseRotationBit; 
+	 command.rotunda = baseRotationBit;
 	 //var baseRotationDegree = posNegBitToDegree(baseRotationBit);
 	 //document.getElementById("RotundaState").innerHTML = baseRotationDegree;
 	}
@@ -667,7 +667,7 @@ var LobeAssignmentInterval = setInterval(function()
 var SendToRoverCoreS = setInterval(() =>
 {
 	if(Connection.state === Connection.CONNECTED)
-	{	
+	{
 		var payload = {
 			target: 'Arm',
 			command: ArmPayload
