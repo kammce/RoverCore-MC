@@ -12,7 +12,7 @@ END excerpts from oldermishcontrol armInterface.js
 */
 
 var command = {
-	"rotunda": 180, //
+	"rotunda": 1700, //1400-1950
 	"shoulder": 333, //130-370 (for demo)
 	"elbow": 69, //
 	"wrist_pitch": 180, //90-270 (for demo)
@@ -86,10 +86,10 @@ $("#ToggleManualControl").change(function(){
 //Manual Control On Control
 $("#RotundaSlider").slider({
 	range: "min",
-	value: 180,
+	value: 1700,
 	step: 1,
-	min: 0,
-	max: 360,
+	min: 1400,
+	max: 1950,
 	slide: function( event, ui ) {
 	    $( "#RotundaInputBox" ).val(ui.value);
 	    $( "#RotundaState" ).text(ui.value); //change this to converted degrees
