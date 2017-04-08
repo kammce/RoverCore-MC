@@ -1,26 +1,64 @@
 /*
 =======================================================================================
-BEGIN excerpts from oldermishcontrol armInterface.js 
+BEGIN khalil
 =======================================================================================
 */
+
+var ArmPayload = {
+    "rotunda": 1700, //1400-1950
+    "shoulder": 333, //130-370 (for demo)
+    "elbow": 105, // 105-145
+    "wrist_pitch": 180, //90-270 (for demo)
+    "wrist_roll": 0, //0 = stop, 1=spins one way, 2=spins other way (incremenet 0,1,2)
+    "claw": 0, // 1=close, 0=stop, 2=open (increment 0,1,2)
+    "camera_select": 0, //commented out on Arm.js in rovercore-s
+    "rotunda_camera": 0, //commented out on Arm.js in rovercore-s
+};
+
+function limit(value, low, high)
+{
+    var result = value;
+    result = (result < low) ? low : result;
+    result = (result > high) ? high : result;
+    return result;
+}
+
+const LIMITS = {
+    "rotunda": [1400, 1950],
+    "shoulder": [130, 370],
+    "elbow": [105, 145],
+    "wrist_pitch": [90, 270],
+    "wrist_roll": [0, 2],
+    "claw": [0, 2],
+    "camera_select": [0, 2],
+    "rotunda_camera": [0, 180]
+};
+
+var validator = {
+    set: function(obj, prop, value)
+    {
+        if(prop in LIMITS)
+        {
+            obj[prop] = limit(value, LIMITS[prop][0], LIMITS[prop][1]);
+        }
+        else
+        {
+            obj[prop] = value;
+        }
+        // throw new TypeError('The age is not an integer');
+        // Indicate success
+        return true;
+    }
+};
+
+var command = new Proxy(ArmPayload, validator);
 
 
 /*
 =====================================================================================
-END excerpts from oldermishcontrol armInterface.js 
+END khalil
 =====================================================================================
 */
-
-var command = {
-	"rotunda": 1700, //1400-1950
-	"shoulder": 333, //130-370 (for demo)
-	"elbow": 69, //
-	"wrist_pitch": 180, //90-270 (for demo)
-	"wrist_roll": 0, //0 = stop, 1=spins one way, 2=spins other way (incremenet 0,1,2) 
-	"claw": 0, // 1=close, 0=stop, 2=open (increment 0,1,2)
-	"camera_select": 0, //commented out on Arm.js in rovercore-s
-	"rotunda_camera": 0, //commented out on Arm.js in rovercore-s
-};
 
 //BEGIN Cam View
 	//Replace src
@@ -63,7 +101,7 @@ $("#ToggleManualControl").change(function(){
 		//$("#ClawState").html("MC");
 	}else{
 		//MIMIC CONTROL, MC OFF
-		$("#camerafeed").css("height", "850px");
+		$("#camerafeed").css("height", "800px");
 		$("#manualControl").css("display", "none");
 		//$("#displayedArmComponent").val=gp.axes[...] OR .val=$("MimicAxesValue")
 		/*
@@ -149,10 +187,10 @@ $("#ShoulderSlider").slider({
 
 $("#ElbowSlider").slider({
   range: "min",
-  value: 69,
+  value: 105,
   step: 1,
-  min: 0,
-  max: 1023,
+  min: 105,
+  max: 145,
   slide: function( event, ui ) {
       $( "#ElbowInputBox" ).val(ui.value);
       $( "#ElbowState" ).text(ui.value); //change this to converted degrees
@@ -238,10 +276,10 @@ $("#reset").click(function(){
     $("#ShoulderInputBox").val('333');
     $("#ShoulderState").html("333");
     command.shoulder = 333;
-    $("#ElbowSlider").slider('value', 69);
-    $("#ElbowInputBox").val('69');
-    $("#ElbowState").html("69");
-    command.elbow = 69;
+    $("#ElbowSlider").slider('value', 105);
+    $("#ElbowInputBox").val('105');
+    $("#ElbowState").html("105");
+    command.elbow = 105;
     $("#Wrist_PitchSlider").slider('value', 180);
     $("#Wrist_PitchInputBox").val('180');
     $("#Wrist_PitchState").html("180");
@@ -296,7 +334,7 @@ $("#method1").click(function(){
 //Deploy POD
 $("#method2").click(function(){
 	//insert appropriate slider values
-	$("#buttonDisplay").html("2: Deploy POD");
+	$("#buttonDisplay").html("2: Wrist Roll A");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
 	$("#method2").addClass('btn-info');
@@ -304,13 +342,16 @@ $("#method2").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#method5").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 2: Deploy POD!"); //add timestamp
+    $( "#messages" ).html("Position changed to 2: Wrist Roll A!"); //add timestamp
+	$("#Wrist_RollSlider").slider('value', 1);
+	$("#Wrist_RollInputBox").val('1');
+	command.wrist_roll = 1;
 });
 
 //Retreive POD
 $("#method3").click(function(){
 	//insert appropriate slider values
-	$("#buttonDisplay").html("3: Retrieve POD");
+	$("#buttonDisplay").html("3: Wrist Roll B");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
 	$("#method2").removeClass('btn-info');
@@ -318,7 +359,10 @@ $("#method3").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#method5").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 3: Retrieve POD!"); //add timestamp
+    $( "#messages" ).html("Position changed to 3: Wrist Roll B!"); //add timestamp
+	$("#Wrist_RollSlider").slider('value', 2);
+	$("#Wrist_RollInputBox").val('2');
+	command.wrist_roll = 2;
 });
 
 //Touch Ground
@@ -482,16 +526,51 @@ Gamepad/Mimic Control @12
 
 	if (buttonPressed(gp.buttons[0])) {
 	document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
-	//command.claw = ;
+    document.getElementById("messages").innerHTML= "Position changed to 0: Open Claw!"; //add timestamp
+	command.claw = 2;
 	}
 
 	if (buttonPressed(gp.buttons[1])) {
 	document.getElementById("buttonDisplay").innerHTML = "1: Close Claw";
+    document.getElementById("messages").innerHTML= "Position changed to 1: Close Claw!"; //add timestamp
+	command.claw = 1;
+
+	}
+	if (buttonPressed(gp.buttons[5])) {
+	document.getElementById("buttonDisplay").innerHTML = "5: Wrist Roll A";
+    document.getElementById("messages").innerHTML= "Position changed to 5: Wrist Roll A!"; //add timestamp
+	//command.rotunda = ;
+	//command.shoulder = ;
+	//command.elbow = ;
+	//command.wrist_pitch = ;
+	command.wrist_roll = 1;
+	//command.claw = ;
+
+	}
+	if (buttonPressed(gp.buttons[6])) {
+	document.getElementById("buttonDisplay").innerHTML = "6: Wrist Roll B";
+    document.getElementById("messages").innerHTML= "Position changed to 6: Wrist Roll B!"; //add timestamp
+	//command.rotunda = ;
+	//command.shoulder = ;
+	//command.elbow = ;
+	//command.wrist_pitch = ;
+	command.wrist_roll = 2;
+	//command.claw = ;
+
+	}
+
+	if (buttonPressed(gp.buttons[4])) {
+	document.getElementById("buttonDisplay").innerHTML = "4: Touch Ground?";
+	//command.rotunda = ;
+	//command.shoulder = ;
+	//command.elbow = ;
+	//command.wrist_pitch = ;
+	//command.wrist_roll = ;
 	//command.claw = ;
 
 	}
 	if (buttonPressed(gp.buttons[2])) {
-	document.getElementById("buttonDisplay").innerHTML = "2: Drop POD";
+	document.getElementById("buttonDisplay").innerHTML = "2: Reach Behind?";
 	//command.rotunda = ;
 	//command.shoulder = ;
 	//command.elbow = ;
@@ -501,37 +580,7 @@ Gamepad/Mimic Control @12
 
 	}
 	if (buttonPressed(gp.buttons[3])) {
-	document.getElementById("buttonDisplay").innerHTML = "3: Retrieve POD";
-	//command.rotunda = ;
-	//command.shoulder = ;
-	//command.elbow = ;
-	//command.wrist_pitch = ;
-	//command.wrist_roll = ;
-	//command.claw = ;
-
-	}
-	if (buttonPressed(gp.buttons[4])) {
-	document.getElementById("buttonDisplay").innerHTML = "4: Touch Ground";
-	//command.rotunda = ;
-	//command.shoulder = ;
-	//command.elbow = ;
-	//command.wrist_pitch = ;
-	//command.wrist_roll = ;
-	//command.claw = ;
-
-	}
-	if (buttonPressed(gp.buttons[5])) {
-	document.getElementById("buttonDisplay").innerHTML = "5: Reach Behind";
-	//command.rotunda = ;
-	//command.shoulder = ;
-	//command.elbow = ;
-	//command.wrist_pitch = ;
-	//command.wrist_roll = ;
-	//command.claw = ;
-
-	}
-	if (buttonPressed(gp.buttons[6])) {
-	document.getElementById("buttonDisplay").innerHTML = "6: Reach Forward";
+	document.getElementById("buttonDisplay").innerHTML = "3: Reach Forward?";
 	//command.rotunda = ;
 	//command.shoulder = ;
 	//command.elbow = ;
@@ -541,6 +590,7 @@ Gamepad/Mimic Control @12
 
 	}
 
+	//(1400,1950)
 	if(gp.axes[0] != 0) {
 	 var baseRotationBit = controllerToBit(gp.axes[0]);
 	 document.getElementById("RotundaState").innerHTML = baseRotationBit;
@@ -549,6 +599,7 @@ Gamepad/Mimic Control @12
 	 //document.getElementById("RotundaState").innerHTML = baseRotationDegree;
 	}
 
+	//(130,370)
 	if(gp.axes[1] != 0) {
 	var shoulderPitchBit = controllerToBit(gp.axes[1]);
 	document.getElementById("ShoulderState").innerHTML = shoulderPitchBit;
@@ -557,6 +608,7 @@ Gamepad/Mimic Control @12
 	//document.getElementById("ShoulderState").innerHTML = shoulderPitchDegree;
 	}
 
+	//(105,145)
 	if(gp.axes[2] != 0) {
 	  var elbowPitchBit = controllerToBit(gp.axes[2]);
 	 document.getElementById("ElbowState").innerHTML = elbowPitchBit;
@@ -565,15 +617,16 @@ Gamepad/Mimic Control @12
 	 //document.getElementById("ElbowState").innerHTML = elbowPitchDegree;
 	}
 
+	//(0,1,2)
 	if(gp.axes[3] != 0) {
 	  var torqueBit = controllerToBit(gp.axes[3]);
-	 document.getElementById("ClawState").innerHTML = torqueBit;
-	 command.claw = torqueBit;
+	 //document.getElementById("ClawState").innerHTML = torqueBit;
+	 //command.claw = torqueBit;
 	 //var torqueDegree = posBitToDegree(torqueBit);
 	 //document.getElementById("ClawState").innerHTML = torqueDegree;
 	}
 
-
+	//(90,270)
 	if(gp.axes[4] != 0) {
 	  var wristPitchBit = controllerToBit(gp.axes[4]);
 	 document.getElementById("Wrist_PitchState").innerHTML = wristPitchBit;
@@ -582,11 +635,11 @@ Gamepad/Mimic Control @12
 	 //document.getElementById("Wrist_PitchState").innerHTML = wristPitchDegree;
 	}
 
-
+	//(0,1,2)
 	if(gp.axes[5] != 0) {
 	 var wristRotationBit = controllerToBit(gp.axes[5]);
-	 document.getElementById("Wrist_RollState").innerHTML = wristRotationBit;
-	 command.wrist_rotation = wristRotationBit;
+	 //document.getElementById("Wrist_RollState").innerHTML = wristRotationBit;
+	 //command.wrist_rotation = wristRotationBit;
 	 //var wristRotationDegree = posNegBitToDegree(wristRotationBit);
 	 //document.getElementById("Wrist_RollState").innerHTML = wristRotationDegree;
 	}
@@ -617,7 +670,7 @@ var SendToRoverCoreS = setInterval(() =>
 	{	
 		var payload = {
 			target: 'Arm',
-			command: command
+			command: ArmPayload
 		};
 		primus.write(payload);
 	}
