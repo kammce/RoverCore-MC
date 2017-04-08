@@ -41,7 +41,7 @@
     	<!-- @3 -->
     </div>
     <div class="col-md-2 clawclaw1">
-		<b class="sectionTitle">(T)ORQUE: </b> <text id="ClawState"></text> n m &nbsp;
+		<b class="sectionTitle">(T)ORQUE: </b> <text id="ClawState"></text> &nbsp;
 		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
 		@4
 		<b>PITCH / Claw?</b> &nbsp; <text id="ClawState"></text>  &nbsp; &nbsp;
@@ -91,7 +91,7 @@
 		</p>
 		<p>
 			<text class="controlTitle">(R) WRIST</text> &nbsp;
-	        <input id="Wrist_RollInputBox" type="number" min="0" max="1023" value="0" class="InputBox"/>
+	        <input id="Wrist_RollInputBox" type="number" min="0" max="2" value="0" class="InputBox"/>
 	        <div id="Wrist_RollSlider" class="ArmSlider"></div>
 		</p>
 	</div>
@@ -126,10 +126,11 @@
 				ASSIGN ONCHANGE SLIDER VALUES WHEN BUTTONS BELOW ARE CLICKED
 				-->
 			<p>
-				<button type="button" class="btn" id="method0" value="method0">Open Claw</button>
-				<button type="button" class="btn" id="method1" value="method1">Close Claw</button>
+				<button type="button" class="btn btn-danger" id="reset" value="reset">RESET SLIDERS</button>
 			</p>
 			<p>
+				<button type="button" class="btn" id="method0" value="method0">Open Claw</button>
+				<button type="button" class="btn" id="method1" value="method1">Close Claw</button>
 				<button type="button" class="btn" id="method2" value="method2">Deploy POD</button>
 				<button type="button" class="btn" id="method3" value="method3">Retrieve POD</button>
 			</p>
