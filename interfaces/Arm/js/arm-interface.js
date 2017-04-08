@@ -12,12 +12,14 @@ END excerpts from oldermishcontrol armInterface.js
 */
 
 var command = {
-	"rotunda": 400,
-	"shoulder": 333,
-	"elbow": 69,
-	"wrist_pitch": 180,
-	"wrist_roll": 0,
-	"claw": 0,
+	"rotunda": 400, //
+	"shoulder": 333, //0-900
+	"elbow": 69, //-- (doesn't work)
+	"wrist_pitch": 180, //0-360
+	"wrist_roll": 0, //-- (doesn't work)
+	"claw": 0, //
+	"camera_select": 0, //
+	"rotunda_camera": 0, //
 };
 
 //BEGIN Cam View
@@ -129,7 +131,7 @@ $("#ShoulderSlider").slider({
 	value: 333,
 	step: 1,
 	min: 0,
-	max: 1023,
+	max: 900,
 	slide: function( event, ui ) {
 	    $( "#ShoulderInputBox" ).val(ui.value);
 	    $( "#ShoulderState" ).text(ui.value); //change this to converted degrees
@@ -171,7 +173,7 @@ $("#Wrist_PitchSlider").slider({
   value: 180,
   step: 1,
   min: 0,
-  max: 1023,
+  max: 360,
   slide: function( event, ui ) {
       $( "#Wrist_PitchInputBox" ).val(ui.value);
       $( "#Wrist_PitchState" ).text(ui.value); //change this to converted degrees
