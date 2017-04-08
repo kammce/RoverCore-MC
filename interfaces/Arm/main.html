@@ -44,32 +44,32 @@
 		<b class="sectionTitle">(T)ORQUE: </b> <text id="ClawState"></text> n m &nbsp;
 		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
 		@4
-		<b>PITCH / Claw?</b> &nbsp; <text id="ClawState"></text> &deg; &nbsp; &nbsp;
+		<b>PITCH / Claw?</b> &nbsp; <text id="ClawState"></text>  &nbsp; &nbsp;
 		-->
     </div>
 	</div>
 <!-- Bottom row -->
 <div class="row">
 	<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(R)OTATION: </b> &nbsp;
-		BASE <text id="RotundaState"></text> &deg; &nbsp;
-		WRIST <text id="Wrist_RollState"></text> &deg; &nbsp;
+		BASE <text id="RotundaState"></text>  &nbsp;
+		WRIST <text id="Wrist_RollState"></text>  &nbsp;
 		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
 
-		@5 BASE &nbsp; {this.state.Rotunda} &deg; &nbsp;
-		@6 WRIST &nbsp; {this.state.Wrist_Roll} &deg; &nbsp;
+		@5 BASE &nbsp; {this.state.Rotunda}  &nbsp;
+		@6 WRIST &nbsp; {this.state.Wrist_Roll}  &nbsp;
 		-->
 	</div>
 	<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(P)ITCH: </b> &nbsp;
-		SHOULDER <text id="ShoulderState"></text> &deg; &nbsp;
-		ELBOW <text id="ElbowState"></text> &deg; &nbsp;
-		WRIST <text id="Wrist_PitchState"></text> &deg; &nbsp;
+		SHOULDER <text id="ShoulderState"></text>  &nbsp;
+		ELBOW <text id="ElbowState"></text>  &nbsp;
+		WRIST <text id="Wrist_PitchState"></text>  &nbsp;
 		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
 		@7
-		SHOULDER &nbsp; {this.state.Shoulder} &deg; &nbsp;
+		SHOULDER &nbsp; {this.state.Shoulder}  &nbsp;
 		@8
-		ELBOW &nbsp; {this.state.Elbow} &deg; &nbsp;
+		ELBOW &nbsp; {this.state.Elbow}  &nbsp;
 		@9
-		WRIST &nbsp; {this.state.Wrist_Pitch} &deg; &nbsp;
+		WRIST &nbsp; {this.state.Wrist_Pitch}  &nbsp;
 		-->
 	</div>
 	<div class="col-md-4 clawclawclaw2"><b class="sectionTitle">LAST BUTTON POSITION: </b>
@@ -86,7 +86,7 @@
 	<div class="col-xs-4" id="controlsection">
 		<p>
 			<text class="controlTitle">(R) BASE</text> &nbsp;
-			<input id="RotundaInputBox" type="number" min="0" max="1023" value="400" class="InputBox"/>
+			<input id="RotundaInputBox" type="number" min="0" max="360" value="180" class="InputBox"/>
 			<div id="RotundaSlider" class="ArmSlider"></div>
 		</p>
 		<p>
@@ -99,7 +99,7 @@
 	<div class="col-xs-4" id="controlsection">
 		<p>
 			<text class="controlTitle">(P) SHOULDER</text> &nbsp;
-			<input id="ShoulderInputBox" type="number" min="0" max="900" value="333" class="InputBox"/>
+			<input id="ShoulderInputBox" type="number" min="130" max="370" value="333" class="InputBox"/>
 			<div id="ShoulderSlider" class="ArmSlider"></div>
 		</p>
 		<p>
@@ -109,7 +109,7 @@
 		</p>
 		<p>
 			<text class="controlTitle">(P) WRIST</text>
-	        <input id="Wrist_PitchInputBox" type="number" min="0" max="360" value="180" class="InputBox"/>
+	        <input id="Wrist_PitchInputBox" type="number" min="90" max="270" value="180" class="InputBox"/>
 	        <div id="Wrist_PitchSlider" class="ArmSlider"></div>
 		</p>
 	</div>

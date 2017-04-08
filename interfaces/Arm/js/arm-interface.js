@@ -12,11 +12,11 @@ END excerpts from oldermishcontrol armInterface.js
 */
 
 var command = {
-	"rotunda": 400, //
-	"shoulder": 333, //0-900
-	"elbow": 69, //-- (doesn't work)
-	"wrist_pitch": 180, //0-360
-	"wrist_roll": 0, //-- (doesn't work)
+	"rotunda": 180, //
+	"shoulder": 333, //130-370 (for demo)
+	"elbow": 69, //
+	"wrist_pitch": 180, //90-270 (for demo)
+	"wrist_roll": 0, //
 	"claw": 0, //
 	"camera_select": 0, //
 	"rotunda_camera": 0, //
@@ -86,10 +86,10 @@ $("#ToggleManualControl").change(function(){
 //Manual Control On Control
 $("#RotundaSlider").slider({
 	range: "min",
-	value: 400,
+	value: 180,
 	step: 1,
 	min: 0,
-	max: 1023,
+	max: 360,
 	slide: function( event, ui ) {
 	    $( "#RotundaInputBox" ).val(ui.value);
 	    $( "#RotundaState" ).text(ui.value); //change this to converted degrees
@@ -130,8 +130,8 @@ $("#ShoulderSlider").slider({
 	range: "min",
 	value: 333,
 	step: 1,
-	min: 0,
-	max: 900,
+	min: 130,
+	max: 370,
 	slide: function( event, ui ) {
 	    $( "#ShoulderInputBox" ).val(ui.value);
 	    $( "#ShoulderState" ).text(ui.value); //change this to converted degrees
@@ -172,8 +172,8 @@ $("#Wrist_PitchSlider").slider({
   range: "min",
   value: 180,
   step: 1,
-  min: 0,
-  max: 360,
+  min: 90,
+  max: 270,
   slide: function( event, ui ) {
       $( "#Wrist_PitchInputBox" ).val(ui.value);
       $( "#Wrist_PitchState" ).text(ui.value); //change this to converted degrees
