@@ -528,13 +528,12 @@ Gamepad/Mimic Control @12
 	document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
     document.getElementById("messages").innerHTML= "Position changed to 0: Open Claw!"; //add timestamp
 	command.claw = 2;
-	}
-
-	if (buttonPressed(gp.buttons[1])) {
+	} else if (buttonPressed(gp.buttons[1])) {
 	document.getElementById("buttonDisplay").innerHTML = "1: Close Claw";
     document.getElementById("messages").innerHTML= "Position changed to 1: Close Claw!"; //add timestamp
 	command.claw = 1;
-
+	}else{
+		command.claw = 0;
 	}
 	if (buttonPressed(gp.buttons[5])) {
 	document.getElementById("buttonDisplay").innerHTML = "5: Wrist Roll A";
@@ -545,9 +544,9 @@ Gamepad/Mimic Control @12
 	//command.wrist_pitch = ;
 	command.wrist_roll = 1;
 	//command.claw = ;
-
-	}
-	if (buttonPressed(gp.buttons[6])) {
+	}else{
+		command.wrist_roll = 0;
+	} else if (buttonPressed(gp.buttons[6])) {
 	document.getElementById("buttonDisplay").innerHTML = "6: Wrist Roll B";
     document.getElementById("messages").innerHTML= "Position changed to 6: Wrist Roll B!"; //add timestamp
 	//command.rotunda = ;
@@ -556,7 +555,8 @@ Gamepad/Mimic Control @12
 	//command.wrist_pitch = ;
 	command.wrist_roll = 2;
 	//command.claw = ;
-
+	}else{
+		command.wrist_roll = 0;
 	}
 
 	if (buttonPressed(gp.buttons[4])) {
