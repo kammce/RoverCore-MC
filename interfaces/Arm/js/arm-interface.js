@@ -15,6 +15,12 @@ var ArmPayload = {
     "rotunda_camera": 0, //commented out on Arm.js in rovercore-s
 };
 
+function map(value, low1, high1, low2, high2)
+{
+    var result = low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+    return Math.round(result);
+}
+
 function limit(value, low, high)
 {
     var result = value;
@@ -25,7 +31,7 @@ function limit(value, low, high)
 
 const LIMITS = {
     "rotunda": [1400, 1950],
-    "shoulder": [130, 370],
+    "shoulder": [115, 370],
     "elbow": [105, 145],
     "wrist_pitch": [90, 270],
     "wrist_roll": [0, 2],
@@ -168,8 +174,8 @@ $("#ShoulderSlider").slider({
 	range: "min",
 	value: 333,
 	step: 1,
-	min: 130,
-	max: 370,
+	min: LIMITS["shoulder"][0],
+	max: LIMITS["shoulder"][1],
 	slide: function( event, ui ) {
 	    $( "#ShoulderInputBox" ).val(ui.value);
 	    $( "#ShoulderState" ).text(ui.value); //change this to converted degrees
@@ -254,6 +260,16 @@ $("#ClawSlider").slider({
 
 //Reset
 $("#reset").click(function(){
+
+	if(Connection.state === Connection.CONNECTED)
+	{
+		primus.write(
+		{
+			target: 'Cortex',
+			command: 'Arm',
+		});
+		clearInterval(LobeAssignmentInterval);
+	}
 	$("#buttonDisplay").html("Reset!");
 	$("#reset").addClass('btn-info');
 	$("#method0").removeClass('btn-info');
@@ -474,8 +490,8 @@ Gamepad/Mimic Control @12
 	    }
 	    else
 	    {
-	      bit = ((x+1)*midBit) -1;
-	 	  }
+	      bit = ((x+1)*midBit) - 1;
+	 	}
 	    bit = Math.round(bit);
 
 	    return bit;
@@ -593,8 +609,8 @@ Gamepad/Mimic Control @12
 	//(1400,1950)
 	if(gp.axes[0] != 0) {
 	 var baseRotationBit = controllerToBit(gp.axes[0]);
-	 document.getElementById("RotundaState").innerHTML = baseRotationBit;
-	 command.rotunda = baseRotationBit;
+	 command.rotunda = map(gp.axes[0], -1, 1, LIMITS["rotunda"][0], LIMITS["rotunda"][1]);
+	 document.getElementById("RotundaState").innerHTML = command.rotunda;
 	 //var baseRotationDegree = posNegBitToDegree(baseRotationBit);
 	 //document.getElementById("RotundaState").innerHTML = baseRotationDegree;
 	}
@@ -602,8 +618,8 @@ Gamepad/Mimic Control @12
 	//(130,370)
 	if(gp.axes[1] != 0) {
 	var shoulderPitchBit = controllerToBit(gp.axes[1]);
-	document.getElementById("ShoulderState").innerHTML = shoulderPitchBit;
-	command.shoulder = shoulderPitchBit;
+	command.shoulder = map(gp.axes[1], -1, 1, LIMITS["shoulder"][0], LIMITS["shoulder"][1]);
+	document.getElementById("ShoulderState").innerHTML = command.shoulder;
 	//var shoulderPitchDegree = posBitToDegree(shoulderPitchBit);
 	//document.getElementById("ShoulderState").innerHTML = shoulderPitchDegree;
 	}
@@ -611,8 +627,8 @@ Gamepad/Mimic Control @12
 	//(105,145)
 	if(gp.axes[2] != 0) {
 	  var elbowPitchBit = controllerToBit(gp.axes[2]);
-	 document.getElementById("ElbowState").innerHTML = elbowPitchBit;
-	 command.elbow = elbowPitchBit;
+	 command.elbow = map(-gp.axes[2], -1, 1, LIMITS["elbow"][0], LIMITS["elbow"][1]);
+	 document.getElementById("ElbowState").innerHTML = command.elbow;
 	 //var elbowPitchDegree = posBitToDegree(elbowPitchBit);
 	 //document.getElementById("ElbowState").innerHTML = elbowPitchDegree;
 	}
@@ -628,20 +644,20 @@ Gamepad/Mimic Control @12
 
 	//(90,270)
 	if(gp.axes[4] != 0) {
-	  var wristPitchBit = controllerToBit(gp.axes[4]);
-	 document.getElementById("Wrist_PitchState").innerHTML = wristPitchBit;
-	 command.wrist_pitch = wristPitchBit;
-	 //var wristPitchDegree = posBitToDegree(wristPitchBit);
-	 //document.getElementById("Wrist_PitchState").innerHTML = wristPitchDegree;
+		var wristPitchBit = controllerToBit(gp.axes[4]);
+		command.wrist_pitch = map(-gp.axes[4], -1, 1, LIMITS["wrist_pitch"][0], LIMITS["wrist_pitch"][1]);
+		document.getElementById("Wrist_PitchState").innerHTML = command.wrist_pitch;
+		//var wristPitchDegree = posBitToDegree(wristPitchBit);
+		//document.getElementById("Wrist_PitchState").innerHTML = wristPitchDegree;
 	}
 
 	//(0,1,2)
 	if(gp.axes[5] != 0) {
-	 var wristRotationBit = controllerToBit(gp.axes[5]);
-	 //document.getElementById("Wrist_RollState").innerHTML = wristRotationBit;
-	 //command.wrist_rotation = wristRotationBit;
-	 //var wristRotationDegree = posNegBitToDegree(wristRotationBit);
-	 //document.getElementById("Wrist_RollState").innerHTML = wristRotationDegree;
+		var wristRotationBit = controllerToBit(gp.axes[5]);
+		//document.getElementById("Wrist_RollState").innerHTML = wristRotationBit;
+		//command.wrist_rotation = wristRotationBit;
+		//var wristRotationDegree = posNegBitToDegree(wristRotationBit);
+		//document.getElementById("Wrist_RollState").innerHTML = wristRotationDegree;
 	}
 
 	var start = rAF(gameLoop);
