@@ -76,14 +76,14 @@ $("#ClawCam").click(function(){
 });
 
 $("#ElbowCam").click(function(){
-	$("#camerafeed").attr('src', 'interfaces/Arm/css/images/thatelbow.png?r={{ANTI-CACHE-MARKER}}');
+	$("#camerafeed").attr('src', 'http://192.168.1.51/video.mjpg');
 	$("#ClawCam").removeClass('btn-success');
 	$("#ElbowCam").addClass('btn-success');
 	$("#BaseCam").removeClass('btn-success');
 });
 
 $("#BaseCam").click(function(){
-	$("#camerafeed").attr('src', 'interfaces/Arm/css/images/thatbase.png?r={{ANTI-CACHE-MARKER}}');
+	$("#camerafeed").attr('src', 'http://192.168.1.50/video.mjpg');
 	$("#ClawCam").removeClass('btn-success');
 	$("#ElbowCam").removeClass('btn-success');
 	$("#BaseCam").addClass('btn-success');
