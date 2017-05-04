@@ -1,0 +1,193 @@
+body {
+    background: #708090;
+    color: #FCFFF5;
+}
+
+.small-padding{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.map-telemetry-items{
+    margin-right: 10px
+}
+
+
+.map {
+    background: ;
+    border-radius: 3px;
+    height: 500px;
+    margin: 0 30px 0 30px;
+   
+}
+
+.placeholder {
+
+    border-right: solid #708090;
+    background: #151515;
+    border-radius: 3px;
+    height: 280px;
+    margin-bottom: 20px;
+}
+
+#mapid {
+    height: 240px;
+
+}
+
+/** Bootstrap Overrides**/
+.btn{
+    transition: .25s ease-out;
+}
+
+#compass {
+    width:380px;
+    height:380px;
+    background-image: url('compasssssss.png');
+    position: relative;
+
+    height: 80% !important;
+    background-position: center !important;
+    width: 84% !important;
+    display: block !important;
+    margin: 0 auto !important;
+    background-size: 102% !important;
+    position: relative !important;
+}
+
+#arrow {
+    -webkit-transform:rotate(120deg);
+    -moz-transform:rotate(120deg);
+    -o-transform:rotate(120deg);
+    -ms-transform:rotate(120deg);
+
+    -moz-transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+
+    bottom: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+    position: absolute !important;
+}
+
+#fuck {
+    height: 100%;
+    background: purple;
+    width: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+#speedometer {
+    height: 250px;
+    width: 250px;
+    position: absolute;
+
+
+}
+
+#ultrasonic {
+    display: inline-block;
+}
+
+#compass:hover #arrow {
+    -webkit-transform:rotate(0deg);
+    -moz-transform:rotate(0deg);
+    -o-transform:rotate(0deg);
+    -ms-transform:rotate(0deg);
+}
+
+path.highcharts-plot-band.highcharts-pane {
+    height: 150px;
+    width:150px;
+}
+
+rect.highcharts-button-box{
+    display: none;
+}
+
+path.highcharts-button-symbol{
+    display: none;
+}
+
+text.highcharts-credits {
+    display: none;
+}
+
+text.highcharts-title{
+    display: none;
+}
+
+#info-box{
+  margin-top: 5px;
+  height: 27vh;
+  padding: 5px;
+  background-color: #151515;
+  display: flex;
+  border-radius: 5px;
+}
+
+#alerts{
+  background-color: #151515;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  border-radius: 25px;
+  flex-direction: column
+
+}
+
+.top-buffer { margin-top:3px; }
+
+.left-buffer{ margin-left: 100px;}
+
+
+.camera-container{
+   background-color:#151515;
+   height: 450px;
+
+}
+
+
+.GaugeMeter {
+  position: Relative;
+  text-align: Center;
+  overflow: Hidden;
+  cursor: Default;
+  display: inline-block;
+}
+
+.GaugeMeter SPAN, .GaugeMeter B {
+  width: 54%;
+  position: Absolute;
+  text-align: Center;
+  display: Inline-Block;
+  color: RGBa(255,255,255,.8);
+  font-weight: 100;
+  font-family: "Open Sans", Arial;
+  overflow: Hidden;
+  white-space: NoWrap;
+  text-overflow: Ellipsis;
+  margin: 0 23%;
+}
+
+.GaugeMeter[data-style="Semi"] B {
+  width: 80%;
+  margin: 0 10%;
+}
+
+.GaugeMeter S, .GaugeMeter U {
+  text-decoration: None;
+  font-size: .60em;
+  font-weight: 200;
+  opacity: .6;
+}
+
+.GaugeMeter B {
+  color: #000;
+  font-weight: 200;
+  opacity: .8;
+}

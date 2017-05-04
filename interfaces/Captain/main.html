@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Captain Cabin</title>
+    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/style.css?r={{ANTI-CACHE-MARKER}}">
+    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/leaflet.css?r={{ANTI-CACHE-MARKER}}">
+    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/Orientation.css?r={{ANTI-CACHE-MARKER}}">
+    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/bootstrap-toggle.css?r={{ANTI-CACHE-MARKER}}">
+    <script type="text/javascript" src="interfaces/Captain/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
+    <script type="text/javascript" src="interfaces/Captain/js/jquery.AshAlom.gaugeMeter-2.0.0.min.js?r={{ANTI-CACHE-MARKER}}"></script>
+    <script type="text/javascript" src="interfaces/Captain/js/leaflet.js?r={{ANTI-CACHE-MARKER}}"></script>
+
+  </head>
+
+  <body>
+    <div class="text-center">
+      <h4>Telemetry Visualization Page</h4>
+    </div>
+
+    <div class="container-fluid map">
+
+      <div class="col-lg-8 camera-container">
+          <img src="img/camera.jpg" class="camera" />
+      </div>
+
+      <div class="col-lg-4">
+        <div id="mapid"></div>
+        <div id="info-box">
+            <div id="alerts">
+              <!---GPS Coordinate Input filed-->
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Lat,Lon" id="GateCoordinate">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="GateEnter">Enter!</button>
+                  </span>
+              </div>
+              <!---Autonomous on off button-->
+              <div  class="input-group top-buffer">
+                <input type="checkbox" data-toggle="toggle" data-on="Autonomous Off" data-off="Autonomous On" data-onstyle="success" data-offstyle="danger" data-width="680%" id="AutonomousToggle" >
+              </div>
+              <!---GPS/Sonic on off button-->
+              <div class="input-group top-buffer">
+                <input type="checkbox" checked data-toggle="toggle" data-on="GPS   On" data-off="GPS   Off" data-onstyle="success" data-offstyle="danger" data-width="113px">
+                <input type="checkbox" checked data-toggle="toggle" data-on="Ultrasonic On" data-off="Ultrasonic Off" data-onstyle="success" data-offstyle="danger" >
+              </div>
+
+              <div class="input-group ">
+                <b class="map-telemetry-items" id="RoverHeading">Rover Heading : </b>
+                <b class="map-telemetry-items" id="GPSHeading">GPS Heading   : </b>
+              </div>
+
+              <div class="input-group ">
+                <b class="map-telemetry-items "id="CurrLat">Current Lat  : </b>
+                <b class="map-telemetry-items "id="CurrLong">Current Long : </b>
+              </div>
+
+              <div class="input-group ">
+                <b class="map-telemetry-items "id="GateLat">Gate Lat : </b>
+                <b class="map-telemetry-items "id="GateLong">Gate Long  : </b>
+              </div>
+
+               <div class="input-group ">
+                <b class="map-telemetry-items ">Command :</b> <b style="color:#3498db;"><u id="Command"></u></b>
+                <b class="map-telemetry-items ">Gate Reach : </b> <b style="color:#3498db;"><u id="GateReach"></u></b>
+              </div>
+
+            </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6 col-lg-6">
+          <b class="map-telemetry-items">Altitude: <u>0.0</u> m</b>
+          <b class="map-telemetry-items">Temperature: <u>0.0</u> °C</b>
+        </div>
+          <div class="map-control-buttons">
+            <button type="button" class="btn btn-primary btn-sm" onclick="goToRover()">Go to Rover</button>
+            <!-- Single button -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">Go to Destination <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="#">Destination 1</a></li>
+                <li><a href="#">Destination 2</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+    <div class="container-fluid" style="margin-left: 25px; margin-right: 25px; margin-top: 10px">
+      <div class="row">
+        <div class="col-lg-3 placeholder">
+          <div class="GaugeMeter" data-text="1000" data-label="mAh" data-label_color="white" data-theme="LightGreen-DarkGreen" data-style="Semi" data-size="130" data-width="15" data-back="Silver"  data-total="10000" data-used="1000" style="margin-right: 40px;" >
+          </div>
+          <div class="GaugeMeter"  data-text="90°C"  data-percent="90" data-label="Battery Temperature" data-label_color="white"  data-style="Semi" data-size="130" data-width="15" data-back="Silver"  data-theme="Green-Gold-Red">
+          </div>
+          <div class="GaugeMeter" data-percent="60" data-label="Battery Level" data-label_color="white" data-theme="white" data-style="Semi" data-size="140" data-width="15" data-back="Silver" data-append="%"  style="margin-left: 90px;">
+          </div>
+        </div>
+
+        <div class="col-lg-3 placeholder">  
+          <h4>Orientation Meter</h4>
+          <div class="Orientation">
+          <div class='form1'></div>
+          <div class='pitch-container'>
+              <div class="form3">5</div>
+              <div class="pitch"></div>
+          </div> 
+          <div class='form2'></div>
+          </div>
+        </div>
+
+        
+        <div class="col-lg-3 placeholder">
+          <h4>Ultrasonic</h4>
+          <div id="ultrasonic">
+            <div id="svgcontain" style="float:left;">
+            <svg width="175" height="250" stroke="1">
+              <polygon id="corner1" points="0 0, 50 0, 50 25, 25 25, 25 50, 0 50" fill="rgb(255,0,0)" />
+              <polygon id="corner2" points="100 0, 150 0, 150 50, 125 50, 125 25, 100 25" fill="rgb(255,100,0)" />
+              <polygon id="corner3" points="125 150, 150 150, 150 200, 100 200, 100 175, 125 175" fill="rgb(255,255,0)" />
+              <polygon id="corner4" points="0 150, 25 150, 25 175, 50 175, 50 200, 0 200" fill="rgb(50,255,0)" />
+              
+              <rect id="vertleft" x="50", y="0", width="50", height="25", fill="rgb(25,255,0)" />
+              <rect id="vertright" x="50", y="175", width="50", height="25", fill="rgb(0,255,0)" />
+        
+              <rect id="hortop" x="0", y="50", width="25", height="100", fill="rgb(255,150,0)" />
+              <rect id="horbot" x="125", y="50", width="25", height="100", fill="rgb(0,255,0)" />
+            
+              <rect x="25", y="25", width="100", height="150", fill="white" />
+              <polyline points="25,25 40,50 40,150 25,175 " style="fill:none;stroke:black;"/>
+              <polyline points="125,25 110,50 110,150 125,175 " style="fill:none;stroke:black;"/>
+              <text x="50" y="60" fill="black">S J S U</text>
+              <text x="50" y="75" fill="black"></text>
+            </svg>
+            </div>
+
+            <div id="sonictext" style="float: right;">
+              <div id="top">Top: 4m</div>
+              <div id="topleft">TopLeft: .23m</div>
+              <div id="topright">TopRight: .35m</div>
+              <div id="left">Left: .75m</div>
+              <div id="right">Right: 3.76m</div>
+              <div id="botleft">BotLeft: 4.56m</div>
+              <div id="botright">BotRight: 1.03m</div>
+              <div id="bottom">Bottom: 4.69m</div>
+              <button onclick="changeColor();">rand</button>
+            </div>
+          </div>
+          </div>
+
+        <div class="col-lg-3 placeholder">
+                   <h4>FreeSpace</h4>
+
+        </div>
+
+        </div>
+      </div>
+
+    <!-- Script -->
+    
+    
+
+    <script type="text/javascript" src="interfaces/Captain/js/PowerSystem.js?r={{ANTI-CACHE-MARKER}}"></script>
+    <script type="text/javascript" src="interfaces/Captain/js/Orientation.js?r={{ANTI-CACHE-MARKER}}"></script>
+  
+    <script type="text/javascript" src="interfaces/Captain/js/IntelligentSystem.js?r={{ANTI-CACHE-MARKER}}"></script>
+
+
+  </body>
+</html>
