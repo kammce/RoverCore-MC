@@ -15,21 +15,25 @@ L.Icon.Default.imagePath = 'interfaces/Captain/css/';
 //START MAP
 let map = L.map('mapid').setView([
   37.335083, -121.882088
-], 15);
+], 18);
+  map.invalidateSize()
+
 L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-  maxZoom: 18,
+  maxZoom: 30,
   id: 'your.mapbox.project.id',
   accessToken: 'your.mapbox.public.access.token'
 }).addTo(map);
 map.doubleClickZoom.disable();
+
 //END MAP
 
 //START MARKER//
 map.on('dblclick', createDestination);
 
-function createDestination(e) {
-  let coordinates = e.latlng;
+function createDestination(Lat,Lng) {
+  map.invalidateSize()
+  let coordinates = L.latLng([Lat,Lng]);
   let distanceToRover = coordinates.distanceTo(rover.getLatLng());
   let destinationMarker = L.circleMarker(coordinates, {
     color: 'red',
@@ -65,10 +69,11 @@ function removeDestination(ev) {
 
 //START ROVER//
 let rover = L.marker([
-  GPSObjects.Lat, GPSObjects.Long
-], {draggable: true}).addTo(map);
+   37.335083, -121.882088
+], {draggable: false}).addTo(map);
 let roverLocation = rover.getLatLng();
 
+/*
 // Binds popup data to rover
 rover.bindPopup("<b style='color:#337ab7'><i>Rover</b></i><br>" +
   "<b>Lat: </b><u>" + round(roverLocation.lat, 10000) + "</u><br>" + "<b>Lon: </b><u>" + round(roverLocation.lng, 10000) + "</u>");
@@ -92,9 +97,11 @@ rover.on('move', function(ev) {
     destinationMarker.on("popupopen", removeDestination);
   });
 });
-
+*/
 function goToRover() {
   var latlng = rover.getLatLng();
+  //console.log(latlng.lat);
+  map.invalidateSize()
   map.panTo(latlng);
 }
 //END ROVER//

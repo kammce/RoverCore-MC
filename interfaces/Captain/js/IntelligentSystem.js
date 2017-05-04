@@ -25,23 +25,29 @@ $("#GateEnter").click(function () {
        var lattitude = Coordinate[0];
        var longitude = Coordinate[1];
        console.log("Lat :" + lattitude + "Long: " + longitude );
+      
 
-      primus.write(
+      if(Connection.state === Connection.CONNECTED)
       {
-        target: 'Cortex',
-        command: 'NeoCortex',
-      });
+        primus.write(
+        {
+          target: 'Cortex',
+          command: 'NeoCortex',
+        });
 
-       commandpayload = {
-         "mode" : "GATE",
-         "lattitude": lattitude,
-         "longitude": longitude
-       }
-       payload = {
-          target: "NeoCortex",
-          command: commandpayload
-       }
-       primus.write(payload);
+         commandpayload = {
+           "mode" : "GATE",
+           "lattitude": lattitude,
+           "longitude": longitude
+         }
+         payload = {
+            target: "NeoCortex",
+            command: commandpayload
+         }
+         primus.write(payload);
+      }
+      createDestination(Coordinate[0],Coordinate[1]);//function from Mapscript.js
+
     });
 
 $("#AutonomousToggle").change(function() {
@@ -119,7 +125,7 @@ function GetModel(){
         //console.log(NeoCortexObject.Direction);
         document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  " ;
         document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish ;
-      
+        rover.setLatLng([GPSObject.Lat,GPSObject.Long]);//function from Mapscript.js
     }
   }, 200);
 }
