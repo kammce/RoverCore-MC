@@ -9,7 +9,7 @@ TODO:
 	-how to constantly update as new info comes in
 **/
 
-L.Icon.Default.imagePath = 'interfaces/Captain/css/';
+L.Icon.Default.imagePath = 'interfaces/Captain/css/images/';
 
 
 //START MAP

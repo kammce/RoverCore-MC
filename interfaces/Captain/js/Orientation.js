@@ -23,7 +23,7 @@ setInterval(function(){
 	$('.pitch').animate({
 	    'background-position-y': pitch + 'px'
 	});
-	$('head').append("<style>.transform:before { transform:" + rotate + "; }</style>");
+	$('.Orientation').append("<style>.transform:before { transform:" + rotate + "; }</style>");
 	$(".Orientation").addClass("transform");
 
 }, 3000);
