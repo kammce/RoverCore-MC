@@ -14,8 +14,10 @@
     <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/Orientation.css?r={{ANTI-CACHE-MARKER}}">
     <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/bootstrap-toggle.css?r={{ANTI-CACHE-MARKER}}">
     <script type="text/javascript" src="interfaces/Captain/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
-    <script type="text/javascript" src="interfaces/Captain/js/jquery.AshAlom.gaugeMeter-2.0.0.min.js?r={{ANTI-CACHE-MARKER}}"></script>
     <script type="text/javascript" src="interfaces/Captain/js/leaflet.js?r={{ANTI-CACHE-MARKER}}"></script>
+    <script type="text/javascript" src="interfaces/Captain/js/justgage.js?r={{ANTI-CACHE-MARKER}}"></script>
+    <script type="text/javascript" src="interfaces/Captain/js/raphael.min.js?r={{ANTI-CACHE-MARKER}}"></script>
+
 
   </head>
 
@@ -52,8 +54,8 @@
               </div>
 
               <div class="input-group ">
-                <b class="map-telemetry-items" id="RoverHeading">Rover Heading : </b>
-                <b class="map-telemetry-items" id="GPSHeading">GPS Heading   : </b>
+                <b class="map-telemetry-items" >Rover Heading : </b></b><b style="color:#3498db;"><u id="RoverHeading"></u></b>
+                <b class="map-telemetry-items" >GPS Heading   : </b></b><b style="color:#3498db;"><u id="GPSHeading"></u></b>
               </div>
 
               <div class="input-group ">
@@ -100,14 +102,12 @@
     <div class="container-fluid" style="margin-left: 25px; margin-right: 25px; margin-top: 10px">
       <div class="row">
         <div class="col-lg-3 placeholder">
-          <div class="GaugeMeter" data-text="1000" data-label="mAh" data-label_color="white" data-theme="LightGreen-DarkGreen" data-style="Semi" data-size="130" data-width="15" data-back="Silver"  data-total="10000" data-used="1000" style="margin-right: 40px;" >
-          </div>
-          <div class="GaugeMeter"  data-text="90°C"  data-percent="90" data-label="Battery Temperature" data-label_color="white"  data-style="Semi" data-size="130" data-width="15" data-back="Silver"  data-theme="Green-Gold-Red">
-          </div>
-          <div class="GaugeMeter" data-percent="60" data-label="Battery Level" data-label_color="white" data-theme="white" data-style="Semi" data-size="140" data-width="15" data-back="Silver" data-append="%"  style="margin-left: 90px;">
-          </div>
-        </div>
-
+          <div class="input-group ">
+            <div id="gauge"   style="width:130px; height:130px; display:inline-block" ></div>
+            <div id="gauge2"  style="width:130px; height:130px;  display:inline-block" ></div>
+            <div id="gauge3"  style="width:130px; height:130px" ></div>
+      </div>
+    </div>
         <div class="col-lg-3 placeholder">  
           <h4>Orientation Meter</h4>
           <div class="Orientation" id="Orientation">

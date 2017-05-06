@@ -11,13 +11,16 @@ var NeoCortexObject = {
    "Direction" : "Invalid",
    "Finish" : "Invalid",
    "Gate_lattitude" : -1,
-   "Gate_longitude" : -1
+   "Gate_longitude" : -1,
+   "GPSHeading" : 0
 };
 
 var GPSObject = {
    "Lat" : 0,
    "Long" : 0,
 };
+
+
 
 $("#GateEnter").click(function () {
        var Coordinate = $("#GateCoordinate").val();
@@ -110,8 +113,9 @@ function GetModel(){
             "Direction" : formated[5],
             "Finish" : formated[7],
             "Gate_lattitude" : formated[9],
-            "Gate_longitude" : formated[11]
-         };
+            "Gate_longitude" : formated[11],
+            "GPSHeading" : formated[13]
+         }
       }
 
        else if(formated[0] === "GPS" )
@@ -120,11 +124,24 @@ function GetModel(){
           "Lat" : formated[5],
           "Long": formated[9]
         }
-      };
+      }
+
+      else if(formated[0] === "PowerSystems")
+      {
+        PowerObject = {
+          "mAH" : formated[6],
+          "BattTemp" : formated[22],
+          "BattLevel": formated[8] 
+        }   
+      }
 
         //console.log(NeoCortexObject.Direction);
         document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  " ;
         document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish ;
+        document.querySelector('#GateLat').innerHTML = NeoCortexObject.Gate_lattitude + " " ;
+        document.querySelector('#GateLong').innerHTML = NeoCortexObject.Gate_longitude ;
+        document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading ;
+
         rover.setLatLng([GPSObject.Lat,GPSObject.Long]);//function from Mapscript.js
     }
   }, 200);
