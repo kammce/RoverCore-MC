@@ -23,10 +23,24 @@ var GPSObject = {
 
 
 $("#GateEnter").click(function () {
-       var Coordinate = $("#GateCoordinate").val();
-       Coordinate = Coordinate.split(",");
-       var lattitude = Coordinate[0];
-       var longitude = Coordinate[1];
+       var string = $("#GateCoordinate").val();
+       var Coordinate = string.split(/(?:,|-)+/)
+
+       console.log(Coordinate);
+
+       var latValue = Coordinate[0] + (Coordinate[1]/60);
+       var longValue= Coordinate[3] + (Coordinate[4]/60);
+
+       if (Coordinate[2] === "S"){latValue *= -1 ;}
+       if (Coordinate[5] === "W"){longValue *= -1 ;}
+
+       latValue = Math.round(latValue*100000)/100000;
+       longValue = Math.round(longValue*100000)/100000;
+       
+       var lattitude = latValue;
+       var longitude = longValue;
+      
+
        console.log("Lat :" + lattitude + "Long: " + longitude );
       
 
