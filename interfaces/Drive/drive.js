@@ -1,43 +1,33 @@
-var arrow = document.querySelector("#arrow");
+// ================================
+// Capture Controllable DOM elements
+// ================================
+var arrow_speed = document.querySelector("#arrow-speed");
+var arrow_orientation = document.querySelector("#arrow-orientation");
+var speed_percent = document.querySelector("#speed-percent");
+var max_speed_indicator = document.querySelector("#max-speed-indicator");
 
-var ModelInterval = setInterval(function()
-{
-	if(Connection.state === Connection.CONNECTED)
-	{
-		ModelJSONEditor.set(model);
-	}
-}, 100);
+var mode_image = document.querySelector("#mode-image");
+var mode_text = document.querySelector("#mode-text");
+var max_speed_value = document.querySelector("#max-speed-value");
+var compass = document.querySelectorAll("[id^='compass-']");
+var joystick_indicator = document.querySelector("#joystick-indicator");
 
-var MessageInterval = setInterval(function()
-{
-	if(Connection.state === Connection.CONNECTED)
-	{
-		document.querySelector("#messages").innerHTML = messages;
-	}
-}, 100);
+var video_stream = document.querySelector("#video-stream");
 
-var AssignmentInterval = setInterval(function()
-{
-	if(Connection.state === Connection.CONNECTED)
-	{
-		primus.write(
-		{
-			target: 'Cortex',
-			command: 'DriveSystem',
-		});
-		clearInterval(AssignmentInterval);
-	}
-}, 100);
-
-
-var options = {
-    mode: 'code',
-    history: false,
-    modes: ['code', 'form', 'tree', 'view', 'text'], // allowed modes
-    error: function(err) {
-        alert(err.toString());
-    }
-};
+// ================================
+// Variables & Data Structures
+// ================================
+const DEBUG = true;
+const JOYSTICK = {
+	X_AXIS:0,
+	Y_AXIS:1,
+	PADDLE_AXIS:3,
+	BTN_6: 5,
+	BTN_5: 4,
+	BTN_4: 3,
+	BTN_3: 2,
+	TRIGGER: 0
+}
 
 var command = {
 	speed: 0,
@@ -45,24 +35,30 @@ var command = {
 	mode: 'J'
 };
 
-var TestEditor = new JSONEditor(document.querySelector("#info"), options);
-var ModelJSONEditor = new JSONEditor(document.querySelector("#model"), options);
+var gameloop_interval, check_gamepad_interval;
+var video_stream_interval;
 
-TestEditor.set(command);
-
-document.querySelector("#send-ctrl-signal").onclick = function()
+// ================================
+// Utility Functions
+// ================================
+function buttonPressed(b)
 {
-	if(Connection.state === Connection.CONNECTED)
+	if (typeof(b) == "object")
 	{
-		var payload = {
-			target: "DriveSystem",
-			command: TestEditor.get()
-		};
-		primus.write(payload);
+		return b.pressed;
 	}
-};
+	return b == 0.0;
+}
+function radToDeg(rads)
+{
+	return (180/Math.PI)*rads;
+}
 
-window.addEventListener("gamepadconnected", function(e) {
+// ================================
+// Event Listeners
+// ================================
+window.addEventListener("gamepadconnected", function(e)
+{
 	var gp = navigator.getGamepads()[e.gamepad.index];
 	console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
 		gp.index,
@@ -72,98 +68,175 @@ window.addEventListener("gamepadconnected", function(e) {
 	);
 });
 
-var interval;
-
-function pollGamepads() {
-  var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-  for (var i = 0; i < gamepads.length; i++) {
-    var gp = gamepads[i];
-    if (gp) {
-      console.log("Gamepad connected at index " + gp.index + ": " + gp.id +
-        ". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
-      interval = setInterval(gameLoop, 150);
-    }
-  }
+video_stream.onerror = function()
+{
+	video_stream.style.visibility = "hidden";
+	$("#video-indicator").prop('checked', false).change();
+	video_stream_interval = setTimeout(function()
+	{
+		video_stream.src = `http://192.168.1.51/video.mjpg?r=${Math.random()}`;
+	}, 1000);
+}
+video_stream.onload = function()
+{
+	video_stream.style.visibility = "visible";
+	$("#video-indicator").prop('checked', true).change();
 }
 
-function buttonPressed(b) {
-  if (typeof(b) == "object") {
-    return b.pressed;
-  }
-  return b == 0.0;
-}
+setInterval(function()
+{
+	if(Connection.state === Connection.CONNECTED)
+	{
+		$(`li#Drive`).removeClass().addClass(StatusMap[lobe_status["DriveSystem"]]);
+	}
+}, 500);
 
-function gameLoop() {
+function pollGamepads()
+{
 	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-	if (!gamepads) {
-	return;
+	for (var i = 0; i < gamepads.length; i++)
+	{
+		var gp = gamepads[i];
+		if (gp)
+		{
+			console.log("Gamepad connected at index " + gp.index + ": " + gp.id +
+				". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
+			$(max_speed_indicator)
+				.removeClass("progress-bar-disabled")
+				.addClass("progress-bar-info")
+				.addClass("active");
+			intervalControl(true);
+			$("#joystick-indicator").prop('checked', true).change();
+		}
+	}
+}
+
+
+function intervalControl(poll_gamepad)
+{
+	if(poll_gamepad)
+	{
+		gameloop_interval = setInterval(gameLoop, 100);
+		clearInterval(check_gamepad_interval);
+	}
+	else
+	{
+		check_gamepad_interval = setInterval(pollGamepads, 1000);
+		clearInterval(gameloop_interval);
+	}
+}
+
+function gameLoop()
+{
+	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+
+	if (!gamepads)
+	{
+		$("#joystick-indicator").prop('checked', false).change();
+		intervalControl(false);
+		return;
 	}
 
 	var gp = gamepads[0];
 
-	//console.log(command);
+	if(gp === null)
+	{
+		$("#joystick-indicator").prop('checked', false).change();
+		intervalControl(false);
+	}
 
-	command.speed = Math.round(-1*gp.axes[1]*100);
-	if(Math.abs(gp.axes[3]) < 0.1 && Math.abs(gp.axes[2]) < 0.1)
-	{
-		command.angle = 0;
-	}
-	else if(gp.axes[3] > 0 && gp.axes[2] > 0)
-	{
-		command.angle = 90;
-	}
-	else if(gp.axes[3] > 0 && gp.axes[2] < 0)
-	{
-		command.angle = -90;
-	}
+	var max_speed_axis = ((-gp.axes[JOYSTICK.PADDLE_AXIS])+1)/2;
+	var max_speed = Math.round(max_speed_axis*100);
+
+	var x = gp.axes[JOYSTICK.X_AXIS];
+	var y = -gp.axes[JOYSTICK.Y_AXIS];
+
+	var magnitude = Math.sqrt((x*x)+(y*y));
+	var speed = Math.round(max_speed*magnitude);
+	speed = (buttonPressed(gp.buttons[JOYSTICK.TRIGGER])) ? speed : 0;
+	command.speed = (speed > max_speed) ? max_speed : speed;
+
+	var angle = 0;
+
+	if(Math.abs(x) < .1 && Math.abs(y) < .1) { }
 	else
 	{
-		var angle = 0;
-		if(command.mode === 'J')
-		{
-			x_coord_tmp = Math.pow(gp.axes[2], 2);
-			x_coord = (gp.axes[2] < 0) ? -x_coord_tmp : x_coord_tmp;
-			angle = Math.atan(x_coord/gp.axes[3]);
-		}
-		else
-		{
-			angle = Math.atan(gp.axes[2]/gp.axes[3]);
-		}
-		angle = (180/Math.PI)*angle;
-		angle = -1*angle;
+		angle = Math.atan2(y, x);
+		angle = -(radToDeg(angle)-90);
 		angle = Math.round(angle);
-
-		command.angle = angle;
-		arrow.style.transform = `rotate(${angle-90}deg)`;
+		//angle = (y < 0) ? (angle-180) : angle;
+		// angle = (angle < -90) ? -90 : angle;
+		// angle = (angle >  90) ?  90 : angle;
 	}
 
-	//command.angle = Math.round(gp.axes[2]*90);
+	command.speed = (90 < angle && angle <= 270) ? -command.speed : command.speed;
+	command.angle = (90 < angle && angle <= 270) ? (180-angle) : angle;
 
-	if (buttonPressed(gp.buttons[2])) // X
+	//console.log(command.angle, "::", y, "::", x);
+
+	if (buttonPressed(gp.buttons[JOYSTICK.BTN_4]) || buttonPressed(gp.buttons[JOYSTICK.BTN_3])) // X
 	{
 		console.log("Drive Mode");
 		command.mode = 'J';
+		mode_image.src = `interfaces/Drive/assets/drive-arrow.png?random=${Math.random()}`;
+		mode_text.innerHTML = "DRIVE";
 	}
-	else if (buttonPressed(gp.buttons[1])) // B
+	else if (buttonPressed(gp.buttons[JOYSTICK.BTN_6])) // B
 	{
 		console.log("Spin in Place Mode");
 		command.mode = 'O';
+		mode_image.src = `interfaces/Drive/assets/rotation-arrow.png?random=${Math.random()}`;
+		mode_text.innerHTML = "ROTATE";
 	}
-	else if (buttonPressed(gp.buttons[3])) // Y
+	else if (buttonPressed(gp.buttons[JOYSTICK.BTN_5])) // Y
 	{
 		console.log("Translate Mode");
 		command.mode = 'Y';
+		mode_image.src = `interfaces/Drive/assets/translate-arrow.png?random=${Math.random()}`;
+		mode_text.innerHTML = "TRANSLATE";
 	}
 
 	if(Connection.state === Connection.CONNECTED)
 	{
-		var payload = {
+		var payload =
+		{
 			target: "DriveSystem",
 			command: command
 		};
-		//console.log(command);
 		primus.write(payload);
+	}
+
+	arrow_speed.style.clipPath = `inset(${ (buttonPressed(gp.buttons[JOYSTICK.TRIGGER])) ? (100-(magnitude*100)) : 100 }% 0px 0px 0px)`;
+	speed_percent.innerHTML = `${command.speed}%`;
+	arrow_orientation.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+	max_speed_indicator.style.height = `${max_speed}%`;
+	max_speed_value.innerHTML = `Max Speed ${Math.round(max_speed)}%`;
+	for(var i = 0; i < compass.length; i++)
+	{
+		compass[i].style.transform = `rotate(${(i*90)+angle}deg)`;
 	}
 }
 
-pollGamepads();
+// ================================
+// Initialize Special DOM Objects
+// ================================
+$('[data-toggle="toggle"]').bootstrapToggle();
+
+// ================================
+// Start Systems
+// ================================
+intervalControl(false);
+
+if(DEBUG)
+{
+	var ext_angle = 0;
+	// setInterval(function()
+	// {
+	// 	for(var i = 0; i < compass.length; i++)
+	// 	{
+	// 		var test = Math.cos(ext_angle) * (180/Math.PI) * 3;
+	// 		compass[i].style.transform = `rotate(${(i*90)+test}deg)`;
+	// 		ext_angle += .01;
+	// 	}
+	// }, 100);
+}
