@@ -1,8 +1,9 @@
 {
   "name": "RoverCore-MC",
   "version": "0.1.0",
-  "engine": "node >= 4.0.0",
+  "engine": "node >= 6.0.0",
   "devDependencies": {},
+  "license": "MIT",
   "dependencies": {
     "bootstrap": "^3.3.7",
     "bootstrap-toggle": "^2.2.2",

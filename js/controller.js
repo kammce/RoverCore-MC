@@ -233,7 +233,7 @@ function SetupFramework(modules)
 				success: function(data)
 				{
 					console.log( `Load of ${page_url} was performed.` );
-					data = data.replace("{{ANTI-CACHE-MARKER}}", Math.random());
+					data = data.replace(/{{ANTI-CACHE-MARKER}}/g, Math.random());
 					$("#mc-container").html(data);
 				},
 				failure: function()
