@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Arm and End Effector - Loch</title>
+
+	<!-- Custom Page Style -->
+	<link rel="stylesheet" type="text/css" href="css/arm-interface.css">
+	<link rel="shortcut icon" href="css/images/ArmPageIcon.png" type="image/x-icon" />
+
+	<!-- Custom Page JS -->
+	<script type="text/javascript" src="js/arm-interface.js"></script>
+
+	<!-- Gamepad JS @12 in footer-->
+
+
+	<!-- General CSS + JS -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.knob.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="js/bootstrap-slider.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-toggle.js"></script>
+
+</head>
+
+<body>
+
+	<!-- Begin Cam viewer area -->
+
+	<div class="col-md-12">
+	  <img id="camerafeed" ref="mainscreen"></img>
+	    <!--
+	    @1
+	      Insert cam feed here
+	      - Img tag with different src for diff sources
+	      - Make camview an initial state
+	    -->
+	</div>
+
+	<!-- End Cam viewer area -->
+
+ 	<!--  Begin Manual Control Off Section -->
+ 	<!-- Top row -->
+ 	<div class="row">
+ 		<div id="ball"></div>
+ 		<div class="col-md-1" id="mancontrolbutton">
+ 			<input type="checkbox" checked data-toggle="toggle" data-on="MC On" data-off="MC Off" id="ToggleManualControl"></input> 
+ 			<!-- @2 -->
+ 		</div>
+ 		<div class="col-md-1" id="rovercon">
+        	<text id="gamepad-info"><b id="sectionTitle">MIMIC:</b> Off</text>
+        </div>
+		<div class="col-md-4" id="rovercon2">
+        	<text id="messages" id="log">Rover Feedback Log</text>
+        </div>
+		<div class="col-md-2" id="mancontroloff"><b id="sectionTitle">CAM: </b>
+			<button type="button" class="btn" id="ClawCam">Claw</button>&nbsp;
+			<button type="button" class="btn" id="ElbowCam">Elbow</button>&nbsp;
+			<button type="button" class="btn" id="BaseCam">Base</button>&nbsp;
+			<!-- @1 -->
+		</div>
+        <div class="col-md-2" id="clawclaw"><b id="sectionTitle">CLAW GRIP: </b>
+        	<text id ="GripStatus"></text>
+        	<!-- @3 -->
+        </div>
+        <div class="col-md-2" id="clawclaw1">
+			<b id="sectionTitle">(T)ORQUE: </b> <text id="ClawState"></text> n m &nbsp;
+			<!-- Sliders.. Analog# is for Gamepad/Mimic value display
+			@4
+			<b>PITCH / Claw?</b> &nbsp; <text id="ClawState"></text> &deg; &nbsp; &nbsp;
+			-->
+        </div>
+ 	</div>
+	<!-- Bottom row -->
+	<div class="row">
+		<div class="col-md-4" id="mancontroloff2"><b id="sectionTitle">(R)OTATION: </b> &nbsp;
+			BASE <text id="RotundaState"></text> &deg; &nbsp;
+			WRIST <text id="Wrist_RollState"></text> &deg; &nbsp;
+			<!-- Sliders.. Analog# is for Gamepad/Mimic value display
+			
+			@5 BASE &nbsp; {this.state.Rotunda} &deg; &nbsp;
+			@6 WRIST &nbsp; {this.state.Wrist_Roll} &deg; &nbsp;
+			-->
+		</div>
+		<div class="col-md-4" id="mancontroloff2"><b id="sectionTitle">(P)ITCH: </b> &nbsp;
+			SHOULDER <text id="ShoulderState"></text> &deg; &nbsp;
+			ELBOW <text id="ElbowState"></text> &deg; &nbsp;
+			WRIST <text id="Wrist_PitchState"></text> &deg; &nbsp; 
+			<!-- Sliders.. Analog# is for Gamepad/Mimic value display
+			@7
+			SHOULDER &nbsp; {this.state.Shoulder} &deg; &nbsp;
+			@8
+			ELBOW &nbsp; {this.state.Elbow} &deg; &nbsp;
+			@9
+			WRIST &nbsp; {this.state.Wrist_Pitch} &deg; &nbsp;
+			-->
+		</div>
+		<div class="col-md-4" id="clawclawclaw2"><b id="sectionTitle">LAST BUTTON </b>
+        	<!-- @10 -->
+        	<text id="buttonDisplay"></text>
+		</div>
+	</div>
+    <!--  End Manual Control Off Section -->
+
+<!--  BEGIN Manual Control On Section -->
+<div class="row">
+	<div id="manualControl">
+		<!-- Rotation Control html @5-->
+		<div class="col-xs-4" id="controlsection">
+			<p>
+				<text id="sectionTitle">(R) BASE</text> &nbsp;
+				<small><i>min</i></small>
+				<input id="RotundaChange" type="text" data-slider-id="slideMe" data-slider-min="0" data-slider-max="1023" data-slider-step="1" data-slider-value="333"/>
+				<small><i>max</i></small>
+			</p>
+
+			<script>
+				$("#RotundaChange").slider();
+				$("#RotundaChange").on("slide", function(slideEvt){
+					$("#RotundaState").text(slideEvt.value);
+				});
+			</script>
+
+			<p>
+				<text id="sectionTitle">(R) WRIST</text> &nbsp;
+				<small><i>min</i></small>
+				<input id="Wrist_RollChange" type="text" data-slider-id="slideMe" data-slider-min="0" data-slider-max="1023" data-slider-step="1" data-slider-value="333"/>
+				<small><i>max</i></small>
+			</p>
+
+			<script>
+				$("#Wrist_RollChange").slider();
+				$("#Wrist_RollChange").on("slide", function(slideEvt){
+					$("#Wrist_RollState").text(slideEvt.value);
+				});
+			</script>
+
+		</div>
+
+		<!-- Pitch Control html -->
+		<div class="col-xs-4" id="controlsection">
+			<p>
+				<text id="sectionTitle">(P) SHOULDER</text> &nbsp;
+				<small><i>min</i></small>
+				<input id="ShoulderChange" type="text" data-slider-id="slideMe" data-slider-min="0" data-slider-max="1023" data-slider-step="1" data-slider-value="333"/>
+				<small><i>max</i></small>
+			</p>
+			
+			<script>
+				$("#ShoulderChange").slider();
+				$("#ShoulderChange").on("slide", function(slideEvt){
+					$("#ShoulderState").text(slideEvt.value);
+				});
+			</script>
+
+
+			<p>
+				<text id="sectionTitle">(P) ELBOW</text>
+				<small><i>min</i></small>
+				<input id="ElbowChange" type="text" data-slider-id="slideMe" data-slider-min="0" data-slider-max="1023" data-slider-step="1" data-slider-value="333"/>
+				<small><i>max</i></small>
+			</p>
+			<script>
+				$("#ElbowChange").slider();
+				$("#ElbowChange").on("slide", function(slideEvt){
+					$("#ElbowState").text(slideEvt.value);
+				});
+			</script>
+
+			<p>
+				<text id="sectionTitle">(P) WRIST</text>
+				<small><i>min</i></small>
+				<input id="Wrist_PitchChange" type="text" data-slider-id="slideMe" data-slider-min="0" data-slider-max="1023" data-slider-step="1" data-slider-value="333"/>
+				<small><i>max</i></small>
+			</p>
+			<script>
+				$("#Wrist_PitchChange").slider();
+				$("#Wrist_PitchChange").on("slide", function(slideEvt){
+					$("#Wrist_PitchState").text(slideEvt.value);
+				});
+			</script>
+		
+		</div>
+
+		<!-- Claw Control html -->
+		<div class="col-xs-4" id="controlsection">
+			<p>
+				<text id="sectionTitle">(T) CLAW</text> &nbsp;
+				<small><i>min</i></small>
+				<input id="ClawChange" type="text" data-slider-id="slideMe" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" data-slider-value="0.5"/>
+				<small><i>max</i></small>
+			</p>
+			<script>
+				$("#ClawChange").slider();
+				$("#ClawChange").on("slide", function(slideEvt){
+					$("#ClawState").text(slideEvt.value);
+				});
+			</script>
+
+			<div id = "centered">
+				<p><b><text id="sectionTitle">BUTTONS FOR PRE-SET POSITIONS</text></b></p>
+					<!--  @11
+					ASSIGN ONCHANGE SLIDER VALUES WHEN BUTTONS BELOW ARE CLICKED
+					-->
+				<p>
+					<button type="button" class="btn" id="method0" value="method0">Open Claw</button>
+					<button type="button" class="btn" id="method1" value="method1">Close Claw</button>
+				</p>
+				<p>
+					<button type="button" class="btn" id="method2" value="method2">Deploy POD</button>
+					<button type="button" class="btn" id="method3" value="method3">Retrieve POD</button>
+				</p>
+				<p>
+					<button type="button" class="btn" id="method4" value="method4">Touch Ground</button>
+					<button type="button" class="btn" id="method5" value="method5">Reach Behind</button>
+					<button type="button" class="btn" id="method6" value="method6">Reach Forward</button>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--  END Manual Control On Section -->
+
+
+
+</body>
+
+<footer>
+
+	<!-- @12
+
+	Gamepad JS 
+	
+	-->
+	<script>
+	var gamepadInfo = document.getElementById("gamepad-info");
+	var ball = document.getElementById("ball");
+	var start;
+	var a = 0;
+	var b = 0;
+	var rAF = window.mozRequestAnimationFrame ||
+	window.webkitRequestAnimationFrame ||
+	window.requestAnimationFrame;
+	var rAFStop = window.mozCancelRequestAnimationFrame ||
+	window.webkitCancelRequestAnimationFrame ||
+	window.cancelRequestAnimationFrame;
+
+	window.addEventListener("gamepadconnected", function() {
+	var gp = navigator.getGamepads()[0];
+	gamepadInfo.innerHTML = "Gamepad connected at index " + gp.index + ": " + gp.id + ". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.";
+	    document.getElementById("gamepad-info").innerHTML = "MIMIC: On";
+
+	gameLoop();
+	});
+
+	window.addEventListener("gamepaddisconnected", function() {
+	gamepadInfo.innerHTML = "Waiting for gamepad.";
+	rAFStop(start);
+	document.getElementById("gamepad-info").innerHTML = "MIMIC: Off";
+
+	});
+
+	if(!('GamepadEvent' in window)) {
+	// No gamepad events available, poll instead.
+	var interval = setInterval(pollGamepads, 500);
+	}
+
+	function pollGamepads() {
+	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+	for (var i = 0; i < gamepads.length; i++) {
+	var gp = gamepads[i];
+	if(gp) {
+	  gamepadInfo.innerHTML = "Gamepad connected at index " + gp.index + ": " + gp.id + ". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.";
+	  gameLoop();
+	  clearInterval(interval);
+			}
+		}
+	}
+
+	function buttonPressed(b) {
+	if (typeof(b) == "object") {
+		return b.pressed;
+	}
+		return b == 1.0;
+	}
+
+	/*BEGIN MIMIC VALUE CONVERSION */
+
+	function gameLoop() {
+	var midBit = 512; 
+
+	function controllerToBit(x)
+	{
+	  var bit
+	    if(x == -1)
+	    {
+	      bit = 0;
+	    }
+	    else
+	    {
+	      bit = ((x+1)*midBit) -1;
+	 	  }
+	    bit = Math.round(bit);
+
+	    return bit;
+	}
+
+	function posBitToDegree(x)
+	{
+	  var decimal
+	  if(x == 0)
+	  {
+	    decimal =0;
+	  }
+	  else
+	  {
+	     decimal = ((x + 1)/midBit);
+	  }
+	  var degree = decimal*180;
+	  degree = Math.round(degree);
+
+	  return degree;
+	}
+
+	function posNegBitToDegree(x)
+	{
+	  var decimal;
+	  if(x == 0)
+	  {
+	    decimal =-1;
+	  }
+	  else 
+	  {
+	    decimal = ((x + 1)/midBit) - 1;
+	  }
+	  var degree = decimal*360;
+	  degree = Math.round(degree);
+	  return degree;
+	}
+
+	/*END MIMIC VALUE CONVERSION */
+
+	/* BEGIN MIMIC CONTROL */
+
+	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+	if (!gamepads)
+	return;
+	var gp = gamepads[0];
+
+	if (buttonPressed(gp.buttons[0])) {
+	document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
+
+	} 
+
+	if (buttonPressed(gp.buttons[1])) {
+	document.getElementById("buttonDisplay").innerHTML = "1: Close Claw";
+
+
+	} 
+	if (buttonPressed(gp.buttons[2])) {
+	document.getElementById("buttonDisplay").innerHTML = "2: Drop POD";
+
+
+	} 
+	if (buttonPressed(gp.buttons[3])) {
+	document.getElementById("buttonDisplay").innerHTML = "3: Retrieve POD";
+
+
+	} 
+	if (buttonPressed(gp.buttons[4])) {
+	document.getElementById("buttonDisplay").innerHTML = "4: Touch Ground";
+
+	} 
+	if (buttonPressed(gp.buttons[5])) {
+	document.getElementById("buttonDisplay").innerHTML = "5: Reach Behind";
+
+	} 
+	if (buttonPressed(gp.buttons[6])) {
+	document.getElementById("buttonDisplay").innerHTML = "6: Reach Forward";
+
+	} 
+
+	if(gp.axes[0] != 0) {
+
+	 var baseRotationBit = controllerToBit(gp.axes[0]);
+	 var baseRotationDegree = posNegBitToDegree(baseRotationBit);
+	 document.getElementById("RotundaState").innerHTML = baseRotationDegree;
+	} 
+
+	if(gp.axes[1] != 0) {
+	var shoulderPitchBit = controllerToBit(gp.axes[1]);
+	 var shoulderPitchDegree = posBitToDegree(shoulderPitchBit);
+	 document.getElementById("ShoulderState").innerHTML = shoulderPitchDegree;
+	} 
+
+	if(gp.axes[2] != 0) {
+	  var elbowPitchBit = controllerToBit(gp.axes[2]);
+	 var elbowPitchDegree = posBitToDegree(elbowPitchBit);
+	 document.getElementById("ElbowState").innerHTML = elbowPitchDegree;
+	} 
+
+	if(gp.axes[3] != 0) {
+	  var torqueBit = controllerToBit(gp.axes[3]);
+	 var torqueDegree = posBitToDegree(torqueBit);
+	 document.getElementById("ClawState").innerHTML = torqueDegree;
+	} 
+
+
+	if(gp.axes[4] != 0) {
+	  var wristPitchBit = controllerToBit(gp.axes[4]);
+	 var wristPitchDegree = posBitToDegree(wristPitchBit);
+	 document.getElementById("Wrist_PitchState").innerHTML = wristPitchDegree;
+	} 
+
+
+	if(gp.axes[5] != 0) {
+	 var wristRotationBit = controllerToBit(gp.axes[5]);
+	 var wristRotationDegree = posNegBitToDegree(wristRotationBit);
+	 document.getElementById("Wrist_RollState").innerHTML = wristRotationDegree;
+	} 
+
+
+	ball.style.left = a*2 + "px";
+	ball.style.top = b*2 + "px";
+	var start = rAF(gameLoop);
+	};
+	</script>
+
+	<!-- @11 
+	Script for MC ON buttons (Pre-Set Positions)
+	-->
+	<script>
+	$("#method0").click(function(){
+		//insert appropriate slider value 
+		$("#buttonDisplay").html("0: Open Claw");
+		$("#method0").addClass('btn-info');
+		$("#method1").removeClass('btn-info');
+		$("#method2").removeClass('btn-info');
+		$("#method3").removeClass('btn-info');
+		$("#method4").removeClass('btn-info');
+		$("#method5").removeClass('btn-info');
+		$("#method6").removeClass('btn-info');
+	});
+	</script>
+
+	<script>
+	$("#method1").click(function(){
+		//insert appropriate slider value
+		$("#buttonDisplay").html("1: Close Claw");
+		$("#method0").removeClass('btn-info');
+		$("#method1").addClass('btn-info');
+		$("#method2").removeClass('btn-info');
+		$("#method3").removeClass('btn-info');
+		$("#method4").removeClass('btn-info');
+		$("#method5").removeClass('btn-info');
+		$("#method6").removeClass('btn-info');
+	});
+	</script>
+
+	<script>
+	$("#method2").click(function(){
+		//insert appropriate slider value
+		$("#buttonDisplay").html("2: Deploy POD");
+		$("#method0").removeClass('btn-info');
+		$("#method1").removeClass('btn-info');
+		$("#method2").addClass('btn-info');
+		$("#method3").removeClass('btn-info');
+		$("#method4").removeClass('btn-info');
+		$("#method5").removeClass('btn-info');
+		$("#method6").removeClass('btn-info');
+	});
+	</script>
+
+	<script>
+	$("#method3").click(function(){
+		//insert appropriate slider value
+		$("#buttonDisplay").html("3: Retrieve POD");
+		$("#method0").removeClass('btn-info');
+		$("#method1").removeClass('btn-info');
+		$("#method2").removeClass('btn-info');
+		$("#method3").addClass('btn-info');
+		$("#method4").removeClass('btn-info');
+		$("#method5").removeClass('btn-info');
+		$("#method6").removeClass('btn-info');
+	});
+	</script>
+
+	<script>
+	$("#method4").click(function(){
+		//insert appropriate slider value		
+		$("#buttonDisplay").html("4: Touch Ground");
+		$("#method0").removeClass('btn-info');
+		$("#method1").removeClass('btn-info');
+		$("#method2").removeClass('btn-info');
+		$("#method3").removeClass('btn-info');
+		$("#method4").addClass('btn-info');
+		$("#method5").removeClass('btn-info');
+		$("#method6").removeClass('btn-info');
+	});
+	</script>
+
+	<script>
+	$("#method5").click(function(){
+		//insert appropriate slider value
+		$("#buttonDisplay").html("5: Reach Behind");
+		$("#method0").removeClass('btn-info');
+		$("#method1").removeClass('btn-info');
+		$("#method2").removeClass('btn-info');
+		$("#method3").removeClass('btn-info');
+		$("#method4").removeClass('btn-info');
+		$("#method5").addClass('btn-info');
+		$("#method6").removeClass('btn-info');
+	});
+	</script>
+
+	<script>
+	$("#method6").click(function(){
+		//insert appropriate slider value
+		$("#buttonDisplay").html("6: Reach Forward");
+		$("#method0").removeClass('btn-info');
+		$("#method1").removeClass('btn-info');
+		$("#method2").removeClass('btn-info');
+		$("#method3").removeClass('btn-info');
+		$("#method4").removeClass('btn-info');
+		$("#method5").removeClass('btn-info');
+		$("#method6").addClass('btn-info');
+	});
+	</script>
+
+	<!-- @2
+	Manual Control Toggle
+	-->
+
+	<script>
+	$("#ToggleManualControl").change(function(){
+		if($(this).prop("checked") == true){
+			//PAGE CONTROL, MC ON
+			$("#manualControl").css("display", "block");
+			$("#manualControl").css("opacity", "1");
+			$("#manualControl").css("opacity", "1");
+			$("#camerafeed").css("height", "600px");
+			//$("#displayedArmComponent").val=$("ArmComponentSliderValue") 
+			//$("#RotundaState").html("MC");
+			//$("#Wrist_RollState").html("MC");
+			//$("#ShoulderState").html("MC");
+			//$("#ElbowState").html("MC");
+			//$("#Wrist_PitchState").html("MC");
+			//$("#ClawState").html("MC");
+		}else{
+			//MIMIC CONTROL, MC OFF
+			$("#camerafeed").css("height", "850px");
+			$("#manualControl").css("display", "none");
+			//$("#displayedArmComponent").val=gp.axes[...] OR .val=$("MimicAxesValue")
+			/*
+			$("#RotundaState").html(baseRotationDegree);
+			$("#Wrist_RollState").html(wristRotationDegree);
+			$("#ShoulderState").html(shoulderPitchDegree);
+			$("#ElbowState").html(elbowPitchDegree);
+			$("#Wrist_PitchState").html(wristPitchDegree);
+			$("#ClawState").html(torqueDegree);
+			*/
+
+		/* 
+			This script may need to be in the same script as the gamepad in order to work
+			the __Degree is declared in the aforemetnioed script
+		 */
+		}
+
+	});
+
+	</script>
+
+	<!-- @1
+	Camera views
+
+	replace src with route to camera src
+	-->
+
+	<script>
+	$("#ClawCam").click(function(){
+		$("#camerafeed").attr('src', 'css/images/thatclaw.png');
+		$("#ClawCam").addClass('btn-success');
+		$("#ElbowCam").removeClass('btn-success');
+		$("#BaseCam").removeClass('btn-success');
+	});
+	</script>
+
+	<script>
+	$("#ElbowCam").click(function(){
+		$("#camerafeed").attr('src', 'css/images/thatelbow.png');
+		$("#ClawCam").removeClass('btn-success');
+		$("#ElbowCam").addClass('btn-success');
+		$("#BaseCam").removeClass('btn-success');
+	});
+	</script>
+
+	<script>
+	$("#BaseCam").click(function(){
+		$("#camerafeed").attr('src', 'css/images/thatbase.png');
+		$("#ClawCam").removeClass('btn-success');
+		$("#ElbowCam").removeClass('btn-success');
+		$("#BaseCam").addClass('btn-success');
+	});
+	</script>
+
+
+</footer>
+
+</html>

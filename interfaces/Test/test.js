@@ -1,4 +1,23 @@
-"use strict";
+var ModelInterval = setInterval(function()
+{
+	if(Connection.state === Connection.CONNECTED)
+	{
+		ModelJSONEditor.set(model);
+	}
+}, 200);
+
+var MessageInterval = setInterval(function()
+{
+	if(Connection.state === Connection.CONNECTED)
+	{
+		document.querySelector("#messages").innerHTML = messages;
+	}
+}, 200);
+
+var MessageInterval = setInterval(function()
+{
+	document.querySelector("#messages").innerHTML = messages;
+}, 100);
 
 var options = {
     mode: 'code',
@@ -12,37 +31,33 @@ var options = {
 var TestEditor = new JSONEditor(document.querySelector("#info"), options);
 var ModelJSONEditor = new JSONEditor(document.querySelector("#model"), options);
 
-document.querySelector("#send-ctrl-signal").onclick = function()
-{
-	console.log(document.querySelector("#target").value);
-	var payload = {
-		target: document.querySelector("#target").value,
-		command: TestEditor.get()
-	};
-	connection.write(payload);
+var command = {
+	"rotunda": 1500,
+	"shoulder": 700,
+	"elbow": 125,
+	"wrist_pitch": 180,
+	"wrist_roll": 0,
+	"claw": 0,
+	"camera_select": 0,
+	"rotunda_camera": 0
 };
 
-var DriveInterval = setInterval(function()
-{
-	if(connection_flag)
-	{
-		connection.write(
-		{
-			target: 'Cortex',
-			command: 'DriveSystem',
-		});
-		connection.write(
-		{
-			target: 'Cortex',
-			command: 'Arm',
-		});
-		clearInterval(DriveInterval);
-	}
-}, 500);
+TestEditor.set(command);
 
-var ModelInterval = setInterval(function() {
-	if(connection_flag)
+document.querySelector("#send-ctrl-signal").onclick = function()
+{
+	SendPayload(TestEditor.get());
+};
+
+function SendPayload(json)
+{
+	if(Connection.state === Connection.CONNECTED)
 	{
-		ModelJSONEditor.set(JSON.parse(model));
+		var target = document.querySelector("#target").value;
+		var payload = {
+			target: target,
+			command: json
+		};
+		primus.write(payload);
 	}
-}, 100);
+}
