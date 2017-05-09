@@ -14,16 +14,6 @@ var MessageInterval = setInterval(function()
 	}
 }, 200);
 
-var video_elem = document.querySelector("#video");
-
-video_elem.onerror = function()
-{
-	video_elem.onerror = undefined;
-	video_elem.src = "";
-	video_elem.style.visibility = "hidden";
-	console.log("Video Element Error");
-};
-
 var MessageInterval = setInterval(function()
 {
 	document.querySelector("#messages").innerHTML = messages;
@@ -56,22 +46,7 @@ TestEditor.set(command);
 
 document.querySelector("#send-ctrl-signal").onclick = function()
 {
-	if(Connection.state === Connection.CONNECTED)
-	{
-		var target = document.querySelector("#target").value;
-		primus.write(
-		{
-			target: 'Cortex',
-			command: target,
-		});
-		command = TestEditor.get();
-		var payload = {
-			target: target,
-			command: command
-		};
-
-		primus.write(payload);
-	}
+	SendPayload(TestEditor.get());
 };
 
 function SendPayload(json)

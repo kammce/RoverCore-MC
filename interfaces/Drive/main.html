@@ -1,21 +1,117 @@
-<div style="width:100%; padding-left: 20px; padding-right: 20px">
-	<div class="row">
-		<div class="col-xs-12"> <h1 style="text-align: center;">Drive System Interface</h1> </div>
+<link rel="stylesheet" type="text/css" href="interfaces/Drive/stylesheet.css?random={{ANTI-CACHE-MARKER}}">
+
+<div style="width:100%; padding-left: 20px; padding-right: 20px;">
+	<div class="background">
+		<!-- <img id="video-stream" src="interfaces/Drive/assets/desert.jpg?random={{ANTI-CACHE-MARKER}}" class="background"> -->
+		<img id="video-stream" src="http://192.168.1.51/video.mjpg?random={{ANTI-CACHE-MARKER}}" class="background">
+		<p>... NO VIDEO SIGNAL DETECTED ...</p>
 	</div>
-	<div class="row">
-		<div class="col-xs-3">
-			<div id="info" style="height: 61vh; margin-bottom: 10px"></div>
-			<button class="btn btn-block" id="send-ctrl-signal">Send CTRL Signal</button>
-			<img id="arrow" src="https://d30y9cdsu7xlg0.cloudfront.net/png/34-200.png" style="height: 100px; text-align: center;">
-		</div>
-		<div class="col-xs-6">
-			<textarea placeholder="RoverCore-S Log Message" id="messages" class="form-control" style="height: 80vh;" id="log"></textarea>
-			<!-- <img src="http://127.0.0.1:9001/capture.jpg"> -->
-		</div>
-		<div class="col-xs-3">
-			<div id="model" style="width: 100%; height: 75vh;"></div>
-			<span id="axis"></span>
+	<img src="interfaces/Drive/assets/grid-background-fixed.jpg?random={{ANTI-CACHE-MARKER}}" class="background" style="height: 46%; opacity: .3;">
+
+	<div class="row" style="text-align: center;">
+		<div class="col-xs-12">
+			<h1 style="">Drive System Interface</h1>
 		</div>
 	</div>
+
+	<div style="position: absolute;top: 2.5%; left: 1%;height: 9.5vh; text-align: right;">
+		<input type="checkbox"
+			data-toggle="toggle"
+			data-on="<i class='fa fa-play'></i> RESUME"
+			data-off="<i class='fa fa-pause'></i> HALT"
+			data-onstyle="success"
+			data-offstyle="danger"
+			checked>
+		<input
+			id="joystick-indicator"
+			type="checkbox"
+			data-toggle="toggle"
+			data-on="Joystick"
+			data-off="Joystick"
+			data-onstyle="success"
+			data-offstyle="warning"
+			>
+		<input
+			id="video-indicator"
+			type="checkbox"
+			data-toggle="toggle"
+			data-on="Video"
+			data-off="Video"
+			data-onstyle="success"
+			data-offstyle="warning"
+			>
+		<button class="btn btn-default" type="submit" data-toggle="modal" data-target="#help-modal">Help</button>
+	</div>
+
+	<div style="position: absolute;top: 2.5%;right: 1%;height: 9.5vh;text-align: right;">
+		<img id="mode-image" src="interfaces/Drive/assets/rotation-arrow.png?random={{ANTI-CACHE-MARKER}}" style="filter: invert(1.0);width: auto;height: calc(100% - 2em);">
+		<p id="mode-text" style=" font-size:  1em; margin-top:  1em; ">ROTATE</p>
+	</div>
+
+	<div style="height: 70vh; position: absolute; bottom: calc(53px + 6%);">
+		<div class="progress progress-bar-vertical">
+		  <!-- progress-bar-info -->
+		  <div
+		  	class="progress-bar progress-bar-striped rogress-bar-disabled"
+		  	role="progressbar"
+		  	aria-valuenow="60"
+		  	aria-valuemin="0"
+		  	aria-valuemax="100"
+		  	id="max-speed-indicator"
+		  	style="height: 0%;">
+		  </div>
+		</div>
+	</div>
+  	<div style="position: absolute; bottom: calc(53px + 2%); color:white;" id="max-speed-value">Max Speed ---%</div>
+
+	<div class="arrow-container" style="position: absolute; bottom: calc(8% + 53px); left: 50%; transform: translate(-50%)">
+		<div class="arrow-outer">
+			<p style="transform: rotate(0deg); color: white;" id="compass-0">N</p>
+			<p style="transform: rotate(90deg); color: white;" id="compass-1">E</p>
+			<p style="transform: rotate(180deg); color: white;" id="compass-2">S</p>
+			<p style="transform: rotate(270deg); color: white;" id="compass-3">W</p>
+			<!--
+			transform-origin: 141px 242px;
+			margin-top: -113px;
+			-->
+			<div class="arrow-inner">
+				<div class="arrow" id="arrow-orientation">
+					<img class="speed-arrow" id="arrow-speed" src="interfaces/Drive/assets/arrow-icon.png?random={{ANTI-CACHE-MARKER}}" style="">
+				 	<img class="background-arrow" src="interfaces/Drive/assets/arrow-icon.png?random={{ANTI-CACHE-MARKER}}">
+				</div>
+			</div>
+		</div>
+		<span>
+			<span style="float: left" id="speed-percent">0%</span>
+			<span style="float: right" id="mph">0 m/s</span>
+		</span>
+	</div>
+
+	<div style="height: 70vh; position: absolute; bottom: calc(53px + 6%); right: 0px;">
+		<div class="progress progress-bar-vertical">
+		  <div class="progress-bar progress-bar-striped progress-bar-disabled" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" id="max-speed-indicator" style="height: 100%;">
+		  </div>
+		</div>
+	</div>
+	<!-- progress-bar-success active -->
+	<div style="position: absolute; bottom: calc(53px + 2%); right: 0px; margin-right: 20px; color:white;" id="capacity-value">Capacity ---%</div>
 </div>
+<!-- Help Modal -->
+<div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Help Page</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="interfaces/Drive/drive.js?random={{ANTI-CACHE-MARKER}}"></script>

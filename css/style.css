@@ -61,7 +61,7 @@ nav div ul li.rover-halted {
 }
 
 div#mc-container {
-	height: 100%;
+	height: calc(100% - 50px);
 }
 .full {
   background-color: darkgrey;
