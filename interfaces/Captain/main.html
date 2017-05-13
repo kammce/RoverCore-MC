@@ -23,8 +23,9 @@
 
   <body>
     <div class="text-center">
-      <h4>Telemetry Visualization Page</h4>
+      <h4>Captain Cabin </h4>
     </div>
+
 
     <div class="container-fluid map">
 
@@ -32,7 +33,7 @@
           <img src="img/camera.jpg" class="camera" />
       </div>
 
-      <div class="col-lg-4">
+      <div class="col-lg-4 autonomous-container">
         <div id="mapid"></div>
         <div id="info-box">
             <div id="alerts">
@@ -59,8 +60,8 @@
               </div>
 
               <div class="input-group ">
-                <b class="map-telemetry-items "id="CurrLat">Current Lat  : </b>
-                <b class="map-telemetry-items "id="CurrLong">Current Long : </b>
+                <b class="map-telemetry-items ">Current Lat  : </b></b></b><b style="color:#3498db;"><u id="CurrLat"></u></b>
+                <b class="map-telemetry-items ">Current Long : </b></b></b><b style="color:#3498db;"><u id="CurrLong"></u></b>
               </div>
 
               <div class="input-group ">
@@ -77,7 +78,7 @@
         </div>
       </div>
 
-      <div class="row" style="margin-top: 20px;">
+      <div class="row" style="margin-top: 0px;">
         <div class="col-md-6 col-lg-6">
           <b class="map-telemetry-items">Altitude: <u>0.0</u> m</b>
           <b class="map-telemetry-items">Temperature: <u>0.0</u> °C</b>
@@ -99,13 +100,16 @@
     </div>
 
 
-    <div class="container-fluid" style="margin-left: 25px; margin-right: 25px; margin-top: 10px">
+    <div class="container-fluid" style="margin-left: 25px; margin-right: 25px;">
       <div class="row">
         <div class="col-lg-3 placeholder">
           <div class="input-group ">
-            <div id="gauge"   style="width:130px; height:130px; display:inline-block" ></div>
-            <div id="gauge2"  style="width:130px; height:130px;  display:inline-block" ></div>
-            <div id="gauge3"  style="width:130px; height:130px" ></div>
+            <div id="gauge"   style="width:140px; height:140px; display:inline-block" ></div>
+            <div id="gauge2"  style="width:140px; height:140px; display:inline-block" ></div>
+            <div id="gauge3"  style="width:95px; height:95px; display:inline-block" ></div>
+            <div id="gauge4"  style="width:95px; height:95px; display:inline-block" ></div>
+            <div id="gauge5"  style="width:95px; height:95px; display:inline-block" ></div>
+
       </div>
     </div>
         <div class="col-lg-3 placeholder">  
@@ -113,7 +117,7 @@
           <div class="Orientation" id="Orientation">
           <div class='form1'></div>
           <div class='pitch-container'>
-              <div class="form3">5</div>
+              <div class="form3"></div>
               <div class="pitch"></div>
           </div> 
           <div class='form2'></div>

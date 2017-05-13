@@ -144,8 +144,19 @@ function GetModel(){
       {
         PowerObject = {
           "mAH" : formated[6],
-          "BattTemp" : formated[22],
+          "Batt1Temp" : formated[22],
+          "Batt2Temp" : formated[24],
+          "Batt3Temp" : formated[26],
           "BattLevel": formated[8] 
+        }   
+      }
+
+        else if(formated[0] === "Tracker")
+      {
+        Tracker = {
+          "pitch" : formated[14],
+          "roll" : formated[16],
+          "heading" : formated[18],
         }   
       }
 
@@ -154,7 +165,10 @@ function GetModel(){
         document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish ;
         document.querySelector('#GateLat').innerHTML = NeoCortexObject.Gate_lattitude + " " ;
         document.querySelector('#GateLong').innerHTML = NeoCortexObject.Gate_longitude ;
-        document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading ;
+        document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading + " " ;
+        document.querySelector('#RoverHeading').innerHTML = Tracker.heading ;
+        document.querySelector('#CurrLat').innerHTML = GPSObject.Lat + " " ;
+        document.querySelector('#CurrLong').innerHTML = GPSObject.Long ;
 
         rover.setLatLng([GPSObject.Lat,GPSObject.Long]);//function from Mapscript.js
     }
