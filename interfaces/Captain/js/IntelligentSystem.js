@@ -119,7 +119,7 @@ function GetModel(){
       var str2 = str.replace(/["'(){}]/g,"");//take out hiddent char 
       var formated = str2.replace(/,/g, ":")
       formated = formated.split(":");
-      //console.log(Objects[0]);
+      console.log(formated);
 
       if(formated[0] === "NeoCortex")
       {
@@ -153,7 +153,7 @@ function GetModel(){
 
         else if(formated[0] === "Tracker")
       {
-        Tracker = {
+        OrientationObject = {
           "pitch" : formated[14],
           "roll" : formated[16],
           "heading" : formated[18],
@@ -166,7 +166,7 @@ function GetModel(){
         document.querySelector('#GateLat').innerHTML = NeoCortexObject.Gate_lattitude + " " ;
         document.querySelector('#GateLong').innerHTML = NeoCortexObject.Gate_longitude ;
         document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading + " " ;
-        document.querySelector('#RoverHeading').innerHTML = Tracker.heading ;
+        document.querySelector('#RoverHeading').innerHTML = OrientationObject.heading + " " ;
         document.querySelector('#CurrLat').innerHTML = GPSObject.Lat + " " ;
         document.querySelector('#CurrLong').innerHTML = GPSObject.Long ;
 

@@ -1,6 +1,6 @@
 var primus;
 var model = {};
-var lobe_status;
+var states = {};
 var messages = "";
 var Connection = {
 	"DISCONNECTED": 0,
@@ -8,11 +8,6 @@ var Connection = {
 	"ERROR": 2,
 	state: 0
 }
-var StatusMap = {
-	"IDLING": "rover-idling",
-	"RUNNING": "rover-active",
-	"HALTED": "rover-halted"
-};
 
 // =====================================
 // Setup Button Listeners
@@ -50,11 +45,7 @@ var PrimusErrorHandler = (err) =>
 
 var PrimusDataHandler = (data) =>
 {
-	if(typeof data === "string")
-	{
-		return;
-	}
-	else if("target" in data)
+	if("target" in data)
 	{
 		Connection.state = Connection.CONNECTED;
 		switch(data.target)
@@ -63,11 +54,11 @@ var PrimusDataHandler = (data) =>
 				model = (typeof data.message !== "object") ? JSON.parse(data.message) : data.message;
 				break;
 			case "Cortex":
+				var lobe_status = {};
 				//// Check if data is JSON
 			    try
 			    {
-			    	var tmp = JSON.parse(data.message);
-			    	lobe_status = tmp;
+			    	lobe_status = JSON.parse(data.message);
 			    }
 		    	//// If JSON could not parse, then add to messages
 			    catch (e)
@@ -75,7 +66,21 @@ var PrimusDataHandler = (data) =>
 					messages = data.message+messages;
 					break;
 			    }
-			    break;
+			    //// Check if lobe property exists
+				if("lobe" in lobe_status)
+				{
+					//// Save lobe state and add it to status structure
+					status[lobe_status["lobe"]] = lobe_status["state"];
+					var StatusMap = {
+						"IDLING": "rover-idling",
+						"RUNNING": "rover-active",
+						"HALTED": "rover-halted"
+					}
+					//// Change lobe status
+					$(`li#${lobe_status["lobe"]}`).removeClass().addClass(StatusMap[lobe_status["state"]]);
+					//// {"lobe":"DriveSystem","controller":"LepuvXs","state":"IDLING"}
+				}
+				break;
 			default:
 				messages = data.message+messages;
 				break;
