@@ -28,14 +28,14 @@ $("#GateEnter").click(function () {
 
        console.log(Coordinate);
 
-       var latValue = Coordinate[0] + (Coordinate[1]/60);
-       var longValue= Coordinate[3] + (Coordinate[4]/60);
+       var latValue = parseInt(Coordinate[0]) + (parseFloat(Coordinate[1])/60)+ (parseFloat(Coordinate[2])/3600);
+       var longValue= parseInt(Coordinate[4]) + (parseFloat(Coordinate[5])/60)+ (parseFloat(Coordinate[6])/3600);
 
-       if (Coordinate[2] === "S"){latValue *= -1 ;}
-       if (Coordinate[5] === "W"){longValue *= -1 ;}
+       if (Coordinate[3] === "S"){latValue *= -1 ;}
+       if (Coordinate[7] === "W"){longValue *= -1 ;}
 
-       latValue = Math.round(latValue*100000)/100000;
-       longValue = Math.round(longValue*100000)/100000;
+       //latValue = (Math.round(latValue*100000))/100000;
+      //longValue = (Math.round(longValue*100000))/100000;
        
        var lattitude = latValue;
        var longitude = longValue;
@@ -63,8 +63,7 @@ $("#GateEnter").click(function () {
          }
          primus.write(payload);
       }
-      createDestination(Coordinate[0],Coordinate[1]);//function from Mapscript.js
-
+      createDestination(lattitude,longitude);//function from Mapscript.js
     });
 
 $("#AutonomousToggle").change(function() {
