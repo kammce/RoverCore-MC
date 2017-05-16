@@ -6,17 +6,14 @@ var ModelInterval = setInterval(function()
 	}
 }, 200);
 
+var prev_message = messages;
 var MessageInterval = setInterval(function()
 {
-	if(Connection.state === Connection.CONNECTED)
+	if(prev_message !== messages)
 	{
 		document.querySelector("#messages").innerHTML = messages;
+		prev_message = messages;
 	}
-}, 200);
-
-var MessageInterval = setInterval(function()
-{
-	document.querySelector("#messages").innerHTML = messages;
 }, 100);
 
 var options = {
