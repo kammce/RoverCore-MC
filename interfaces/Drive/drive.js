@@ -87,7 +87,14 @@ setInterval(function()
 {
 	if(Connection.state === Connection.CONNECTED)
 	{
-		$(`li#Drive`).removeClass().addClass(StatusMap[lobe_status["DriveSystem"]]);
+		if("Drive" in lobe_status)
+		{
+		//	$(`li#Drive`).removeClass().addClass(StatusMap[lobe_status["Drive"]]);
+		}
+		else
+		{
+		//	$(`li#Drive`).removeClass();
+		}
 	}
 }, 500);
 
@@ -161,7 +168,12 @@ function gameLoop()
 	if(Math.abs(x) < .1 && Math.abs(y) < .1) { }
 	else
 	{
-		angle = Math.atan2(y, x);
+		console.log(x, Math.pow(x,3));
+		angle = Math.atan2(y, Math.pow(x,3));
+
+		// console.log(x, Math.pow(x,1/3));
+		// angle = Math.atan2(y, Math.pow(x,1/3));
+
 		angle = -(radToDeg(angle)-90);
 		angle = Math.round(angle);
 		//angle = (y < 0) ? (angle-180) : angle;
@@ -172,6 +184,8 @@ function gameLoop()
 	command.speed = (90 < angle && angle <= 270) ? -command.speed : command.speed;
 	command.angle = (90 < angle && angle <= 270) ? (180-angle) : angle;
 
+	//var ratio = command.angle/90;
+	//command.angle = (ratio*ratio)*command.angle;
 	//console.log(command.angle, "::", y, "::", x);
 
 	if (buttonPressed(gp.buttons[JOYSTICK.BTN_4]) || buttonPressed(gp.buttons[JOYSTICK.BTN_3])) // X
@@ -200,7 +214,7 @@ function gameLoop()
 	{
 		var payload =
 		{
-			target: "DriveSystem",
+			target: "Drive",
 			command: command
 		};
 		primus.write(payload);

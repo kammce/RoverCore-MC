@@ -1,6 +1,10 @@
 var primus;
-var model = {};
-var lobe_status;
+var interfaces = {  };
+var page_select = 0;
+var page_name = "";
+var model = {  };
+var lobe_status = {  };
+var mission_controllers = {  };
 var messages = "";
 var Connection = {
 	"DISCONNECTED": 0,
@@ -19,6 +23,8 @@ var StatusMap = {
 // =====================================
 $("#mc-disconnect").on('click', () =>
 {
+	mission_controllers = {  };
+	UpdateMissionControllers();
 	primus.destroy();
 });
 /** Attach each server <li> element to an on-click event
@@ -34,11 +40,39 @@ $("[id*=mc-connect-]").each((index, elem) =>
 	});
 });
 
+function UpdateMissionControllers()
+{
+	for (var interface of interfaces)
+	{
+		var key_exists = (interface in mission_controllers);
+		var id = mission_controllers[interface];
+
+		if(!key_exists)
+		{
+			$(`#${interface}`).removeClass().addClass("rover-inactive");
+		}
+		else if(id !== "")
+		{
+			$(`#${interface}`).removeClass().addClass("rover-active");
+		}
+		else
+		{
+			$(`#${interface}`).removeClass().addClass("rover-halted");
+		}
+	}
+}
+
 var PrimusOpenHandler = () =>
 {
 	console.log('Websockets Connection Open!');
 	$("#navi-server").removeClass("rover-inactive rover-halted");
 	$("#navi-server").addClass("rover-active");
+	primus.write({
+		target: "Cortex",
+		command: {
+			controller: page_name
+		}
+	});
 	Connection.state = Connection.CONNECTED;
 };
 
@@ -60,14 +94,27 @@ var PrimusDataHandler = (data) =>
 		switch(data.target)
 		{
 			case "model":
-				model = (typeof data.message !== "object") ? JSON.parse(data.message) : data.message;
+				var tmp = (typeof data.message !== "object") ? JSON.parse(data.message) : data.message;
+				var key = tmp["key"];
+				model[key] = tmp[key];
 				break;
 			case "Cortex":
 				//// Check if data is JSON
 			    try
 			    {
 			    	var tmp = JSON.parse(data.message);
-			    	lobe_status = tmp;
+			    	switch(tmp["type"])
+			    	{
+			    		case "status":
+			    			lobe_status = tmp["data"];
+			    			break;
+			    		case "mission_controllers":
+			    			mission_controllers = tmp["data"];
+			    			UpdateMissionControllers(mission_controllers);
+			    			break;
+			    		default:
+			    			throw "invalid json!";
+			    	}
 			    }
 		    	//// If JSON could not parse, then add to messages
 			    catch (e)
@@ -193,7 +240,7 @@ function SetupFramework(modules)
 	else
 	{
 		//// Get interface array of the object keys from modules
-		var interfaces = modules["Interfaces"];
+		interfaces = modules["Interfaces"];
 		//// Calculate Navigation Button Width based on number of modules.
 		var navbar_width = (100/(interfaces.length+1));
 		//// Generate Navigation Button HTML
@@ -215,11 +262,13 @@ function SetupFramework(modules)
 		//// Prepend navbar items to navigation bar
 		$("ul#navigation").prepend(navbar_items);
 		//// Find Hash in keys and remove first char #
-		var page_select = interfaces.indexOf(window.location.hash.substr(1));
+		page_select = interfaces.indexOf(window.location.hash.substr(1));
 		//// Default to 0 if key not found.
 		page_select = (page_select === -1) ? 0 : page_select;
+		//// Storing page name
+		page_name = interfaces[page_select];
 		//// Generate page URL
-		var page_url = `interfaces/${interfaces[page_select]}/main.html`;
+		var page_url = `interfaces/${page_name}/main.html`;
 		setTimeout(function() {
 			$.ajax({
 				url: page_url,
