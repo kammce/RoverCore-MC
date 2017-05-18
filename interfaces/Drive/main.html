@@ -2,26 +2,28 @@
 
 <div style="width:100%; padding-left: 20px; padding-right: 20px;">
 	<div class="background">
-		<!-- <img id="video-stream" src="interfaces/Drive/assets/desert.jpg?random={{ANTI-CACHE-MARKER}}" class="background"> -->
-		<img id="video-stream" src="http://192.168.1.51/video.mjpg?random={{ANTI-CACHE-MARKER}}" class="background">
+		<img id="video-stream" src="interfaces/Drive/assets/desert.jpg?random={{ANTI-CACHE-MARKER}}" class="background">
+		<!-- <img id="video-stream" src="http://192.168.1.51/video.mjpg?random={{ANTI-CACHE-MARKER}}" class="background"> -->
 		<p>... NO VIDEO SIGNAL DETECTED ...</p>
 	</div>
 	<img src="interfaces/Drive/assets/grid-background-fixed.jpg?random={{ANTI-CACHE-MARKER}}" class="background" style="height: 46%; opacity: .3;">
 
 	<div class="row" style="text-align: center;">
 		<div class="col-xs-12">
-			<h1 style="">Drive System Interface</h1>
+			<h1>Drive System Interface</h1>
 		</div>
 	</div>
 
 	<div style="position: absolute;top: 2.5%; left: 1%;height: 9.5vh; text-align: right;">
+		<!--
 		<input type="checkbox"
 			data-toggle="toggle"
 			data-on="<i class='fa fa-play'></i> RESUME"
 			data-off="<i class='fa fa-pause'></i> HALT"
 			data-onstyle="success"
 			data-offstyle="danger"
-			checked>
+			checked> -->
+		<button class="btn btn-default">IDLE</button>
 		<input
 			id="joystick-indicator"
 			type="checkbox"
