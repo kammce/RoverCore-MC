@@ -423,7 +423,7 @@ const windowIsDefined = (typeof window === "object");
 			**************************************************/
 
 			var origWidth = this.element.style.width;
-			var updateSlider = false;
+			var updateSlider = true;
 			var parent = this.element.parentNode;
 			var sliderTrackSelection;
 			var sliderTrackLow, sliderTrackHigh;

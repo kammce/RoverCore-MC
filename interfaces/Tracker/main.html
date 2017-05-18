@@ -1,12 +1,15 @@
 <link rel="stylesheet" type="text/css" href="style.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+<!--Jquery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS BOOTSTRAP-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
-<div class="text-center">
-	<h4 style="margin-top: 5px">Tracker</h4>
-</div>
 
 <!--MAP-->
 <div class = "row">
@@ -28,29 +31,66 @@
 			<button onclick="LidarClick()" type="button" class="btn btn-primary btn-lg" id="clickMe" style: "height:75%; width: 75%;">Activate Lidar</button>
 		</div>
 		<div class="col-lg-3 placeholder">
-			<h5>Zoom</h5>
-				<input id="ex6" type="range" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
-				<span id="ex6CurrentSliderValLabel">Current Zoom: <span id="ex6SliderVal">3</span></span>
+			<h5 id="h5">Zoom</h5>
+				<div id="valRange">
+					<div id="leftRange">0</div>
+					<div id="rightRange">66</div>
+				</div>
+				<input id="ZoomSlide" type="range" data-slider-min="0" data-slider-max="66" data-slider-step="1" onchange = "Slides(this.value)" data-slider-value="33"/></span>
+				<span id="ex6CurrentSliderValLabel">Current Zoom: <span id="ZoomCurrentValue">33</span></span>
+				<form name="zoomForm" onsubmit="setNewValZoom()">
+				<input type="text" id="zoomInp" onkeypress="EntZoom(this.value, event)">	
+				<button type = "button" value="X" onclick="setNewValZoom()">Update</button>
+			</form>
 		</div>
 		<div class="col-lg-3 placeholder">
-			<h5>Yaw</h5>
-				<input id="ex6" type="range" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
-				<span id="ex6CurrentSliderValLabel">Current Direction: <span id="ex6SliderVal">3</span></span>
-				<input id="ex6" type="range" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
-				<span id="ex6CurrentSliderValLabel">Current Speed: <span id="ex6SliderVal">3</span></span>
-
+			<h5 id="h5">Yaw</h5>
+				<div id="valRange">
+					<div id="leftRange">0</div>
+					<div id="rightRange">9</div>
+				</div>
+				<input id="YawSpeedSlide" type="range" data-slider-min="0" data-slider-max="9" data-slider-step="1" onchange = "YSSlides(this.value)" data-slider-value="4"/></span>
+				<span>Current Speed: <span id="YawSpeedCurrentValue">4</span></span>
+				<form name="zoomForm" onsubmit="YSsetNewValZoom()">
+				<input type="text" id="yawSpeedInp" onkeypress="YSEntZoom(this.value, event)">	
+				<button type = "button" value="X" onclick="YSsetNewValZoom()">Update</button>
+				
+				<div id="valRange">
+					<div id="leftRange">0</div>
+					<div id="rightRange">87</div>
+				</div>
+				<input id="YawPosSlide" type="range" data-slider-min="0" data-slider-max="87" data-slider-step="1" onchange = "YPSlides(this.value)" data-slider-value="43"/></span>
+				<span>Current Position: <span id="YawPosCurrentValue">43</span></span>
+				<form name="zoomForm" onsubmit="YPsetNewValZoom()">
+				<input type="text" id="yawPosInp" onkeypress="YPEntZoom(this.value, event)">	
+				<button type = "button" value="X" onclick="YPsetNewValZoom()">Update</button>
 		</div>
 		<div class="col-lg-3 placeholder">
-			<h5>Pitch</h5>
-				<input id="ex6" type="range" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
-				<span id="ex6CurrentSliderValLabel">Current Direction: <span id="ex6SliderVal">3</span></span>
-				<input id="ex6" type="range" data-slider-min="-5" data-slider-max="20" data-slider-step="1" data-slider-value="3"/>
-				<span id="ex6CurrentSliderValLabel">Current Speed: <span id="ex6SliderVal">3</span></span>
+			<h5 id="h5">Pitch</h5>
+				<div id="valRange">
+					<div id="leftRange">0</div>
+					<div id="rightRange">12</div>
+				</div>
+				<input id="PitchSpeedSlide" type="range" data-slider-min="0" data-slider-max="12" data-slider-step="1" onchange = "PSSlides(this.value)" data-slider-value="6"/></span>
+				<span>Current Speed: <span id="PitchSpeedCurrentValue">6</span></span>
+				<form name="zoomForm" onsubmit="PSsetNewValZoom()">
+				<input type="text" id="pitchSpeedInp" onkeypress="PSEntZoom(this.value, event)">	
+				<button type = "button" value="X" onclick="PSsetNewValZoom()">Update</button>
+				
+				<div id="valRange">
+					<div id="leftRange">0</div>
+					<div id="rightRange">90</div>
+				</div>
+				<input id="PitchPosSlide" type="range" data-slider-min="0" data-slider-max="90" data-slider-step="1" onchange = "PPSlides(this.value)" data-slider-value="45"/></span>
+				<span >Current Position: <span id="PitchPosCurrentValue">33</span></span>
+				<form name="zoomForm" onsubmit="PPsetNewValZoom()">
+				<input type="text" id="pitchPosInp" onkeypress="PPEntZoom(this.value, event)">	
+				<button type = "button" value="X" onclick="PPsetNewValZoom()">Update</button>
 		</div>
 		</div>
 </div>
 
 <!-- Script -->
 <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-<script src="slider.js?={{ANTI-CACHE-MARKER}}"></script>
+<!--<script src="slider.js?={{ANTI-CACHE-MARKER}}"></script>-->
 <script src="script.js?={{ANTI-CACHE-MARKER}}"></script>
