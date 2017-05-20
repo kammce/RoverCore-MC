@@ -139,15 +139,21 @@ function GetModel(){
         }
       }
 
-      else if(formated[0] === "Power")
+      else if(formated[1] === "Power")
       {
         PowerObject = {
-          "mAH" : formated[6],
-          "Batt1Temp" : formated[22],
-          "Batt2Temp" : formated[24],
-          "Batt3Temp" : formated[26],
-          "BattLevel": formated[8] 
+          "mAH" : formated[9],
+          "Batt1Temp" : formated[25],
+          "Batt2Temp" : formated[27],
+          "Batt3Temp" : formated[29],
+          "BattLevel": formated[11] 
         }   
+
+        g1.refresh(PowerObject.BattLevel,100);
+        g2.refresh(PowerObject.mAH,10000);
+        g3.refresh(PowerObject.Batt1Temp,140);
+        g4.refresh(PowerObject.Batt2Temp,140);
+        g5.refresh(PowerObject.Batt3Temp,140)
       }
 
         else if(formated[0] === "Tracker")
