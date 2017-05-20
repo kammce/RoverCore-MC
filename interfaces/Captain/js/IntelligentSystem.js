@@ -139,7 +139,7 @@ function GetModel(){
         }
       }
 
-      else if(formated[0] === "PowerSystems")
+      else if(formated[0] === "Power")
       {
         PowerObject = {
           "mAH" : formated[6],

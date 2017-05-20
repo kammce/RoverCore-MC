@@ -14,15 +14,17 @@ L.Icon.Default.imagePath = 'interfaces/Captain/css/images/';
 
 //START MAP
 let map = L.map('mapid').setView([
-  37.335083, -121.882088
+  37.3382,-121.8863
 ], 18);
   map.invalidateSize()
 
-L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
-  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+L.tileLayer('interfaces/Captain/css/static_map/{z}/{x}/{y}.png', {
   maxZoom: 30,
-  id: 'your.mapbox.project.id',
-  accessToken: 'your.mapbox.public.access.token'
 }).addTo(map);
 map.doubleClickZoom.disable();
 
@@ -69,7 +71,7 @@ function removeDestination(ev) {
 
 //START ROVER//
 let rover = L.marker([
-   37.335083, -121.882088
+  38.4064094,-110.7918953
 ], {draggable: false}).addTo(map);
 let roverLocation = rover.getLatLng();
 
