@@ -149,7 +149,7 @@ function GetModel(){
           "BattLevel": formated[11] 
         }   
 
-        g1.refresh(PowerObject.BattLevel,100);
+        g.refresh(PowerObject.BattLevel,100);
         g2.refresh(PowerObject.mAH,10000);
         g3.refresh(PowerObject.Batt1Temp,140);
         g4.refresh(PowerObject.Batt2Temp,140);
