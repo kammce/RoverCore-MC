@@ -29,8 +29,7 @@
 
     <div class="container-fluid map">
 
-      <div class="col-lg-8 camera-container">
-          <img src="img/camera.jpg" class="camera" />
+      <div class="col-lg-8 camera-container" id="camera-container">
       </div>
 
       <div class="col-lg-4 autonomous-container">
@@ -51,7 +50,7 @@
               <!---GPS/Sonic on off button-->
               <div class="input-group top-buffer">
                 <input type="checkbox" checked data-toggle="toggle" data-on="GPS   On" data-off="GPS   Off" data-onstyle="success" data-offstyle="danger" data-width="113px">
-                <input type="checkbox" checked data-toggle="toggle" data-on="Ultrasonic On" data-off="Ultrasonic Off" data-onstyle="success" data-offstyle="danger" >
+                <input type="checkbox" unchecked data-toggle="toggle" data-on="Ultrasonic On" data-off="Ultrasonic Off" data-onstyle="success" data-offstyle="danger" >
               </div>
 
               <div class="input-group ">
@@ -164,7 +163,8 @@
           </div>
 
         <div class="col-lg-3 placeholder">
-                   <h4>FreeSpace</h4>
+          <h4>Geiger Counter </h4>
+            <div id="geiger"   style="width:200px; height:200px; display:inline-block" ></div>
 
         </div>
 

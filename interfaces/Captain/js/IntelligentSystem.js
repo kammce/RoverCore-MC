@@ -20,6 +20,17 @@ var GPSObject = {
    "Long" : 0,
 };
 
+ var g6 = new JustGage({
+    id: "geiger",
+    titleFontColor : "white",
+    valueFontColor : "white",
+    value:0,
+    min: 0,
+    max: 200,
+    title: "Geiger"
+  });
+
+$("#camera-container").attr('src', 'http://192.168.1.12:9001');
 
 
 $("#GateEnter").click(function () {
@@ -34,8 +45,8 @@ $("#GateEnter").click(function () {
        if (Coordinate[3] === "S"){latValue *= -1 ;}
        if (Coordinate[7] === "W"){longValue *= -1 ;}
 
-       //latValue = (Math.round(latValue*100000))/100000;
-      //longValue = (Math.round(longValue*100000))/100000;
+       latValue = (Math.round(latValue*100000))/100000;
+       longValue = (Math.round(longValue*100000))/100000;
        
        var lattitude = latValue;
        var longitude = longValue;
@@ -112,69 +123,66 @@ function GetModel(){
   {
     if(Connection.state === Connection.CONNECTED)
     {
-      console.log(JSON.stringify(model));
-      var str = JSON.stringify(model)
-      //console.log(Objects);
-      var str2 = str.replace(/["'(){}]/g,"");//take out hiddent char 
-      var formated = str2.replace(/,/g, ":")
-      formated = formated.split(":");
-      console.log(formated);
-
-      if(formated[0] === "NeoCortex")
-      {
-         NeoCortexObject = {
-            "Direction" : formated[5],
-            "Finish" : formated[7],
-            "Gate_lattitude" : formated[9],
-            "Gate_longitude" : formated[11],
-            "GPSHeading" : formated[13]
-         }
-      }
-
-       else if(formated[0] === "GPS" )
-      {
-        GPSObject = {
-          "Lat" : formated[5],
-          "Long": formated[9]
+      //console.log(JSON.stringify(model));
+      //var str = JSON.stringify(model)
+      //console.log(model.NeoCortex.value.Direction);
+      //var str2 = str.replace(/["'(){}]/g,"");//take out hiddent char 
+      //var formated = str2.replace(/,/g, ":")
+      //formated = formated.split(":");
+      //console.log(formated);
+      try{
+        NeoCortexObject = {
+              "Direction" : model.NeoCortex.value.Direction,
+              "Finish" : model.NeoCortex.value.Finish,
+              "Gate_lattitude" : model.NeoCortex.value.Gate_lattitude,
+              "Gate_longitude" : model.NeoCortex.value.Gate_longitude,
+              "GPSHeading" :  model.NeoCortex.value.GPS_Heading
         }
       }
+      catch(err){}
 
-      else if(formated[1] === "Power")
-      {
+      try{
+        GPSObject = {
+          "Lat" : model.GPS.value.lat,
+          "Long": model.GPS.value.long
+        }
+      }
+      catch(err){}
+
+      try{
         PowerObject = {
-          "mAH" : formated[9],
-          "Batt1Temp" : formated[25],
-          "Batt2Temp" : formated[27],
-          "Batt3Temp" : formated[29],
-          "BattLevel": formated[11] 
-        }   
-
-        g.refresh(PowerObject.BattLevel,100);
-        g2.refresh(PowerObject.mAH,10000);
-        g3.refresh(PowerObject.Batt1Temp,140);
-        g4.refresh(PowerObject.Batt2Temp,140);
-        g5.refresh(PowerObject.Batt3Temp,140)
+            "mAH" : model.Power.value.mAhRemaining,
+            "Batt1Temp" : model.Power.value.temperatures.Battery1,
+            "Batt2Temp" : model.Power.value.temperatures.Battery2,
+            "Batt3Temp" : model.Power.value.temperatures.Battery3,
+            "BattLevel": model.Power.value.batteryPercentage 
+        }
       }
+      catch(err){}
 
-        else if(formated[0] === "Tracker")
-      {
+      try{
         OrientationObject = {
-          "pitch" : formated[14],
-          "roll" : formated[16],
-          "heading" : formated[18],
-        }   
+            "pitch" : model.Tracker.value.globalOr.Y,
+            "roll" : model.Tracker.value.globalOr.X,
+            "heading" : model.Tracker.value.globalOr.Z
+        } 
       }
-
-        //console.log(NeoCortexObject.Direction);
+      catch(err){}
+ 
+              //console.log(NeoCortexObject.Direction);
         document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  " ;
         document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish ;
         document.querySelector('#GateLat').innerHTML = NeoCortexObject.Gate_lattitude + " " ;
         document.querySelector('#GateLong').innerHTML = NeoCortexObject.Gate_longitude ;
         document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading + " " ;
         document.querySelector('#RoverHeading').innerHTML = OrientationObject.heading + " " ;
-        document.querySelector('#CurrLat').innerHTML = GPSObject.Lat + " " ;
-        document.querySelector('#CurrLong').innerHTML = GPSObject.Long ;
-
+        document.querySelector('#CurrLat').innerHTML =  (Math.round(GPSObject.Lat*100000)/100000) + " " ;
+        document.querySelector('#CurrLong').innerHTML = (Math.round(GPSObject.Long*100000)/100000) ;
+        g.refresh(PowerObject.BattLevel,100);
+        g2.refresh(PowerObject.mAH,10000);
+        g3.refresh(PowerObject.Batt1Temp,140);
+        g4.refresh(PowerObject.Batt2Temp,140);
+        g5.refresh(PowerObject.Batt3Temp,140)
         rover.setLatLng([GPSObject.Lat,GPSObject.Long]);//function from Mapscript.js
     }
   }, 200);
