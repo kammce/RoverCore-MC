@@ -19,6 +19,16 @@ h5 {
     text-align: center;
 }
 
+.enabled{
+    background-color: green;
+    width: 100%;
+}
+
+.disabled{
+    background-color: red;
+    width: 100%;
+}
+
 #leftRange{
     float: left;
 }

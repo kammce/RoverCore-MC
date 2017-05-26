@@ -26,10 +26,12 @@
 <!--Below Map-->
 <div class="container-fluid bottom-section" style="margin-left: 25px; margin-right: 25px; margin-top: 10px">
 	<div class="row">
+		<!--LIDAR-->
 		<div class="col-lg-3 placeholder">
 			<h5>Lidar</h5>
-			<button onclick="LidarClick()" type="button" class="btn btn-primary btn-lg" id="clickMe" style: "height:75%; width: 75%;">Activate Lidar</button>
+			<button onclick="LidarClick()" type="button" class="disabled" id="LidarEnable" style: "height:75%; width: 75%;">Activate Lidar</button>
 		</div>
+		<!--ZOOM-->
 		<div class="col-lg-3 placeholder">
 			<h5 id="h5">Zoom</h5>
 				<div id="valRange">
@@ -43,18 +45,12 @@
 				<button type = "button" value="X" onclick="setNewValZoom()">Update</button>
 			</form>
 		</div>
+		<!--YAW-->
 		<div class="col-lg-3 placeholder">
 			<h5 id="h5">Yaw</h5>
-				<div id="valRange">
-					<div id="leftRange">0</div>
-					<div id="rightRange">9</div>
-				</div>
-				<input id="YawSpeedSlide" type="range" data-slider-min="0" data-slider-max="9" data-slider-step="1" onchange = "YSSlides(this.value)" data-slider-value="4"/></span>
-				<span>Current Speed: <span id="YawSpeedCurrentValue">4</span></span>
-				<form name="zoomForm" onsubmit="YSsetNewValZoom()">
-				<input type="text" id="yawSpeedInp" onkeypress="YSEntZoom(this.value, event)">	
-				<button type = "button" value="X" onclick="YSsetNewValZoom()">Update</button>
-				
+				<!--YAW SPEED ENABLE BUTTON-->
+				<button type = "button" value="Speed Enable" class="disabled" id="YawSpeed" onclick="YawSpeedEn()">Enable Speed</button>
+				<!--YAW POSITION SLIDER-->
 				<div id="valRange">
 					<div id="leftRange">0</div>
 					<div id="rightRange">87</div>
@@ -65,18 +61,12 @@
 				<input type="text" id="yawPosInp" onkeypress="YPEntZoom(this.value, event)">	
 				<button type = "button" value="X" onclick="YPsetNewValZoom()">Update</button>
 		</div>
+		<!--PITCH-->
 		<div class="col-lg-3 placeholder">
 			<h5 id="h5">Pitch</h5>
-				<div id="valRange">
-					<div id="leftRange">0</div>
-					<div id="rightRange">12</div>
-				</div>
-				<input id="PitchSpeedSlide" type="range" data-slider-min="0" data-slider-max="12" data-slider-step="1" onchange = "PSSlides(this.value)" data-slider-value="6"/></span>
-				<span>Current Speed: <span id="PitchSpeedCurrentValue">6</span></span>
-				<form name="zoomForm" onsubmit="PSsetNewValZoom()">
-				<input type="text" id="pitchSpeedInp" onkeypress="PSEntZoom(this.value, event)">	
-				<button type = "button" value="X" onclick="PSsetNewValZoom()">Update</button>
-				
+				<!--PITCH SPEED ENABLE BUTTON-->
+				<button type = "button" class="disabled" id="PitchSpeed" value="Speed Enable" onclick="PitchSpeedEn()">Enable Speed</button>
+				<!--PITCH POSITION SLIDER-->
 				<div id="valRange">
 					<div id="leftRange">0</div>
 					<div id="rightRange">90</div>

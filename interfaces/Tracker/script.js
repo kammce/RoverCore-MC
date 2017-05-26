@@ -3,14 +3,14 @@
 2. Leaflet documentation: http://leafletjs.com/reference.html#map-usage
 **/
 
-  var mymap = L.map('mapid').setView([37.335083, -121.882088], 15);
+var mymap = L.map('mapid').setView([38.4064, -110.7919], 15);
 
-  L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
+/**L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	maxZoom: 18,
 	id: 'your.mapbox.project.id',
 	accessToken: 'your.mapbox.public.access.token'
-}).addTo(mymap);
+}).addTo(mymap);**/
 
 //zoom
 function Slides(sliderValue){
@@ -39,28 +39,20 @@ function EntZoom(val, e){
 };
 
 //yaw speed
-function YSSlides(sliderValue){
-  var inp = document.getElementById('YawSpeedSlide');
-  console.log(inp.value);
-  document.getElementById('YawSpeedCurrentValue').textContent = inp.value;
-  inp.addEventListener("mousemove", function() {
-    document.getElementById('YawSpeedCurrentValue').textContent = inp.value;
-  });
-};
-
-function YSsetNewValZoom(){
-  var zoomVal = document.getElementById("yawSpeedInp").value;
-  document.getElementById('YawSpeedCurrentValue').textContent = zoomVal;
-  document.getElementById('YawSpeedSlide').value = zoomVal;
-};
-
-function YSEntZoom(val, e){
-  console.log(val);
-  if(e.code=="Space"){
-    var zoomVal = document.getElementById("yawSpeedInp").value;
-    document.getElementById('YawSpeedCurrentValue').textContent = zoomVal;
-    document.getElementById('YawSpeedSlide').value = zoomVal;
-    document.getElementById("yawSpeedInp").value="";
+function YawSpeedEn(){
+  console.log("clicked");
+  var button = document.getElementById("YawSpeed");
+  if(button.classList.contains("disabled")){
+    button.classList.add('enabled');
+    button.classList.remove('disabled'); 
+    button.textContent = 'Enabled';
+    console.log('Yaw Speed Enabled');
+  }
+  else{
+    button.classList.add('disabled');
+    button.classList.remove('enabled');
+    button.textContent = 'Disabled';
+    console.log('Yaw Speed Disabled');  
   }
 };
 
@@ -92,28 +84,20 @@ function YPEntZoom(val, e){
 
 
 //pitch speed
-function PSSlides(sliderValue){
-  var inp = document.getElementById('PitchSpeedSlide');
-  console.log(inp.value);
-  document.getElementById('PitchSpeedCurrentValue').textContent = inp.value;
-  inp.addEventListener("mousemove", function() {
-    document.getElementById('PitchSpeedCurrentValue').textContent = inp.value;
-  });
-};
-
-function PSsetNewValZoom(){
-  var zoomVal = document.getElementById("pitchSpeedInp").value;
-  document.getElementById('PitchSpeedCurrentValue').textContent = zoomVal;
-  document.getElementById('PitchSpeedSlide').value = zoomVal;
-};
-
-function PSEntZoom(val, e){
-  console.log(val);
-  if(e.code=="Space"){
-    var zoomVal = document.getElementById("pitchSpeedInp").value;
-    document.getElementById('PitchSpeedCurrentValue').textContent = zoomVal;
-    document.getElementById('PitchSpeedSlide').value = zoomVal;
-    document.getElementById("pitchSpeedInp").value="";
+function PitchSpeedEn(){
+  console.log("clicked");
+  var button = document.getElementById("PitchSpeed");
+  if(button.classList.contains("disabled")){
+    button.classList.add('enabled');
+    button.classList.remove('disabled'); 
+    button.textContent = 'Enabled';
+    console.log('Pitch Speed Enabled');
+  }
+  else{
+    button.classList.add('disabled');
+    button.classList.remove('enabled');
+    button.textContent = 'Disabled';
+    console.log('Pitch Speed Disabled');  
   }
 };
 
@@ -143,17 +127,20 @@ function PPEntZoom(val, e){
   }
 };
 
-function LidarClick() {
-    //var sliderYawValue = document.getElementById("ex6").value;
-    //console.log(sliderYawValue);
-    if(document.getElementById("clickMe").className === "green"){
-    	document.getElementById("clickMe").className = "red";
-    	document.getElementById("clickMe").innerHTML = "OFF";
-    } else {
-    	document.getElementById("clickMe").className = "green";
-    	document.getElementById("clickMe").innerHTML = "ON";
-    }
+//Lidar speed
+function LidarClick(){
+  console.log("Lidar clicked");
+  var button = document.getElementById("LidarEnable");
+  if(button.classList.contains("disabled")){
+    button.classList.add('enabled');
+    button.classList.remove('disabled'); 
+    button.textContent = 'Enabled';
+    console.log('Lidar Enabled');
+  }
+  else{
+    button.classList.add('disabled');
+    button.classList.remove('enabled');
+    button.textContent = 'Disabled';
+    console.log('Lidar Disabled');  
+  }
 };
-
-clickMe.onclick = LidarClick;
-ex6.onchange = Slides;
