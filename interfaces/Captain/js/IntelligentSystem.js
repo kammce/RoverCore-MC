@@ -77,6 +77,21 @@ $("#GateEnter").click(function () {
       createDestination(lattitude,longitude);//function from Mapscript.js
     });
 
+$("#CamOn").click(function() {
+        $("#CamOn").addClass('btn-info');
+        $("#CamOff").removeClass('btn-info');
+        console.log("Cam On");
+        CamCommand("start");
+});
+
+$("#CamOff").click(function() {
+        $("#CamOff").addClass('btn-info');
+        $("#CamOn").removeClass('btn-info');
+        console.log("Cam Off");
+        CamCommand("stop");
+
+});
+
 $("#method0").click(function() {
         $("#method0").addClass('btn-info');
         $("#method1").removeClass('btn-info');
@@ -123,7 +138,7 @@ $("#method5").click(function() {
 });
 
 
-
+/*
 var LobeAssignmentInterval = setInterval(function()
 {
   if(Connection.state === Connection.CONNECTED)
@@ -137,6 +152,7 @@ var LobeAssignmentInterval = setInterval(function()
   }
 }, 100);
 
+*/
 
 function sendCommand(mode,flag)
 {
@@ -146,6 +162,18 @@ function sendCommand(mode,flag)
     }
       payload = {
       target: "NeoCortex",
+      command: Commandpayload 
+      };
+     primus.write(payload);
+}
+
+function CamCommand(command)
+{
+    Commandpayload = {
+      "mode" : command,
+    }
+      payload = {
+      target: "VideoServer",
       command: Commandpayload 
       };
      primus.write(payload);
