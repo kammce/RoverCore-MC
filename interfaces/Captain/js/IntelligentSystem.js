@@ -77,16 +77,51 @@ $("#GateEnter").click(function () {
       createDestination(lattitude,longitude);//function from Mapscript.js
     });
 
-$("#AutonomousToggle").change(function() {
-    if(this.checked) {
+$("#method0").click(function() {
+        $("#method0").addClass('btn-info');
+        $("#method1").removeClass('btn-info');
         console.log("Autonomous On");
         sendCommand("AI", 1);
-    }
-    else{
-      console.log("Autonomous Off");
-      sendCommand("AI",0);
-    }
 });
+
+$("#method1").click(function() {
+        $("#method1").addClass('btn-info');
+        $("#method0").removeClass('btn-info');
+        console.log("Autonomous Off");
+        sendCommand("AI", 0);
+});
+
+$("#method2").click(function() {
+        $("#method2").addClass('btn-info');
+        $("#method3").removeClass('btn-info');
+        console.log("GPS On");
+        sendCommand("GPS", 1);
+});
+
+
+$("#method3").click(function() {
+        $("#method3").addClass('btn-info');
+        $("#method2").removeClass('btn-info');
+        console.log("GPS Off");
+        sendCommand("GPS", 0);
+});
+
+
+$("#method4").click(function() {
+        $("#method4").addClass('btn-info');
+        $("#method5").removeClass('btn-info');
+        console.log("Sonic On");
+        sendCommand("Sonic", 1);
+});
+
+
+$("#method5").click(function() {
+        $("#method5").addClass('btn-info');
+        $("#method4").removeClass('btn-info');
+        console.log("Sonic Off");
+        sendCommand("Sonic", 0);
+});
+
 
 
 var LobeAssignmentInterval = setInterval(function()
