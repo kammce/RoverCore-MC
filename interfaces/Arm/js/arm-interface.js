@@ -1,5 +1,4 @@
-//ToggleManualControl
-//ToggleMimic
+
 
 /*
 =========================
@@ -11,7 +10,7 @@ Arm Component Parameters
 // default state 
 var ArmPayload = {
     "rotunda": 1500, //850-2350
-    "shoulder": 270, //140-270 (180 = full horizontal)
+    "shoulder": 270, //150-280 (180 = full horizontal)
     "elbow": 600, // 200-1000
     "wrist_pitch": 180, //90-270 (180 = full horizontal)
     "wrist_roll": 0, //0 = stop, 1=spins one way, 2=spins other way (incremenet 0,1,2)
@@ -20,7 +19,6 @@ var ArmPayload = {
     "claw": 0, // 1=close, 0=stop, 2=open (increment 0,1,2)
     "claw_torque": 0, //0-100
     "camera_select": 0, //commented out on Arm.js in rovercore-s
-    	//
     "rotunda_camera": 180, //commented out on Arm.js in rovercore-s
 };
 
@@ -114,7 +112,7 @@ $("#ToggleManualControl").change(function(){
 //Rotunda Control
 $("#RotundaSlider").slider({
 	range: "min",
-	value: 1700,
+	value: 1500,
 	step: 1,
 	min: LIMITS["rotunda"][0],
 	max: LIMITS["rotunda"][1],
@@ -180,7 +178,7 @@ $("#Rotunda_CameraInputBox").change(function () {
 //Shoulder Pitch Control
 $("#ShoulderSlider").slider({
 	range: "min",
-	value: 180,
+	value: 270,
 	step: 1,
 	min: LIMITS["shoulder"][0],
 	max: LIMITS["shoulder"][1],
