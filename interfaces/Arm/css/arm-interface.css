@@ -36,8 +36,12 @@ body {
 }
 
 
+#manualControl{
+	display: none;
+}
+
 #camerafeed{
-	height: 600px;
+	height: 800px;
 	width: 100%;
 	margin-bottom: 5px;
 }

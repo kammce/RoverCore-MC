@@ -23,21 +23,18 @@
 			data-toggle="toggle"
 			data-on="MC On"
 			data-off="MC Off"
-			data-onstyle="success"
-			data-offstyle="warning"
 			>
 		</div>
 		<div class="col-md-1 mancontrolbutton">
     	<!--<text id="gamepad-info"><b class="sectionTitle">MIMIC:</b> Off</text>-->
-    		<input
+    	<input
 			id="ToggleMimic"
 			type="checkbox"
 			data-toggle="toggle"
 			data-on="Mimic On"
 			data-off="Mimic Off"
-			data-onstyle="success"
-			data-offstyle="warning"
-			>
+			data-onstyle="warning"
+		>
     </div>
 	<div class="col-md-4 rovercon2">
     	<text id="messages">Rover Feedback Log</text>
@@ -83,8 +80,8 @@
 		<p class="spaced">
 			<text class="controlTitle">(R) WRIST</text> &nbsp;
 			<button type="button" class="preset btn btn-danger" id="stop_wrist_roll" value="stop_wrist_roll">STOP WRIST ROLL</button>
-			<button type="button" class="preset btn" id="method2" value="method2">Wrist Roll Left</button>
-			<button type="button" class="preset btn" id="method3" value="method3">Wrist Roll Right</button>
+			<button type="button" class="preset btn" id="wrist_roll_left" value="wrist_roll_left">Wrist Roll Left</button>
+			<button type="button" class="preset btn" id="wrist_roll_right" value="wrist_roll_right">Wrist Roll Right</button>
 		</p>
 		<p>
 			<text class="controlTitle">(R) CAM_BASE</text> &nbsp;
@@ -117,14 +114,14 @@
 	        <input id="ClawInputBox" type="number" min="0" max="100" value="0" class="InputBox"/>
 			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 			<button type="button" class="preset btn btn-danger" id="stop_claw" value="stop_claw">STOP CLAW</button>
-			<button type="button" class="preset btn" id="method0" value="method0">Open Claw</button>
-			<button type="button" class="preset btn" id="method1" value="method1">Close Claw</button>
+			<button type="button" class="preset btn" id="OpenClaw" value="OpenClaw">Open Claw</button>
+			<button type="button" class="preset btn" id="CloseClaw" value="CloseClaw">Close Claw</button>
 	        <div id="ClawSlider" class="ArmSlider"></div>
 		</p>
 		<div id = "centered">
 			<p><b><text class="controlTitle">BUTTONS FOR PRE-SET POSITIONS</text></b></p>
 			<p>
-				<button type="button" class="btn btn-danger" id="reset" value="reset">RESET SLIDERS</button>
+				<button type="button" class="btn btn-danger" id="reset" value="reset">REST POSITION</button>
 			</p>
 			<p>
 				<button type="button" class="preset btn" id="method4" value="method4">Touch Ground</button>

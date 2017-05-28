@@ -94,20 +94,36 @@ $("#BaseCam").click(function(){
 Manual Control and Mimic Toggle
 ===============================
 */
+
 //[B]
+
 $("#ToggleManualControl").change(function(){
 	if($(this).prop("checked") == true){
 		$("#manualControl").css("display", "block");
 		$("#manualControl").css("opacity", "1");
 		$("#camerafeed").css("height", "600px");
-	    $( "#messages" ).html("MC On!"); //add timestamp
+	    $( "#messages" ).html("Mission Control On!"); //add timestamp
 	}else{
 		$("#camerafeed").css("height", "800px");
 		$("#manualControl").css("display", "none");
-	    $( "#messages" ).html("MC Off!"); //add timestamp
+	    $( "#messages" ).html("Mission Control Off!"); //add timestamp
 	}
 });
 
+$("#ToggleMimic").change(function(){
+	if($(this).prop("checked") == true){
+	    $( "#messages" ).html("Mimic On!"); //add timestamp
+	}else{
+	    $( "#messages" ).html("Mimic Off!"); //add timestamp
+	}
+});
+
+
+/*
+=====================
+Sliders + Input Boxes
+=====================
+*/
 
 //Rotunda Control
 $("#RotundaSlider").slider({
@@ -265,9 +281,9 @@ $("#ClawInputBox").change(function () {
 
 
 /*
-=================
-Pre-set Positions
-=================
+========================
+Pre-set Position Buttons
+========================
 */
 
 //Reset
@@ -284,14 +300,14 @@ $("#reset").click(function(){
 	}
 	$("#buttonDisplay").html("Reset!");
 	$("#reset").addClass('btn-info');
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("All sliders reset!"); //add timestamp
+    $( "#messages" ).html("All sliders reset and position is at rest!"); //add timestamp
 
     $("#Wrist_RollSlider").slider('value', 0);
     $("#Wrist_RollInputBox").val('0');
@@ -300,7 +316,7 @@ $("#reset").click(function(){
 
     $("#ClawSlider").slider('value', 0);
     $("#ClawInputBox").val('0');
-    //$("#ClawState").html("0");
+    $("#ClawState").html("0");
     command.claw_torque = 0;
 
     command.claw = 0;
@@ -334,12 +350,12 @@ $("#reset").click(function(){
 });
 
 //Open Claw
-$("#method0").click(function(){
+$("#OpenClaw").click(function(){
 	$("#buttonDisplay").html("0: Open Claw");
-	$("#method0").addClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").addClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
@@ -348,12 +364,12 @@ $("#method0").click(function(){
 });
 
 //Close Claw
-$("#method1").click(function(){
+$("#CloseClaw").click(function(){
 	$("#buttonDisplay").html("1: Close Claw");
-	$("#method0").removeClass('btn-info');
-	$("#method1").addClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").addClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
@@ -361,27 +377,32 @@ $("#method1").click(function(){
 	command.claw = 1;
 });
 
+//Stop Claw
 $("#stop_claw").click(function(){
 	$("#buttonDisplay").html("Claw STOPPED");
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
 	$("#stop_claw").addClass('btn-info');	
     $( "#messages" ).html("Claw STOPPED"); //add timestamp
+    $("#ClawSlider").slider('value', 0);
+    $("#ClawInputBox").val('0');
+    $("#ClawState").html("0");
 	command.claw = 0;
+	command.claw_torque = 0;
 });
 
 //Wrist Roll Left
-$("#method2").click(function(){
+$("#wrist_roll_left").click(function(){
 	$("#buttonDisplay").html("2: Wrist Roll Left");
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").addClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").addClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
@@ -391,12 +412,12 @@ $("#method2").click(function(){
 });
 
 //Wrist Roll Right
-$("#method3").click(function(){
+$("#wrist_roll_right").click(function(){
 	$("#buttonDisplay").html("3: Wrist Roll Right");
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").addClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").addClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
@@ -408,10 +429,10 @@ $("#method3").click(function(){
 //Stop Wrist Roll
 $("#stop_wrist_roll").click(function(){
 	$("#buttonDisplay").html("Wrist Roll STOPPED");
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
@@ -425,10 +446,10 @@ $("#stop_wrist_roll").click(function(){
 //Touch Ground
 $("#method4").click(function(){
 	$("#buttonDisplay").html("4: Touch Ground");
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").addClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
@@ -468,10 +489,10 @@ $("#method4").click(function(){
 $("#GrabMast").click(function(){
 	//insert appropriate slider value
 	$("#buttonDisplay").html("5: Grab Mast");
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").addClass('btn-info');
 	$("#method6").removeClass('btn-info');
@@ -510,10 +531,10 @@ $("#GrabMast").click(function(){
 $("#method6").click(function(){
 	//insert appropriate slider value
 	$("#buttonDisplay").html("6: Reach Forward");
-	$("#method0").removeClass('btn-info');
-	$("#method1").removeClass('btn-info');
-	$("#method2").removeClass('btn-info');
-	$("#method3").removeClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").addClass('btn-info');
@@ -691,11 +712,10 @@ MIMIC CONTROL
 
 	//rotunda axis from mimic
 	if(gp.axes[0] != 0) {
-	 var baseRotationBit = controllerToBit(gp.axes[0]);
-	 command.rotunda = map(gp.axes[0], 0, 1, LIMITS["rotunda"][0], LIMITS["rotunda"][1]);
-	 document.getElementById("RotundaState").innerHTML = command.rotunda;
-	 //var baseRotationDegree = posNegBitToDegree(baseRotationBit);
-	 //document.getElementById("RotundaState").innerHTML = baseRotationDegree;
+	var baseRotationBit = controllerToBit(gp.axes[0]);
+	command.rotunda = map(gp.axes[0], 0, 1, LIMITS["rotunda"][0], LIMITS["rotunda"][1]);
+	document.getElementById("RotundaState").innerHTML = command.rotunda;
+	document.getElementById("messages").innerHTML = "MIMIC: Rotunda (Axis 0) changed!";
 	}
 
 	//shoulder axis from mimic
@@ -703,26 +723,23 @@ MIMIC CONTROL
 	var shoulderPitchBit = controllerToBit(gp.axes[1]);
 	command.shoulder = map(gp.axes[1], -1, 0.65, LIMITS["shoulder"][0], LIMITS["shoulder"][1]);
 	document.getElementById("ShoulderState").innerHTML = command.shoulder;
-	//var shoulderPitchDegree = posBitToDegree(shoulderPitchBit);
-	//document.getElementById("ShoulderState").innerHTML = shoulderPitchDegree;
+	document.getElementById("messages").innerHTML = "MIMIC: Shoulder (Axis 1) changed!";
 	}
 
 	//elbow axis from mimic
 	if(gp.axes[2] != 0) {
-	  var elbowPitchBit = controllerToBit(gp.axes[2]);
-	 command.elbow = map(-gp.axes[2], -1, 1, LIMITS["elbow"][0], LIMITS["elbow"][1]);
-	 document.getElementById("ElbowState").innerHTML = command.elbow;
-	 //var elbowPitchDegree = posBitToDegree(elbowPitchBit);
-	 //document.getElementById("ElbowState").innerHTML = elbowPitchDegree;
+	var elbowPitchBit = controllerToBit(gp.axes[2]);
+	command.elbow = map(-gp.axes[2], -1, 1, LIMITS["elbow"][0], LIMITS["elbow"][1]);
+	document.getElementById("ElbowState").innerHTML = command.elbow;
+	document.getElementById("messages").innerHTML = "MIMIC: Elbow (Axis 2) changed!";
 	}
 
 	//claw from mimic
 	if(gp.axes[3] != 0) {
-	 var torqueBit = controllerToBit(gp.axes[3]);
-	 document.getElementById("ClawState").innerHTML = command.claw_torque;
-	 //command.claw = torqueBit;
-	 //var torqueDegree = posBitToDegree(torqueBit);
-	 //document.getElementById("ClawState").innerHTML = torqueDegree;
+	var torqueBit = controllerToBit(gp.axes[3]);
+	command.claw_torque = map(-gp.axes[3], -1, 1, LIMITS["claw_torque"][0], LIMITS["claw_torque"][1]);
+	document.getElementById("ClawState").innerHTML = command.claw_torque;
+	document.getElementById("messages").innerHTML = "MIMIC: Claw_torque (Axis 3) changed!";
 	}
 
 	//wrist_pitch from mimic
@@ -730,17 +747,15 @@ MIMIC CONTROL
 		var wristPitchBit = controllerToBit(gp.axes[4]);
 		command.wrist_pitch = map(-gp.axes[4], -1, 1, LIMITS["wrist_pitch"][0], LIMITS["wrist_pitch"][1]);
 		document.getElementById("Wrist_PitchState").innerHTML = command.wrist_pitch;
-		//var wristPitchDegree = posBitToDegree(wristPitchBit);
-		//document.getElementById("Wrist_PitchState").innerHTML = wristPitchDegree;
+		document.getElementById("messages").innerHTML = "MIMIC: Wrist_pitch (Axis 4) changed!";
 	}
 
 	//wrist_rotation from mimic
 	if(gp.axes[5] != 0) {
 		var wristRotationBit = controllerToBit(gp.axes[5]);
+		command.wrist_roll = map(-gp.axes[5], -1, 1, LIMITS["wrist_roll"][0], LIMITS["wrist_roll"][1]);
 		document.getElementById("Wrist_RollState").innerHTML = command.wrist_roll;
-		//command.wrist_rotation = wristRotationBit;
-		//var wristRotationDegree = posNegBitToDegree(wristRotationBit);
-		//document.getElementById("Wrist_RollState").innerHTML = wristRotationDegree;
+		document.getElementById("messages").innerHTML = "MIMIC: Wrist_roll (Axis 5) changed!";
 	}
 
 	var start = rAF(gameLoop);
@@ -780,6 +795,8 @@ var SendToRoverCoreS = setInterval(() =>
 
 
 $('[data-toggle="toggle"]').bootstrapToggle();
+
+
 
 /*
    	     _
