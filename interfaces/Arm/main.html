@@ -10,7 +10,7 @@
   <img id="camerafeed" ref="mainscreen"></img>
 </div>
 	
-<!-- Manual Control Off -->
+<!-- Manual Control Off Section -->
 	<!-- Top row -->
 	<div class="row">
 		<div class="col-md-1 mancontrolbutton">
@@ -47,50 +47,30 @@
 		<button type="button" class="camselect btn" id="ElbowCam">Elbow</button>&nbsp;
 		<button type="button" class="camselect btn" id="BaseCam">Base</button>&nbsp;
 	</div>
-    <div class="col-md-2 clawclaw"><b class="sectionTitle">CLAW TORQUE: </b>
+    <div class="col-md-2 clawclaw"><b class="sectionTitle">CLAW (T)ORQUE: </b>
     	<text id ="ClawState"></text>
     </div>
     <div class="col-md-2 clawclaw1">
-		<!--<b class="sectionTitle">(T)ORQUE: </b> <text id="ClawState"></text> &nbsp;-->
-		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
-		@4
-		<b>PITCH / Claw?</b> &nbsp; <text id="ClawState"></text>  &nbsp; &nbsp;
-		-->
     </div>
 	</div>
-<!-- Bottom row -->
-<div class="row">
-	<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(R)OTATION: </b> &nbsp;
-		BASE <text id="RotundaState"></text>  &nbsp;
-		WRIST <text id="Wrist_RollState"></text>  &nbsp;
-		CAM_BASE <text id="Rotunda_CameraState"></text>  &nbsp;
-		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
+	<!-- Bottom row -->
+	<div class="row">
+		<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(R)OTATION </b> &nbsp;
+			BASE: <text id="RotundaState"></text>  &nbsp;
+			WRIST: <text id="Wrist_RollState"></text>  &nbsp;
+			CAM_BASE: <text id="Rotunda_CameraState"></text>  &nbsp;
+		</div>
+		<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(P)ITCH </b> &nbsp;
+			SHOULDER: <text id="ShoulderState"></text>  &nbsp;
+			ELBOW: <text id="ElbowState"></text>  &nbsp;
+			WRIST: <text id="Wrist_PitchState"></text>  &nbsp;
+		</div>
+		<div class="col-md-4 clawclawclaw2"><b class="sectionTitle">LAST BUTTON POSITION: </b>
+	    	<text id="buttonDisplay"></text>
+		</div>
+	</div>
 
-		@5 BASE &nbsp; {this.state.Rotunda}  &nbsp;
-		@6 WRIST &nbsp; {this.state.Wrist_Roll}  &nbsp;
-		-->
-	</div>
-	<div class="col-md-4" id="mancontroloff2"><b class="sectionTitle">(P)ITCH: </b> &nbsp;
-		SHOULDER <text id="ShoulderState"></text>  &nbsp;
-		ELBOW <text id="ElbowState"></text>  &nbsp;
-		WRIST <text id="Wrist_PitchState"></text>  &nbsp;
-		<!-- Sliders.. Analog# is for Gamepad/Mimic value display
-		@7
-		SHOULDER &nbsp; {this.state.Shoulder}  &nbsp;
-		@8
-		ELBOW &nbsp; {this.state.Elbow}  &nbsp;
-		@9
-		WRIST &nbsp; {this.state.Wrist_Pitch}  &nbsp;
-		-->
-	</div>
-	<div class="col-md-4 clawclawclaw2"><b class="sectionTitle">LAST BUTTON POSITION: </b>
-    	<!-- @10 -->
-    	<text id="buttonDisplay"></text>
-	</div>
-</div>
-<!--  END Manual Control Off Section -->
-
-<!--  BEGIN Manual Control On Section -->
+<!-- Manual Control On Section -->
 <div class="row">
 <div id="manualControl">
 	<!-- Rotation Control html -->
@@ -102,16 +82,10 @@
 		</p>
 		<p class="spaced">
 			<text class="controlTitle">(R) WRIST</text> &nbsp;
-			<button type="button" class="preset btn" id="method2" value="method2">Wrist Roll Counter-Clockwise</button>
-			<button type="button" class="preset btn" id="method3" value="method3">Wrist Roll Clockwise</button>
+			<button type="button" class="preset btn btn-danger" id="stop_wrist_roll" value="stop_wrist_roll">STOP WRIST ROLL</button>
+			<button type="button" class="preset btn" id="method2" value="method2">Wrist Roll Left</button>
+			<button type="button" class="preset btn" id="method3" value="method3">Wrist Roll Right</button>
 		</p>
-		<!--
-		<p>
-			<text class="controlTitle">(R) WRIST</text> &nbsp;
-	        <input id="Wrist_RollInputBox" type="number" min="0" max="2" value="0" class="InputBox"/>
-	        <div id="Wrist_RollSlider" class="ArmSlider"></div>
-		</p>
-		-->
 		<p>
 			<text class="controlTitle">(R) CAM_BASE</text> &nbsp;
 	        <input id="Rotunda_CameraInputBox" type="number" min="0" max="270" value="180" class="InputBox"/>
@@ -140,22 +114,21 @@
 	<div class="col-xs-4" id="controlsection">
 		<p>
 			<text class="controlTitle">(T) CLAW</text> &nbsp;
-	        <input id="ClawInputBox" type="number" min="0" max="2" value="0" class="InputBox"/>
+	        <input id="ClawInputBox" type="number" min="0" max="100" value="0" class="InputBox"/>
+			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+			<button type="button" class="preset btn btn-danger" id="stop_claw" value="stop_claw">STOP CLAW</button>
+			<button type="button" class="preset btn" id="method0" value="method0">Open Claw</button>
+			<button type="button" class="preset btn" id="method1" value="method1">Close Claw</button>
 	        <div id="ClawSlider" class="ArmSlider"></div>
 		</p>
 		<div id = "centered">
 			<p><b><text class="controlTitle">BUTTONS FOR PRE-SET POSITIONS</text></b></p>
-				<!--  @11
-				ASSIGN ONCHANGE SLIDER VALUES WHEN BUTTONS BELOW ARE CLICKED
-				-->
 			<p>
 				<button type="button" class="btn btn-danger" id="reset" value="reset">RESET SLIDERS</button>
 			</p>
 			<p>
-				<button type="button" class="preset btn" id="method0" value="method0">Open Claw</button>
-				<button type="button" class="preset btn" id="method1" value="method1">Close Claw</button>
 				<button type="button" class="preset btn" id="method4" value="method4">Touch Ground</button>
-				<button type="button" class="preset btn" id="method5" value="method5">Reach Behind</button>
+				<button type="button" class="preset btn" id="GrabMast" value="GrabMast">Grab Mast</button>
 				<button type="button" class="preset btn" id="method6" value="method6">Reach Forward</button>
 			</p>
 		</div>
@@ -166,6 +139,4 @@
 <footer>
 <!-- Custom Page JS -->
 <script type="text/javascript" src="interfaces/Arm/js/arm-interface.js?r={{ANTI-CACHE-MARKER}}"></script>
-<!--<script type="text/javascript" src="js/testcontroller.js?r={{ANTI-CACHE-MARKER}}"></script>-->
-<!--<script type="text/javascript" src="js/testprimus.js?r={{ANTI-CACHE-MARKER}}"></script>-->
 </footer>

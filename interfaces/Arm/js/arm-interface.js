@@ -1,5 +1,3 @@
-
-
 /*
 =========================
 Arm Component Parameters
@@ -13,13 +11,11 @@ var ArmPayload = {
     "shoulder": 270, //150-280 (180 = full horizontal)
     "elbow": 600, // 200-1000
     "wrist_pitch": 180, //90-270 (180 = full horizontal)
-    "wrist_roll": 0, //0 = stop, 1=spins one way, 2=spins other way (incremenet 0,1,2)
-    	//2 = clockwise
-    	//1 = counter-clockwise
+    "wrist_roll": 0, //0 = stop, 1 = left, 2 = right
     "claw": 0, // 1=close, 0=stop, 2=open (increment 0,1,2)
     "claw_torque": 0, //0-100
-    "camera_select": 0, //commented out on Arm.js in rovercore-s
-    "rotunda_camera": 180, //commented out on Arm.js in rovercore-s
+    "camera_select": 0, //0 = , 1 = , 2 =
+    "rotunda_camera": 180, //0-270 where 180 = straight ahead
 };
 
 function map(value, low1, high1, low2, high2)
@@ -93,20 +89,59 @@ $("#BaseCam").click(function(){
 
 
 
+//[A][B]
 //Manual Control Toggle
-/*
+	//Toggling Manual Control OFF sets the rover to RESET
 $("#ToggleManualControl").change(function(){
 	if($(this).prop("checked") == true){
 		$("#manualControl").css("display", "block");
 		$("#manualControl").css("opacity", "1");
 		$("#camerafeed").css("height", "600px");
+	    $( "#messages" ).html("MC On!"); //add timestamp
 	}else{
 		$("#camerafeed").css("height", "800px");
 		$("#manualControl").css("display", "none");
-	}
+	    $( "#messages" ).html("MC Off! Position set to reset!"); //add timestamp
 
+	    $("#Wrist_RollSlider").slider('value', 0);
+	    $("#Wrist_RollInputBox").val('0');
+	    $("#Wrist_RollState").html("0");
+	    command.wrist_roll = 0;
+
+	    $("#ClawSlider").slider('value', 0);
+	    $("#ClawInputBox").val('0');
+	    $("#ClawState").html("0");
+	    command.claw_torque = 0;
+
+	    command.claw = 0;
+
+	    $("#RotundaSlider").slider('value', 1500);
+	    $("#RotundaInputBox").val('1500');
+	    $("#RotundaState").html("1500");
+	    command.rotunda = 1500;
+
+		$("#Rotunda_CameraSlider").slider('value', 180);
+	    $("#Rotunda_CameraInputBox").val('180');
+	    $("#Rotunda_CameraState").html("180");
+	    command.rotunda_camera = 180;
+
+	    $("#ShoulderSlider").slider('value', 270);
+	    $("#ShoulderInputBox").val('270');
+	    $("#ShoulderState").html("270");
+	    command.shoulder = 270;
+
+	    $("#ElbowSlider").slider('value', 600);
+	    $("#ElbowInputBox").val('600');
+	    $("#ElbowState").html("600");
+	    command.elbow = 600;
+
+	    $("#Wrist_PitchSlider").slider('value', 180);
+	    $("#Wrist_PitchInputBox").val('180');
+	    $("#Wrist_PitchState").html("180");
+	    command.wrist_pitch = 180;
+
+	}
 });
-*/
 
 
 //Rotunda Control
@@ -289,19 +324,27 @@ $("#reset").click(function(){
 	$("#method2").removeClass('btn-info');
 	$("#method3").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
-	$("#method5").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("All sliders reset!"); //add timestamp
+
+    $("#Wrist_RollSlider").slider('value', 0);
+    $("#Wrist_RollInputBox").val('0');
+    $("#Wrist_RollState").html("0");
+    command.wrist_roll = 0;
+
+    $("#ClawSlider").slider('value', 0);
+    $("#ClawInputBox").val('0');
+    //$("#ClawState").html("0");
+    command.claw_torque = 0;
+
+    command.claw = 0;
 
     $("#RotundaSlider").slider('value', 1500);
     $("#RotundaInputBox").val('1500');
     $("#RotundaState").html("1500");
     command.rotunda = 1500;
 
-    $("#Wrist_RollSlider").slider('value', 0);
-    $("#Wrist_RollInputBox").val('0');
-    $("#Wrist_RollState").html("0");
-    command.wrist_roll = 0;
 
 	$("#Rotunda_CameraSlider").slider('value', 180);
     $("#Rotunda_CameraInputBox").val('180');
@@ -323,17 +366,6 @@ $("#reset").click(function(){
     $("#Wrist_PitchState").html("180");
     command.wrist_pitch = 180;
 
-    $("#ClawSlider").slider('value', 0);
-    $("#ClawInputBox").val('0');
-    //$("#ClawState").html("0");
-    command.claw_torque = 0;
-
-    command.claw = 0;
-    /*@@@@@@@*/
-	//$("#ClawSlider").slider('value', 2);
-	//$("#ClawInputBox").val('2');
-	//command.claw = 2;
-	//$("#ClawState").text(parseInt(this.value)); //change this to converted torque
 });
 
 //Open Claw
@@ -344,7 +376,7 @@ $("#method0").click(function(){
 	$("#method2").removeClass('btn-info');
 	$("#method3").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
-	$("#method5").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 0: Open Claw!"); //add timestamp
 	command.claw = 2;
@@ -360,48 +392,77 @@ $("#method1").click(function(){
 	$("#method2").removeClass('btn-info');
 	$("#method3").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
-	$("#method5").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 1: Close Claw!"); //add timestamp
 	command.claw = 1;
 	//$("#ClawState").text(parseInt(this.value)); //change this to converted torque
 });
 
-//Changed from Deploy POD to Wrist Roll A
+$("#stop_claw").click(function(){
+	//insert appropriate slider values
+	$("#buttonDisplay").html("Claw STOPPED");
+	$("#method0").removeClass('btn-info');
+	$("#method1").removeClass('btn-info');
+	$("#method2").removeClass('btn-info');
+	$("#method3").removeClass('btn-info');
+	$("#method4").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
+	$("#method6").removeClass('btn-info');
+	$("#stop_claw").addClass('btn-info');	
+    $( "#messages" ).html("Claw STOPPED"); //add timestamp
+	command.claw = 0;
+	//$("#ClawState").text(parseInt(this.value)); //change this to converted torque
+});
+
+//Wrist Roll Left
 $("#method2").click(function(){
 	//insert appropriate slider values
-	$("#buttonDisplay").html("2: Wrist Roll A");
+	$("#buttonDisplay").html("2: Wrist Roll Left");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
 	$("#method2").addClass('btn-info');
 	$("#method3").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
-	$("#method5").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 2: Wrist Roll Counter-Clockwise!"); //add timestamp
-	$("#Wrist_RollSlider").slider('value', 1);
-	$("#Wrist_RollInputBox").val('1');
-    $("#Wrist_RollState").html("Counter-Clockwise");
+    $( "#messages" ).html("Position changed to 2: Wrist Roll Left!"); //add timestamp
+    $("#Wrist_RollState").html("Roll left");
 	command.wrist_roll = 1;
 });
 
-//Changed from Retreive POD to Wrist Roll B
+//Wrist Roll Right
 $("#method3").click(function(){
 	//insert appropriate slider values
-	$("#buttonDisplay").html("3: Wrist Roll B");
+	$("#buttonDisplay").html("3: Wrist Roll Right");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
 	$("#method2").removeClass('btn-info');
 	$("#method3").addClass('btn-info');
 	$("#method4").removeClass('btn-info');
-	$("#method5").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 3: Wrist Roll Clockwise!"); //add timestamp
-	$("#Wrist_RollSlider").slider('value', 2);
-	$("#Wrist_RollInputBox").val('2');
-    $("#Wrist_RollState").html("Clockwise");
+    $( "#messages" ).html("Position changed to 3: Wrist Roll Right!"); //add timestamp
+    $("#Wrist_RollState").html("Roll right");
 	command.wrist_roll = 2;
 });
+
+//Stop Wrist Roll
+$("#stop_wrist_roll").click(function(){
+	$("#buttonDisplay").html("Wrist Roll STOPPED");
+	$("#method0").removeClass('btn-info');
+	$("#method1").removeClass('btn-info');
+	$("#method2").removeClass('btn-info');
+	$("#method3").removeClass('btn-info');
+	$("#method4").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
+	$("#method6").removeClass('btn-info');
+	$("#stop_wrist_roll").addClass('btn-info');
+    $( "#messages" ).html("Wrist Roll STOPPED"); //add timestamp
+    $("#Wrist_RollState").html("0");
+	command.wrist_roll = 0;
+});
+
 
 //Touch Ground
 $("#method4").click(function(){
@@ -411,7 +472,7 @@ $("#method4").click(function(){
 	$("#method2").removeClass('btn-info');
 	$("#method3").removeClass('btn-info');
 	$("#method4").addClass('btn-info');
-	$("#method5").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 4: Touch Ground!"); //add timestamp
 	//insert appropriate slider value
@@ -423,18 +484,18 @@ $("#method4").click(function(){
 	$("#ShoulderState").text(parseInt(this.value));
 });
 
-//Reach Behind
-$("#method5").click(function(){
+//Grab Mast
+$("#GrabMast").click(function(){
 	//insert appropriate slider value
-	$("#buttonDisplay").html("5: Reach Behind");
+	$("#buttonDisplay").html("5: Grab Mast");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
 	$("#method2").removeClass('btn-info');
 	$("#method3").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
-	$("#method5").addClass('btn-info');
+	$("#GrabMast").addClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 5: Reach Behind!"); //add timestamp
+    $( "#messages" ).html("Position changed to 5: Grab Mast!"); //add timestamp
 });
 
 //Reach Forward
@@ -446,7 +507,7 @@ $("#method6").click(function(){
 	$("#method2").removeClass('btn-info');
 	$("#method3").removeClass('btn-info');
 	$("#method4").removeClass('btn-info');
-	$("#method5").removeClass('btn-info');
+	$("#GrabMast").removeClass('btn-info');
 	$("#method6").addClass('btn-info');
     $( "#messages" ).html("Position changed to 6: Reach Forward!"); //add timestamp
 });
@@ -572,7 +633,7 @@ MIMIC CONTROL
 
 	}
 	if (buttonPressed(gp.buttons[2])) {
-	document.getElementById("buttonDisplay").innerHTML = "2: Reach Behind?";
+	document.getElementById("buttonDisplay").innerHTML = "2: Grab Mast?";
 	//command.rotunda = ;
 	//command.shoulder = ;
 	//command.elbow = ;
