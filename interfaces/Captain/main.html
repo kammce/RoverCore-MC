@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/leaflet.css?r={{ANTI-CACHE-MARKER}}">
     <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/Orientation.css?r={{ANTI-CACHE-MARKER}}">
     <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/bootstrap-toggle.css?r={{ANTI-CACHE-MARKER}}">
-    <script type="text/javascript" src="interfaces/Captain/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
+        <script type="text/javascript" src="interfaces/Captain/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
     <script type="text/javascript" src="interfaces/Captain/js/leaflet.js?r={{ANTI-CACHE-MARKER}}"></script>
     <script type="text/javascript" src="interfaces/Captain/js/justgage.js?r={{ANTI-CACHE-MARKER}}"></script>
     <script type="text/javascript" src="interfaces/Captain/js/raphael.min.js?r={{ANTI-CACHE-MARKER}}"></script>
@@ -29,9 +29,8 @@
 
     <div class="container-fluid map">
 
-      <div class="col-lg-8 camera-container">
-          <img src="img/camera.jpg" class="camera" />
-      </div>
+      <img class="col-lg-8 camera-container" id="camera-container">
+      </img>
 
       <div class="col-lg-4 autonomous-container">
         <div id="mapid"></div>
@@ -46,12 +45,17 @@
               </div>
               <!---Autonomous on off button-->
               <div  class="input-group top-buffer">
-                <input type="checkbox" data-toggle="toggle" data-on="Autonomous Off" data-off="Autonomous On" data-onstyle="success" data-offstyle="danger" data-width="600%" id="AutonomousToggle" >
+                    <button type="button" class="btn btn-default " id="method0" value="method0">Auto On</button>
+                    <button type="button" class="btn btn-default btn-info" id="method1" value="method1">Auto Off</button>
+                    <button type="button" class="btn btn-default " id="CamOn" value="method0">Cam On</button>
+                    <button type="button" class="btn btn-default " id="CamOff" value="method1">Cam Off</button>
               </div>
               <!---GPS/Sonic on off button-->
               <div class="input-group top-buffer">
-                <input type="checkbox" checked data-toggle="toggle" data-on="GPS   On" data-off="GPS   Off" data-onstyle="success" data-offstyle="danger" data-width="113px">
-                <input type="checkbox" checked data-toggle="toggle" data-on="Ultrasonic On" data-off="Ultrasonic Off" data-onstyle="success" data-offstyle="danger" >
+                <button type="button" class="btn btn-default btn-info" id="method2" value="method2">GPS On</button>
+                <button type="button" class="btn btn-default " id="method3" value="method3">GPS Off</button>
+                <button type="button" class="btn btn-default " id="method4" value="method4">Sonic On</button>
+                <button type="button" class="btn btn-default btn-info" id="method5" value="method5">Sonic Off</button>
               </div>
 
               <div class="input-group ">
@@ -164,7 +168,8 @@
           </div>
 
         <div class="col-lg-3 placeholder">
-                   <h4>FreeSpace</h4>
+          <h4>Geiger Counter </h4>
+            <div id="geiger"   style="width:200px; height:200px; display:inline-block" ></div>
 
         </div>
 
