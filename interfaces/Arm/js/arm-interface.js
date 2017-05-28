@@ -293,10 +293,10 @@ $("#reset").click(function(){
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("All sliders reset!"); //add timestamp
 
-    $("#RotundaSlider").slider('value', 1700);
-    $("#RotundaInputBox").val('1700');
-    $("#RotundaState").html("1700");
-    command.rotunda = 1700;
+    $("#RotundaSlider").slider('value', 1500);
+    $("#RotundaInputBox").val('1500');
+    $("#RotundaState").html("1500");
+    command.rotunda = 1500;
 
     $("#Wrist_RollSlider").slider('value', 0);
     $("#Wrist_RollInputBox").val('0');
@@ -308,10 +308,10 @@ $("#reset").click(function(){
     $("#Rotunda_CameraState").html("180");
     command.rotunda_camera = 180;
 
-    $("#ShoulderSlider").slider('value', 180);
-    $("#ShoulderInputBox").val('180');
-    $("#ShoulderState").html("180");
-    command.shoulder = 180;
+    $("#ShoulderSlider").slider('value', 270);
+    $("#ShoulderInputBox").val('270');
+    $("#ShoulderState").html("270");
+    command.shoulder = 270;
 
     $("#ElbowSlider").slider('value', 600);
     $("#ElbowInputBox").val('600');
