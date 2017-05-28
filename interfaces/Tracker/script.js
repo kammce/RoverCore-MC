@@ -144,3 +144,21 @@ function LidarClick(){
     console.log('Lidar Disabled');  
   }
 };
+
+//Camera Switch  (disabled = camera B, enabled = camera A)     
+function CamSwitch(){
+  console.log("Camera Switched");
+  var button = document.getElementById("CamSwitch");
+  if(button.classList.contains("disabled")){
+    button.classList.add('enabled');
+    button.classList.remove('disabled'); 
+    button.textContent = 'Switch to Camera A';
+    console.log('Camera B');
+  }
+  else{
+    button.classList.add('disabled');
+    button.classList.remove('enabled');
+    button.textContent = 'Switch to Camera B';
+    console.log('Camera A');  
+  }
+};

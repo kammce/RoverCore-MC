@@ -19,6 +19,8 @@
 		<div class="col-lg-3 placeholder">
 			<h5>Lidar</h5>
 			<button onclick="LidarClick()" type="button" class="disabled" id="LidarEnable" style: "height:75%; width: 75%;">Activate Lidar</button>
+			<!--Camera Switch-->
+			<button type = "button" class="disabled" id="CamSwitch" onclick="CamSwitch()">Switch to camera B</button>
 		</div>
 		<!--ZOOM-->
 		<div class="col-lg-3 placeholder">
@@ -41,10 +43,10 @@
 				<button type = "button" value="Speed Enable" class="disabled" id="YawSpeed" onclick="YawSpeedEn()">Enable Speed</button>
 				<!--YAW POSITION SLIDER-->
 				<div id="valRange">
-					<div id="leftRange">0</div>
-					<div id="rightRange">87</div>
+					<div id="leftRange">-360</div>
+					<div id="rightRange">360</div>
 				</div>
-				<input id="YawPosSlide" type="range" data-slider-min="0" data-slider-max="87" data-slider-step="1" onchange = "YPSlides(this.value)" data-slider-value="43"/></span>
+				<input id="YawPosSlide" type="range" data-slider-min="-360" data-slider-max="360" data-slider-step="1" onchange = "YPSlides(this.value)" data-slider-value="43"/></span>
 				<span>Current Position: <span id="YawPosCurrentValue">43</span></span>
 				<form name="zoomForm" onsubmit="YPsetNewValZoom()">
 				<input type="text" id="yawPosInp" onkeypress="YPEntZoom(this.value, event)">	
