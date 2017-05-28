@@ -206,11 +206,11 @@ $("#ShoulderSlider").slider({
 	}
 });
 
-	$("#ShoulderInputBox").change(function () {
-		$("#ShoulderSlider").slider("value", parseInt(this.value));
-		command.shoulder = this.value; //rovercore-s command
-		$("#ShoulderState").text(parseInt(this.value)); //change this to converted degrees
-		$( "#messages" ).html("Shoulder Changed!"); //make this more detailed and scrollable and add timestamp
+$("#ShoulderInputBox").change(function () {
+	$("#ShoulderSlider").slider("value", parseInt(this.value));
+	command.shoulder = this.value; //rovercore-s command
+	$("#ShoulderState").text(parseInt(this.value)); //change this to converted degrees
+	$( "#messages" ).html("Shoulder Changed!"); //make this more detailed and scrollable and add timestamp
 });
 
 //Elbow Pitch Control
@@ -575,82 +575,93 @@ Mimic Connection
 ================
 */
 
+var ToggleMimic = document.querySelector("#ToggleMimic");
+var gameloop_interval, check_gamepad_interval;
 
-	var gamepadInfo = document.getElementById("gamepad-info");
-	var start;
-	var a = 0;
-	var b = 0;
-	var rAF = window.mozRequestAnimationFrame ||
-	window.webkitRequestAnimationFrame ||
-	window.requestAnimationFrame;
-	var rAFStop = window.mozCancelRequestAnimationFrame ||
-	window.webkitCancelRequestAnimationFrame ||
-	window.cancelRequestAnimationFrame;
-
-	window.addEventListener("gamepadconnected", function() {
-		var gp = navigator.getGamepads()[0];
-		document.getElementById("gamepad-info").innerHTML = "MIMIC: On";
-		gameLoop();
-	});
-
-	window.addEventListener("gamepaddisconnected", function() {
-		rAFStop(start);
-		document.getElementById("gamepad-info").innerHTML = "MIMIC: Off";
-	});
-
-	if(!('GamepadEvent' in window)) {
-		// No gamepad events available, poll instead.
-		var interval = setInterval(pollGamepads, 500);
+function buttonPressed(b) {
+	if (typeof(b) == "object") {
+		return b.pressed;
 	}
+	return b == 1.0;
+}
 
-	function pollGamepads() {
-		var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
-		for (var i = 0; i < gamepads.length; i++) {
-			var gp = gamepads[i];
-			if(gp) {
-	 			gameLoop();
-	 			clearInterval(interval);
-			}
-		}
-	}
+var midBit = 512;
 
-	function buttonPressed(b) {
-		if (typeof(b) == "object") {
-			return b.pressed;
-		}
-		return b == 1.0;
-	}
+function controllerToBit(x)
+{
+  var bit
+    if(x == -1)
+    {
+      bit = 0;
+    }
+    else
+    {
+      bit = ((x+1)*midBit) - 1;
+ 	}
+    bit = Math.round(bit);
 
-	//Mimic Value Conversion
-	function gameLoop() {
-	var midBit = 512;
+    return bit;
+}
 
-	function controllerToBit(x)
-	{
-	  var bit
-	    if(x == -1)
-	    {
-	      bit = 0;
-	    }
-	    else
-	    {
-	      bit = ((x+1)*midBit) - 1;
-	 	}
-	    bit = Math.round(bit);
+window.addEventListener("gamepadconnected", function(e)
+{
+	var gp = navigator.getGamepads()[e.gamepad.index];
+	console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+		gp.index,
+		gp.id,
+		gp.buttons.length,
+		gp.axes.length
+	);
+});
 
-	    return bit;
-	}
-
-
-/*
-=============
-MIMIC CONTROL
-=============
-*/
+function pollGamepads()
+{
 	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+	for (var i = 0; i < gamepads.length; i++)
+	{
+		var gp = gamepads[i];
+		if (gp)
+		{
+			console.log("Gamepad connected at index " + gp.index + ": " + gp.id +
+				". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
+			intervalControl(true);
+			$("#ToggleMimic").prop('checked', true).change();
+		}
+	}
+}
+
+function intervalControl(poll_gamepad)
+{
+	if(poll_gamepad)
+	{
+		gameloop_interval = setInterval(gameLoop, 100);
+		clearInterval(check_gamepad_interval);
+	}
+	else
+	{
+		check_gamepad_interval = setInterval(pollGamepads, 1000);
+		clearInterval(gameloop_interval);
+	}
+}
+
+function gameLoop()
+{
+	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
+
 	if (!gamepads)
-	return;
+	{
+		$("#ToggleMimic").prop('checked', false).change();
+		intervalControl(false);
+		return;
+	}
+
 	var gp = gamepads[0];
+
+	if(gp === null)
+	{
+		$("#ToggleMimic").prop('checked', false).change();
+		intervalControl(false);
+	}
 
 	if (buttonPressed(gp.buttons[0])) {
 	document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
@@ -758,8 +769,10 @@ MIMIC CONTROL
 		document.getElementById("messages").innerHTML = "MIMIC: Wrist_roll (Axis 5) changed!";
 	}
 
-	var start = rAF(gameLoop);
-};
+}
+
+
+intervalControl(false);
 
 
 /*
