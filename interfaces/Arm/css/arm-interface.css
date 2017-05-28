@@ -1,3 +1,7 @@
+.spaced {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
 
 .InputBox {
 	color: black;
@@ -47,7 +51,7 @@ body {
 
 .mancontrolbutton {
   border: 2px solid white;
-  padding: 4px;
+  padding: 6px;
   text-align: center;
 }
 
@@ -116,10 +120,20 @@ body {
 	color: #2A9FD6;
 }
 
+.preset {
+	padding: 4px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
 .btn-info {
 	padding: 4px;
-	margin-left: 4px;
-	margin-right: 4px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.camselect {
+	padding: 8px;
 }
 
 
