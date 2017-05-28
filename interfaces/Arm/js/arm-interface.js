@@ -1,3 +1,4 @@
+
 /*
 =========================
 Arm Component Parameters
@@ -88,10 +89,12 @@ $("#BaseCam").click(function(){
 });
 
 
-
-//[A][B]
-//Manual Control Toggle
-	//Toggling Manual Control OFF sets the rover to RESET
+/*
+===============================
+Manual Control and Mimic Toggle
+===============================
+*/
+//[B]
 $("#ToggleManualControl").change(function(){
 	if($(this).prop("checked") == true){
 		$("#manualControl").css("display", "block");
@@ -101,45 +104,7 @@ $("#ToggleManualControl").change(function(){
 	}else{
 		$("#camerafeed").css("height", "800px");
 		$("#manualControl").css("display", "none");
-	    $( "#messages" ).html("MC Off! Position set to reset!"); //add timestamp
-
-	    $("#Wrist_RollSlider").slider('value', 0);
-	    $("#Wrist_RollInputBox").val('0');
-	    $("#Wrist_RollState").html("0");
-	    command.wrist_roll = 0;
-
-	    $("#ClawSlider").slider('value', 0);
-	    $("#ClawInputBox").val('0');
-	    $("#ClawState").html("0");
-	    command.claw_torque = 0;
-
-	    command.claw = 0;
-
-	    $("#RotundaSlider").slider('value', 1500);
-	    $("#RotundaInputBox").val('1500');
-	    $("#RotundaState").html("1500");
-	    command.rotunda = 1500;
-
-		$("#Rotunda_CameraSlider").slider('value', 180);
-	    $("#Rotunda_CameraInputBox").val('180');
-	    $("#Rotunda_CameraState").html("180");
-	    command.rotunda_camera = 180;
-
-	    $("#ShoulderSlider").slider('value', 270);
-	    $("#ShoulderInputBox").val('270');
-	    $("#ShoulderState").html("270");
-	    command.shoulder = 270;
-
-	    $("#ElbowSlider").slider('value', 600);
-	    $("#ElbowInputBox").val('600');
-	    $("#ElbowState").html("600");
-	    command.elbow = 600;
-
-	    $("#Wrist_PitchSlider").slider('value', 180);
-	    $("#Wrist_PitchInputBox").val('180');
-	    $("#Wrist_PitchState").html("180");
-	    command.wrist_pitch = 180;
-
+	    $( "#messages" ).html("MC Off!"); //add timestamp
 	}
 });
 
@@ -380,12 +345,10 @@ $("#method0").click(function(){
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 0: Open Claw!"); //add timestamp
 	command.claw = 2;
-	//$("#ClawState").text(parseInt(this.value)); //change this to converted torque
 });
 
 //Close Claw
 $("#method1").click(function(){
-	//insert appropriate slider values
 	$("#buttonDisplay").html("1: Close Claw");
 	$("#method0").removeClass('btn-info');
 	$("#method1").addClass('btn-info');
@@ -396,11 +359,9 @@ $("#method1").click(function(){
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 1: Close Claw!"); //add timestamp
 	command.claw = 1;
-	//$("#ClawState").text(parseInt(this.value)); //change this to converted torque
 });
 
 $("#stop_claw").click(function(){
-	//insert appropriate slider values
 	$("#buttonDisplay").html("Claw STOPPED");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
@@ -412,12 +373,10 @@ $("#stop_claw").click(function(){
 	$("#stop_claw").addClass('btn-info');	
     $( "#messages" ).html("Claw STOPPED"); //add timestamp
 	command.claw = 0;
-	//$("#ClawState").text(parseInt(this.value)); //change this to converted torque
 });
 
 //Wrist Roll Left
 $("#method2").click(function(){
-	//insert appropriate slider values
 	$("#buttonDisplay").html("2: Wrist Roll Left");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
@@ -433,7 +392,6 @@ $("#method2").click(function(){
 
 //Wrist Roll Right
 $("#method3").click(function(){
-	//insert appropriate slider values
 	$("#buttonDisplay").html("3: Wrist Roll Right");
 	$("#method0").removeClass('btn-info');
 	$("#method1").removeClass('btn-info');
@@ -475,13 +433,35 @@ $("#method4").click(function(){
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 4: Touch Ground!"); //add timestamp
-	//insert appropriate slider value
-	//arm.shoulder = 590;
-	//arm.wrist_pitch = 265;
-	//SendPayload(arm);
+
+    //command sent to rovercore-s 
+    /*
+	command.rotunda = 
+		//850-2350
+	command.shoulder = 
+		//150-280 
+	command.elbow = 
+		//200-1000
+	command.wrist_pitch = 
+		//90-270
+	command.wrist_roll = 
+		//0-2
+	command.claw = 
+		//0-2
+	command.claw_torque = 
+		//0-100
+	//command.camera_select = 
+		//0-2
+	//command.rotunda_camera = 
+		//0-270
+	*/
+
+    //GUI changes according to command
+    /*
 	$("#ShoulderSlider").slider('value', 590);
 	$("#ShoulderInputBox").val('590');
 	$("#ShoulderState").text(parseInt(this.value));
+	*/
 });
 
 //Grab Mast
@@ -496,6 +476,34 @@ $("#GrabMast").click(function(){
 	$("#GrabMast").addClass('btn-info');
 	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 5: Grab Mast!"); //add timestamp
+    //command sent to rovercore-s 
+    /*
+	command.rotunda = 
+		//850-2350
+	command.shoulder = 
+		//150-280 
+	command.elbow = 
+		//200-1000
+	command.wrist_pitch = 
+		//90-270
+	command.wrist_roll = 
+		//0-2
+	command.claw = 
+		//0-2
+	command.claw_torque = 
+		//0-100
+	//command.camera_select = 
+		//0-2
+	//command.rotunda_camera = 
+		//0-270
+	*/
+
+    //GUI changes according to command
+    /*
+	$("#ShoulderSlider").slider('value', 590);
+	$("#ShoulderInputBox").val('590');
+	$("#ShoulderState").text(parseInt(this.value));
+	*/
 });
 
 //Reach Forward
@@ -510,6 +518,34 @@ $("#method6").click(function(){
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").addClass('btn-info');
     $( "#messages" ).html("Position changed to 6: Reach Forward!"); //add timestamp
+    //command sent to rovercore-s 
+    /*
+	command.rotunda = 
+		//850-2350
+	command.shoulder = 
+		//150-280 
+	command.elbow = 
+		//200-1000
+	command.wrist_pitch = 
+		//90-270
+	command.wrist_roll = 
+		//0-2
+	command.claw = 
+		//0-2
+	command.claw_torque = 
+		//0-100
+	//command.camera_select = 
+		//0-2
+	//command.rotunda_camera = 
+		//0-270
+	*/
+
+    //GUI changes according to command
+    /*
+	$("#ShoulderSlider").slider('value', 590);
+	$("#ShoulderInputBox").val('590');
+	$("#ShoulderState").text(parseInt(this.value));
+	*/
 });
 
 /*
