@@ -58,6 +58,10 @@ function SendPayload(json)
       command: json
     };
     primus.write(payload);
+    
+    /* Debug */
+    console.log("typeof yaw angle: " + typeof command.yaw.angle);
+    console.log("typeof pitch angle: " + typeof command.pitch.angle);
   }
 }
 
@@ -89,7 +93,7 @@ function setNewValZoom(){
 function EntZoom(val, e){
   console.log(val);
   if(e.code=="Space"){
-    var zoomVal = document.getElementById("zoomInp").value;
+    var zoomVal = parseInt(document.getElementById("zoomInp").value);
     document.getElementById('ZoomCurrentValue').textContent = zoomVal;
     document.getElementById('ZoomSlide').value = zoomVal;
     document.getElementById("zoomInp").value="";
@@ -126,7 +130,7 @@ function YPSlides(sliderValue){
   inp.addEventListener("mousemove", function() {
     document.getElementById('YawPosCurrentValue').textContent = inp.value;
   });
-  command.yaw.angle = inp.value;
+  command.yaw.angle = parseInt(inp.value);
 };
 
 function YPSlideUnclick(){
@@ -137,7 +141,7 @@ function YPsetNewValZoom(){
   var zoomVal = document.getElementById("yawPosInp").value;
   document.getElementById('YawPosCurrentValue').textContent = zoomVal;
   document.getElementById('YawPosSlide').value = zoomVal;
-  command.yaw.angle = zoomVal;
+  command.yaw.angle = parseInt(zoomVal);
   SendPayload(command);
 };
 
@@ -149,7 +153,7 @@ function YPEntZoom(val, e){
     document.getElementById('YawPosSlide').value = zoomVal;
     document.getElementById("yawPosInp").value="";
   }
-  command.yaw.angle = zoomVal;
+  command.yaw.angle = parseInt(zoomVal);
   SendPayload(command);
 };
 
@@ -184,7 +188,7 @@ function PPSlides(sliderValue){
   inp.addEventListener("mousemove", function() {
     document.getElementById('PitchPosCurrentValue').textContent = inp.value;
   });
-  command.pitch.angle = inp.value;
+  command.pitch.angle = parseInt(inp.value);
   SendPayload(command);
 };
 
@@ -196,7 +200,7 @@ function PPsetNewValZoom(){
   var zoomVal = document.getElementById("pitchPosInp").value;
   document.getElementById('PitchPosCurrentValue').textContent = zoomVal;
   document.getElementById('PitchPosSlide').value = zoomVal;
-  command.pitch.angle = zoomVal;
+  command.pitch.angle = parseInt(zoomVal);
   SendPayload(command);
 };
 
@@ -208,7 +212,7 @@ function PPEntZoom(val, e){
     document.getElementById('PitchPosSlide').value = zoomVal;
     document.getElementById("pitchPosInp").value="";
   }
-  command.pitch.angle = zoomVal;
+  command.pitch.angle = parseInt(zoomVal);
   SendPayload(command);
 };
 
