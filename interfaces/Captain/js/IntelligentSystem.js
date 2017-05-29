@@ -12,21 +12,28 @@ var NeoCortexObject = {
    "Finish" : "Invalid",
    "Gate_lattitude" : -1,
    "Gate_longitude" : -1,
-   "GPSHeading" : 0
+   "GPSHeading" : 0,
+   "Distance"  : 0
 };
 
 var GPSObject = {
    "Lat" : 0,
    "Long" : 0,
+   "Altitude":0
 };
 
- var PowerObject = {
+var PowerObject = {
    "mAH" : 0,
    "Batt1Temp" : 0,
    "Batt2Temp" : 0,
    "Batt3Temp" : 0,
    "BattLevel": 0
- }
+}
+
+var ScienceObject = { 
+    "CMP":0
+}
+
 var BattLevel = document.getElementsByClassName("BattLevel");
 var BattTemp1 = document.getElementsByClassName("BattTemp1");
 var BattTemp2 = document.getElementsByClassName("BattTemp2");
@@ -228,7 +235,8 @@ function GetModel(){
               "Finish" : model.NeoCortex.value.Finish,
               "Gate_lattitude" : model.NeoCortex.value.Gate_lattitude,
               "Gate_longitude" : model.NeoCortex.value.Gate_longitude,
-              "GPSHeading" :  model.NeoCortex.value.GPS_Heading
+              "GPSHeading" :  model.NeoCortex.value.GPS_Heading,
+              "Distance" : model.NeoCortex.value.Distance
         }
       }
       catch(err){}
@@ -236,7 +244,8 @@ function GetModel(){
       try{
         GPSObject = {
           "Lat" : model.GPS.value.lat,
-          "Long": model.GPS.value.long
+          "Long": model.GPS.value.long,
+          "Altitude": model.GPS.value.alt
         }
       }
       catch(err){}
@@ -261,13 +270,29 @@ function GetModel(){
       }
       catch(err){}
 
+         try{
+        PowerObject = {
+            "mAH" : model.Power.value.mAhRemaining,
+            "Batt1Temp" : model.Power.value.temperatures.Battery1,
+            "Batt2Temp" : model.Power.value.temperatures.Battery2,
+            "Batt3Temp" : model.Power.value.temperatures.Battery3,
+            "BattLevel": model.Power.value.batteryPercentage
+        }
+      }
+      catch(err){}
+
+        try{
+          ScienceObject = {
+            "CMP" : model.Science.value.CMP
+        }
+      }
+      catch(err){}
+
          //console.log(PowerObject.BattLevel);
         BattLevel[0].style.width = (parseInt(PowerObject.BattLevel)).toString() + "%";
         BattTemp1[0].style.width = ((parseInt(PowerObject.Batt1Temp)/140) * 100).toString() +"%" ;
         BattTemp2[0].style.width = ((parseInt(PowerObject.Batt2Temp)/140) * 100).toString() + "%";
         BattTemp3[0].style.width = ((parseInt(PowerObject.Batt3Temp)/140) * 100).toString() + "%";
-
-
               //console.log(NeoCortexObject.Direction);
         document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  " ;
         document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish ;
@@ -275,15 +300,22 @@ function GetModel(){
         document.querySelector('#GateLong').innerHTML = NeoCortexObject.Gate_longitude ;
         document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading + " " ;
         document.querySelector('#RoverHeading').innerHTML = OrientationObject.heading + " " ;
+        document.querySelector('#Distance').innerHTML = NeoCortexObject.heading;
+
         document.querySelector('#CurrLat').innerHTML =  (Math.round(GPSObject.Lat*100000)/100000) + " " ;
         document.querySelector('#CurrLong').innerHTML = (Math.round(GPSObject.Long*100000)/100000) ;
+        document.querySelector('#Altitude').innerHTML = GPSObject.Altitude ;
+
         document.querySelector('#BattLevel').innerHTML = PowerObject.BattLevel + "%";
-        
         document.querySelector('#BattTemp1').innerHTML = PowerObject.Batt1Temp + " F";
         document.querySelector('#BattTemp2').innerHTML = PowerObject.Batt2Temp + " F";
         document.querySelector('#BattTemp3').innerHTML = PowerObject.Batt3Temp + " F";
 
+        document.querySelector('#Geiger').innerHTML = ScienceObject.CMP;
+
         rover.setLatLng([GPSObject.Lat,GPSObject.Long]);//function from Mapscript.js
+
+        
     }
   }, 200);
 }
