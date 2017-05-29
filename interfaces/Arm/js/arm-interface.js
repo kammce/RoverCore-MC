@@ -1,12 +1,9 @@
-
-/*
-=========================
-Arm Component Parameters
-=========================
-*/
+//=========================
+//Arm Component Parameters
+//=========================
 
 
-// default state 
+// default/rest values
 var ArmPayload = {
     "rotunda": 1500, //850-2350
     "shoulder": 270, //150-280 (180 = full horizontal)
@@ -18,6 +15,7 @@ var ArmPayload = {
     "camera_select": 0, //0 = , 1 = , 2 =
     "rotunda_camera": 180, //0-270 where 180 = straight ahead
 };
+
 
 function map(value, low1, high1, low2, high2)
 {
@@ -66,7 +64,16 @@ var validator = {
 //Command sent to RoverCore-S
 var command = new Proxy(ArmPayload, validator);
 
-//Camera Selection
+
+//=============
+//Cam Selection
+//=============
+
+//Load ClawCam initially
+jQuery(function(){
+  jQuery('#ClawCam').click();
+});
+
 $("#ClawCam").click(function(){
 	$("#camerafeed").attr('src', 'interfaces/Arm/css/images/thatclaw.png?r={{ANTI-CACHE-MARKER}}');
 	$("#ClawCam").addClass('btn-success');
@@ -89,41 +96,10 @@ $("#BaseCam").click(function(){
 });
 
 
-/*
-===============================
-Manual Control and Mimic Toggle
-===============================
-*/
 
-//[B]
-
-$("#ToggleManualControl").change(function(){
-	if($(this).prop("checked") == true){
-		$("#manualControl").css("display", "block");
-		$("#manualControl").css("opacity", "1");
-		$("#camerafeed").css("height", "600px");
-	    $( "#messages" ).html("Mission Control On!"); //add timestamp
-	}else{
-		$("#camerafeed").css("height", "800px");
-		$("#manualControl").css("display", "none");
-	    $( "#messages" ).html("Mission Control Off!"); //add timestamp
-	}
-});
-
-$("#ToggleMimic").change(function(){
-	if($(this).prop("checked") == true){
-	    $( "#messages" ).html("Mimic On!"); //add timestamp
-	}else{
-	    $( "#messages" ).html("Mimic Off!"); //add timestamp
-	}
-});
-
-
-/*
-=====================
-Sliders + Input Boxes
-=====================
-*/
+//=====================
+//Sliders + Input Boxes
+//=====================
 
 //Rotunda Control
 $("#RotundaSlider").slider({
@@ -134,17 +110,17 @@ $("#RotundaSlider").slider({
 	max: LIMITS["rotunda"][1],
 	slide: function( event, ui ) {
 	    $( "#RotundaInputBox" ).val(ui.value);
-	    $( "#RotundaState" ).text(ui.value); //change this to converted degrees
-	    $( "#messages" ).html("Rotunda Changed!"); //make this more detailed and scrollable and add timestamp
-	    command.rotunda = ui.value; //command sent to
+	    $( "#RotundaState" ).text(ui.value); 
+	    $( "#messages" ).html("Rotunda Changed!"); 
+	    command.rotunda = ui.value; //rovercore-s command
 	}
 });
 
 $("#RotundaInputBox").change(function () {
 	$("#RotundaSlider").slider("value", parseInt(this.value));
 	command.rotunda = this.value; //rovercore-s command
-	$("#RotundaState").text(parseInt(this.value)); //change this to converted degrees
-	$( "#messages" ).html("Rotunda Changed!"); //make this more detailed and scrollable and add timestamp
+	$("#RotundaState").text(parseInt(this.value)); 
+	$( "#messages" ).html("Rotunda Changed!");
 });
 
 //Wrist Rotation Control
@@ -156,8 +132,8 @@ $("#Wrist_RollSlider").slider({
 	max: LIMITS["wrist_roll"][1],
 	slide: function( event, ui ) {
 	    $( "#Wrist_RollInputBox" ).val(ui.value);
-	    $( "#Wrist_RollState" ).text(ui.value); //change this to converted degrees
-		$( "#messages" ).html("Wrist_Roll Changed!"); //make this more detailed and scrollable and add timestamp
+	    $( "#Wrist_RollState" ).text(ui.value); 
+		$( "#messages" ).html("Wrist_Roll Changed!"); 
 		command.wrist_roll = ui.value; //rovercore-s command
 	}
 });
@@ -165,8 +141,8 @@ $("#Wrist_RollSlider").slider({
 $("#Wrist_RollInputBox").change(function () {
 	$("#Wrist_RollSlider").slider("value", parseInt(this.value));
 	command.wrist_roll = this.value; //rovercore-s command
-	$("#Wrist_RollState").text(parseInt(this.value)); //change this to converted degrees
-	$( "#messages" ).html("Wrist_Roll Changed!"); //make this more detailed and scrollable and add timestamp
+	$("#Wrist_RollState").text(parseInt(this.value)); 
+	$( "#messages" ).html("Wrist_Roll Changed!"); 
 });
 
 //Rotunda Camera Control
@@ -178,8 +154,8 @@ $("#Rotunda_CameraSlider").slider({
 	max: LIMITS["rotunda_camera"][1],
 	slide: function( event, ui ) {
 	    $( "#Rotunda_CameraInputBox" ).val(ui.value);
-	    $( "#Rotunda_CameraState" ).text(ui.value); //change this to converted degrees
-		$( "#messages" ).html("Rotunda_Camera Changed!"); //make this more detailed and scrollable and add timestamp
+	    $( "#Rotunda_CameraState" ).text(ui.value); 
+		$( "#messages" ).html("Rotunda_Camera Changed!");
 		command.rotunda_camera = ui.value; //rovercore-s command
 	}
 });
@@ -187,8 +163,8 @@ $("#Rotunda_CameraSlider").slider({
 $("#Rotunda_CameraInputBox").change(function () {
 	$("#Rotunda_CameraSlider").slider("value", parseInt(this.value));
 	command.rotunda_camera = this.value; //rovercore-s command
-	$("#Rotunda_CameraState").text(parseInt(this.value)); //change this to converted degrees
-	$( "#messages" ).html("Rotunda_Camera Changed!"); //make this more detailed and scrollable and add timestamp
+	$("#Rotunda_CameraState").text(parseInt(this.value)); 
+	$( "#messages" ).html("Rotunda_Camera Changed!"); 
 });
 
 //Shoulder Pitch Control
@@ -200,8 +176,8 @@ $("#ShoulderSlider").slider({
 	max: LIMITS["shoulder"][1],
 	slide: function( event, ui ) {
 	    $( "#ShoulderInputBox" ).val(ui.value);
-	    $( "#ShoulderState" ).text(ui.value); //change this to converted degrees
-		$( "#messages" ).html("Shoulder Changed!"); //make this more detailed and scrollable and add timestamp
+	    $( "#ShoulderState" ).text(ui.value); 
+		$( "#messages" ).html("Shoulder Changed!"); 
 		command.shoulder = ui.value; //rovercore-s command
 	}
 });
@@ -209,8 +185,8 @@ $("#ShoulderSlider").slider({
 $("#ShoulderInputBox").change(function () {
 	$("#ShoulderSlider").slider("value", parseInt(this.value));
 	command.shoulder = this.value; //rovercore-s command
-	$("#ShoulderState").text(parseInt(this.value)); //change this to converted degrees
-	$( "#messages" ).html("Shoulder Changed!"); //make this more detailed and scrollable and add timestamp
+	$("#ShoulderState").text(parseInt(this.value)); 
+	$( "#messages" ).html("Shoulder Changed!"); 
 });
 
 //Elbow Pitch Control
@@ -222,8 +198,8 @@ $("#ElbowSlider").slider({
   max: LIMITS["elbow"][1],
   slide: function( event, ui ) {
       $( "#ElbowInputBox" ).val(ui.value);
-      $( "#ElbowState" ).text(ui.value); //change this to converted degrees
-      $( "#messages" ).html("Elbow Changed!"); //make this more detailed and scrollable and add timestamp
+      $( "#ElbowState" ).text(ui.value); 
+      $( "#messages" ).html("Elbow Changed!"); 
       command.elbow = ui.value; //rovercore-s command
   }
 });
@@ -231,8 +207,8 @@ $("#ElbowSlider").slider({
 $("#ElbowInputBox").change(function () {
 	$("#ElbowSlider").slider("value", parseInt(this.value));
 	command.elbow = this.value; //rovercore-s command
-	$("#ElbowState").text(parseInt(this.value)); //change this to converted degrees
-	$( "#messages" ).html("Elbow Changed!"); //make this more detailed and scrollable and add timestamp
+	$("#ElbowState").text(parseInt(this.value)); 
+	$( "#messages" ).html("Elbow Changed!"); 
 });
 
 //Wrist Pitch Control
@@ -244,8 +220,8 @@ $("#Wrist_PitchSlider").slider({
   max: LIMITS["wrist_pitch"][1],
   slide: function( event, ui ) {
       $( "#Wrist_PitchInputBox" ).val(ui.value);
-      $( "#Wrist_PitchState" ).text(ui.value); //change this to converted degrees
-      $( "#messages" ).html("Wrist_Pitch Changed!"); //make this more detailed and scrollable and add timestamp
+      $( "#Wrist_PitchState" ).text(ui.value); 
+      $( "#messages" ).html("Wrist_Pitch Changed!"); 
       command.wrist_pitch = ui.value; //rovercore-s command
   }
 });
@@ -253,8 +229,8 @@ $("#Wrist_PitchSlider").slider({
 $("#Wrist_PitchInputBox").change(function () {
 	$("#Wrist_PitchSlider").slider("value", parseInt(this.value));
 	command.wrist_pitch = this.value; //rovercore-s command
-	$("#Wrist_PitchState").text(parseInt(this.value)); //change this to converted degrees
-	$( "#messages" ).html("Wrist_Pitch Changed!"); //make this more detailed and scrollable and add timestamp
+	$("#Wrist_PitchState").text(parseInt(this.value)); 
+	$( "#messages" ).html("Wrist_Pitch Changed!"); 
 });
 
 //Claw Torque Control 
@@ -266,8 +242,8 @@ $("#ClawSlider").slider({
   max: LIMITS["claw_torque"][1],
   slide: function( event, ui ) {
       $( "#ClawInputBox" ).val(ui.value);
-      $( "#ClawState" ).text(ui.value); //change this to converted torque
-      $( "#messages" ).html("Claw_torque Changed!"); //make this more detailed and scrollable and add timestamp
+      $( "#ClawState" ).text(ui.value); 
+      $( "#messages" ).html("Claw_torque Changed!"); 
       command.claw_torque = ui.value; //rovercore-s command
   }
 });
@@ -275,18 +251,15 @@ $("#ClawSlider").slider({
 $("#ClawInputBox").change(function () {
 	$("#ClawSlider").slider("value", parseInt(this.value));
 	command.claw_torque = this.value; //rovercore-s command
-	$("#ClawState").text(parseInt(this.value)); //change this to converted torque
-	$( "#messages" ).html("Claw Changed!"); //make this more detailed and scrollable and add timestamp
+	$("#ClawState").text(parseInt(this.value)); 
+	$( "#messages" ).html("Claw Changed!");
 });
 
+//========================
+//Pre-set Position Buttons
+//========================
 
-/*
-========================
-Pre-set Position Buttons
-========================
-*/
-
-//Reset
+//Reset Button
 $("#reset").click(function(){
 
 	if(Connection.state === Connection.CONNECTED)
@@ -307,41 +280,49 @@ $("#reset").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("All sliders reset and position is at rest!"); //add timestamp
+    $( "#messages" ).html("All sliders reset and position is at rest!"); 
 
+	//commands sent to rovercore-s 
+    //wrist_roll stops
     $("#Wrist_RollSlider").slider('value', 0);
     $("#Wrist_RollInputBox").val('0');
     $("#Wrist_RollState").html("0");
     command.wrist_roll = 0;
 
+    //claw_torque stops
     $("#ClawSlider").slider('value', 0);
     $("#ClawInputBox").val('0');
     $("#ClawState").html("0");
     command.claw_torque = 0;
 
+    //claw stops
     command.claw = 0;
 
+    //rotunda rotates to center
     $("#RotundaSlider").slider('value', 1500);
     $("#RotundaInputBox").val('1500');
     $("#RotundaState").html("1500");
     command.rotunda = 1500;
 
-
+    //rotunda cam faces straightforward
 	$("#Rotunda_CameraSlider").slider('value', 180);
     $("#Rotunda_CameraInputBox").val('180');
     $("#Rotunda_CameraState").html("180");
     command.rotunda_camera = 180;
 
+    //shoulder 
     $("#ShoulderSlider").slider('value', 270);
     $("#ShoulderInputBox").val('270');
     $("#ShoulderState").html("270");
     command.shoulder = 270;
 
+    //elbow
     $("#ElbowSlider").slider('value', 600);
     $("#ElbowInputBox").val('600');
     $("#ElbowState").html("600");
     command.elbow = 600;
 
+    //wrist_pitch
     $("#Wrist_PitchSlider").slider('value', 180);
     $("#Wrist_PitchInputBox").val('180');
     $("#Wrist_PitchState").html("180");
@@ -349,7 +330,7 @@ $("#reset").click(function(){
 
 });
 
-//Open Claw
+//Open Claw Button
 $("#OpenClaw").click(function(){
 	$("#buttonDisplay").html("0: Open Claw");
 	$("#OpenClaw").addClass('btn-info');
@@ -359,11 +340,11 @@ $("#OpenClaw").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 0: Open Claw!"); //add timestamp
+    $( "#messages" ).html("Position changed to 0: Open Claw!"); 
 	command.claw = 2;
 });
 
-//Close Claw
+//Close Claw Button
 $("#CloseClaw").click(function(){
 	$("#buttonDisplay").html("1: Close Claw");
 	$("#OpenClaw").removeClass('btn-info');
@@ -373,11 +354,11 @@ $("#CloseClaw").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 1: Close Claw!"); //add timestamp
+    $( "#messages" ).html("Position changed to 1: Close Claw!"); 
 	command.claw = 1;
 });
 
-//Stop Claw
+//Stop Claw Button
 $("#stop_claw").click(function(){
 	$("#buttonDisplay").html("Claw STOPPED");
 	$("#OpenClaw").removeClass('btn-info');
@@ -388,11 +369,11 @@ $("#stop_claw").click(function(){
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
 	$("#stop_claw").addClass('btn-info');	
-    $( "#messages" ).html("Claw STOPPED"); //add timestamp
+    $( "#messages" ).html("Claw STOPPED"); 
 	command.claw = 0;
 });
 
-//Wrist Roll Left
+//Wrist Roll Left Button
 $("#wrist_roll_left").click(function(){
 	$("#buttonDisplay").html("2: Wrist Roll Left");
 	$("#OpenClaw").removeClass('btn-info');
@@ -402,12 +383,12 @@ $("#wrist_roll_left").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 2: Wrist Roll Left!"); //add timestamp
+    $( "#messages" ).html("Position changed to 2: Wrist Roll Left!"); 
     $("#Wrist_RollState").html("Roll left");
 	command.wrist_roll = 1;
 });
 
-//Wrist Roll Right
+//Wrist Roll Right Button
 $("#wrist_roll_right").click(function(){
 	$("#buttonDisplay").html("3: Wrist Roll Right");
 	$("#OpenClaw").removeClass('btn-info');
@@ -417,12 +398,12 @@ $("#wrist_roll_right").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 3: Wrist Roll Right!"); //add timestamp
+    $( "#messages" ).html("Position changed to 3: Wrist Roll Right!"); 
     $("#Wrist_RollState").html("Roll right");
 	command.wrist_roll = 2;
 });
 
-//Stop Wrist Roll
+//Stop Wrist Roll Button
 $("#stop_wrist_roll").click(function(){
 	$("#buttonDisplay").html("Wrist Roll STOPPED");
 	$("#OpenClaw").removeClass('btn-info');
@@ -433,13 +414,14 @@ $("#stop_wrist_roll").click(function(){
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
 	$("#stop_wrist_roll").addClass('btn-info');
-    $( "#messages" ).html("Wrist Roll STOPPED"); //add timestamp
+    $( "#messages" ).html("Wrist Roll STOPPED"); 
     $("#Wrist_RollState").html("0");
 	command.wrist_roll = 0;
 });
 
 
-//Touch Ground
+//[INCOMPLETE]
+//Touch Ground???
 $("#method4").click(function(){
 	$("#buttonDisplay").html("4: Touch Ground");
 	$("#OpenClaw").removeClass('btn-info');
@@ -449,7 +431,7 @@ $("#method4").click(function(){
 	$("#method4").addClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 4: Touch Ground!"); //add timestamp
+    $( "#messages" ).html("Position changed to 4: Touch Ground!"); 
 
     //command sent to rovercore-s 
     /*
@@ -481,6 +463,7 @@ $("#method4").click(function(){
 	*/
 });
 
+//[INCOMPLETE]
 //Grab Mast
 $("#GrabMast").click(function(){
 	//insert appropriate slider value
@@ -492,7 +475,7 @@ $("#GrabMast").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").addClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 5: Grab Mast!"); //add timestamp
+    $( "#messages" ).html("Position changed to 5: Grab Mast!"); 
     //command sent to rovercore-s 
     /*
 	command.rotunda = 
@@ -523,7 +506,8 @@ $("#GrabMast").click(function(){
 	*/
 });
 
-//Reach Forward
+//[INCOMPLETE]
+//Reach Forward Button?
 $("#method6").click(function(){
 	//insert appropriate slider value
 	$("#buttonDisplay").html("6: Reach Forward");
@@ -534,8 +518,9 @@ $("#method6").click(function(){
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").addClass('btn-info');
-    $( "#messages" ).html("Position changed to 6: Reach Forward!"); //add timestamp
+    $( "#messages" ).html("Position changed to 6: Reach Forward!"); 
     //command sent to rovercore-s 
+    
     /*
 	command.rotunda = 
 		//850-2350
@@ -565,12 +550,12 @@ $("#method6").click(function(){
 	*/
 });
 
-/*
-================
-Mimic Connection
-================
-*/
 
+//================
+//Mimic Connection
+//================
+
+//ToggleMimic button
 var ToggleMimic = document.querySelector("#ToggleMimic");
 var gameloop_interval, check_gamepad_interval;
 
@@ -581,6 +566,8 @@ function buttonPressed(b) {
 	return b == 1.0;
 }
 
+//Mimic sends values from  -1 to 1 and RoverCore-S reads values from 0-1023
+//so the function controllerToBit sends readable values
 var midBit = 512;
 
 function controllerToBit(x)
@@ -622,6 +609,7 @@ function pollGamepads()
 				". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
 			intervalControl(true);
 			$("#ToggleMimic").prop('checked', true).change();
+			$("#ToggleManualControl").prop('checked', false).change();
 		}
 	}
 }
@@ -647,6 +635,7 @@ function gameLoop()
 	if (!gamepads)
 	{
 		$("#ToggleMimic").prop('checked', false).change();
+		$("#ToggleManualControl").prop('checked', true).change();
 		intervalControl(false);
 		return;
 	}
@@ -656,36 +645,54 @@ function gameLoop()
 	if(gp === null)
 	{
 		$("#ToggleMimic").prop('checked', false).change();
+		$("#ToggleManualControl").prop('checked', true).change();
 		intervalControl(false);
 	}
 
-	if (buttonPressed(gp.buttons[0])) {
-	document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
-    document.getElementById("messages").innerHTML= "Position changed to 0: Open Claw!"; //add timestamp
-	command.claw = 2;
-	} else if (buttonPressed(gp.buttons[1])) {
-	document.getElementById("buttonDisplay").innerHTML = "1: Close Claw";
-    document.getElementById("messages").innerHTML= "Position changed to 1: Close Claw!"; //add timestamp
-	command.claw = 1;
-	}else{
+	//=============
+	//MIMIC BUTTONS
+	//=============
+
+	//If else statement below is so that
+	//Buttons 0 and 1 on the Mimic only work as they are pressed
+	//Once these buttons are released, command.claw = 0 is sent which stops opening/closing
+	//Same goes for buttons 5 and 6 which are for wrist rotation left or right
+	if (buttonPressed(gp.buttons[0])) 
+	{
+		document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
+	    document.getElementById("messages").innerHTML= "Position changed to 0: Open Claw!"; 
+		command.claw = 2;
+	} 
+	else if (buttonPressed(gp.buttons[1]))
+	{
+		document.getElementById("buttonDisplay").innerHTML = "1: Close Claw";
+	    document.getElementById("messages").innerHTML= "Position changed to 1: Close Claw!"; 
+		command.claw = 1;
+	}
+	else
+	{
 		command.claw = 0;
 	}
 	if (buttonPressed(gp.buttons[5])) {
-	document.getElementById("buttonDisplay").innerHTML = "5: Wrist Roll A";
-    document.getElementById("messages").innerHTML= "Position changed to 5: Wrist Roll A!"; //add timestamp
-	document.getElementById("Wrist_RollState").innerHTML = "A";
-	command.wrist_roll = 1;
+		document.getElementById("buttonDisplay").innerHTML = "5: Wrist Roll A";
+	    document.getElementById("messages").innerHTML= "Position changed to 5: Wrist Roll A!"; 
+		document.getElementById("Wrist_RollState").innerHTML = "A";
+		command.wrist_roll = 1;
 	}
 	else if (buttonPressed(gp.buttons[6]))
 	{
-	document.getElementById("buttonDisplay").innerHTML = "6: Wrist Roll B";
-    document.getElementById("messages").innerHTML= "Position changed to 6: Wrist Roll B!"; //add timestamp
-	command.wrist_roll = 2;
-	document.getElementById("Wrist_RollState").innerHTML = "B";
-	}else{
+		document.getElementById("buttonDisplay").innerHTML = "6: Wrist Roll B";
+	    document.getElementById("messages").innerHTML= "Position changed to 6: Wrist Roll B!"; 
+		command.wrist_roll = 2;
+		document.getElementById("Wrist_RollState").innerHTML = "B";
+	}
+	else
+	{
 		command.wrist_roll = 0;
 	}
 
+	//[INCOMPLETE]
+	//function that only works if you hold the button
 	if (buttonPressed(gp.buttons[4])) {
 	document.getElementById("buttonDisplay").innerHTML = "4: Touch Ground?";
 	//command.rotunda = ;
@@ -694,8 +701,13 @@ function gameLoop()
 	//command.wrist_pitch = ;
 	//command.wrist_roll = ;
 	//command.claw = ;
+		//else{
+		//}
 
 	}
+
+	//[INCOMPLETE]
+	//function that only works if you hold the button
 	if (buttonPressed(gp.buttons[2])) {
 	document.getElementById("buttonDisplay").innerHTML = "2: Grab Mast?";
 	//command.rotunda = ;
@@ -704,8 +716,10 @@ function gameLoop()
 	//command.wrist_pitch = ;
 	//command.wrist_roll = ;
 	//command.claw = ;
-
 	}
+
+	//[INCOMPLETE]
+	//function that only works if you hold the button
 	if (buttonPressed(gp.buttons[3])) {
 	document.getElementById("buttonDisplay").innerHTML = "3: Reach Forward?";
 	//command.rotunda = ;
@@ -714,8 +728,11 @@ function gameLoop()
 	//command.wrist_pitch = ;
 	//command.wrist_roll = ;
 	//command.claw = ;
-
 	}
+
+	//==========
+	//MIMIC AXES
+	//==========
 
 	//rotunda axis from mimic
 	if(gp.axes[0] != 0) {
@@ -757,6 +774,7 @@ function gameLoop()
 		document.getElementById("messages").innerHTML = "MIMIC: Wrist_pitch (Axis 4) changed!";
 	}
 
+	//[INCOMPLETE] --> CHANGE TO rotunda_camera?
 	//wrist_rotation from mimic
 	if(gp.axes[5] != 0) {
 		var wristRotationBit = controllerToBit(gp.axes[5]);
@@ -771,11 +789,42 @@ function gameLoop()
 intervalControl(false);
 
 
-/*
-======================
-rovercore-s connection
-======================
-*/
+//===============================
+//Manual Control and Mimic Toggle
+//===============================
+
+//[B]
+//[INCOMPLETE] --> Toggling Manual Control doesn't turn it off 
+	//it stays connected despite toggling MC on or Mimic Off
+	//to disconnect Mimic, unplug USB
+
+$("#ToggleManualControl").change(function(){
+	if($(this).prop("checked") == true){
+		$("#manualControl").css("display", "block");
+		$("#manualControl").css("opacity", "1");
+		$("#camerafeed").css("height", "600px");
+	    $( "#messages" ).html("Mission Control On!"); 
+	}else{
+		$("#camerafeed").css("height", "800px");
+		$("#manualControl").css("display", "none");
+	    $( "#messages" ).html("Mission Control Off!"); 
+	}
+});
+
+$("#ToggleMimic").change(function(){
+	if($(this).prop("checked") == true){
+	    $( "#messages" ).html("Mimic On!"); 
+		$("#ToggleManualControl").prop('checked', false).change();
+	}else{
+	    $( "#messages" ).html("Mimic Off!"); 
+	}
+});
+
+
+//======================
+//rovercore-s connection
+//======================
+
 
 var LobeAssignmentInterval = setInterval(function()
 {
@@ -802,6 +851,37 @@ var SendToRoverCoreS = setInterval(() =>
 	}
 }, 100);
 
+
+//=======================
+//Current Draw from Mimic
+//=======================
+
+//RoverCore-MC ID = RoverCore-S Variable
+//[INCOMPLETE] --> untested with Sameer's code
+
+var rotunda_current;
+var shoulder_current;
+var elbow_current_left;
+var elbow_current_right;
+var wrist_current_left;
+var wrist_current_right;
+var claw_current;
+
+function displayCurrent(){
+	document.getElementById("RotundaCurrent").innerHTML = rotunda_current;
+	document.getElementById("ShoulderCurrent").innerHTML = shoulder_current;
+	document.getElementById("LElbowCurrent").innerHTML = elbow_current_left;
+	document.getElementById("RElbowCurrent").innerHTML = elbow_current_right;
+	document.getElementById("LWristCurrent").innerHTML = wrist_current_left;
+	document.getElementById("RWristCurrent").innerHTML = wrist_current_right;
+	document.getElementById("ClawCurrent").innerHTML = claw_current;
+}
+
+
+
+//========================================================
+//Bootstrap toggle for ToggleManualControl and ToggleMimic
+//========================================================
 
 $('[data-toggle="toggle"]').bootstrapToggle();
 
