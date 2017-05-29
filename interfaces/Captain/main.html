@@ -1,192 +1,158 @@
-<!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" type="text/css" href="interfaces/Captain/css/style.css?r={{ANTI-CACHE-MARKER}}">
+<link rel="stylesheet" type="text/css" href="interfaces/Captain/css/leaflet.css?r={{ANTI-CACHE-MARKER}}">
+<link rel="stylesheet" type="text/css" href="interfaces/Captain/css/Orientation.css?r={{ANTI-CACHE-MARKER}}">
 
-  <head>
-  
+<div class="row" style="text-align: center;">
+	<div class="col-xs-12">
+		<h1>Captain's Cabin</h1>
+	</div>
+</div>
 
+<div class="container-fluid map">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Captain Cabin</title>
-    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/style.css?r={{ANTI-CACHE-MARKER}}">
-    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/leaflet.css?r={{ANTI-CACHE-MARKER}}">
-    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/Orientation.css?r={{ANTI-CACHE-MARKER}}">
-    <link rel="stylesheet" type="text/css" href="interfaces/Captain/css/bootstrap-toggle.css?r={{ANTI-CACHE-MARKER}}">
-        <script type="text/javascript" src="interfaces/Captain/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
-    <script type="text/javascript" src="interfaces/Captain/js/leaflet.js?r={{ANTI-CACHE-MARKER}}"></script>
-    <script type="text/javascript" src="interfaces/Captain/js/justgage.js?r={{ANTI-CACHE-MARKER}}"></script>
-    <script type="text/javascript" src="interfaces/Captain/js/raphael.min.js?r={{ANTI-CACHE-MARKER}}"></script>
+	<div class="col-lg-6 camera-container">
+		<img class="camera" id="camera-container" />
+	</div>
+	<div class="col-lg-6 autonomous-container">
+		<div class="col-sm-12" style="height: 42vh">
+			<div id="mapid"></div>
+		</div>
+		<!---GPS Coordinate Input filed-->
+		<div class="col-sm-12">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Lat:Deg-Min-Dir,Lon:Deg-Min-Dir" id="GateCoordinate">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" id="GateEnter">Enter!</button>
+					<button type="button" class="btn btn-default" onclick="goToRover()">Go to Rover</button>
+				</span>
+			</div>
+		</div>
+		<!---Autonomous on off button-->
+		<div class="col-sm-12">
+			<div class="btn-group" role="group" aria-label="...">
+				<button type="button" class="btn btn-default bt-sm" id="method0" value="method0">Auto On</button>
+				<button type="button" class="btn btn-default btn-info" id="method1" value="method1">Auto Off</button>
+			</div>
+			<div class="btn-group" role="group" aria-label="...">
+				<button type="button" class="btn btn-default " id="CamOn" value="method0">Cam On</button>
+				<button type="button" class="btn btn-default " id="CamOff" value="method1">Cam Off</button>
+			</div>
+			<div class="btn-group" role="group" aria-label="...">
+				<button type="button" class="btn btn-default btn-info" id="method2" value="method2">GPS On</button>
+				<button type="button" class="btn btn-default " id="method3" value="method3">GPS Off</button>
+			</div>
+			<div class="btn-group" role="group" aria-label="...">
+				<button type="button" class="btn btn-default " id="method4" value="method4">Sonic On</button>
+				<button type="button" class="btn btn-default btn-info" id="method5" value="method5">Sonic Off</button>
+			</div>
+		</div>
+	</div>
 
+</div>
+<div class="col-sm-12 map-telemetry-items">
+	<div class="col-sm-1"><p>Command 	   : <br><span id="Command">---</span></p></div>
+	<div class="col-sm-1"><p>Gate Reach    : <br><span id="GateReach">---</span></p></div>
+	<div class="col-sm-1"><p>Altitude	   : <br><span id="Altitude">0.0</span> m</p></div>
+	<div class="col-sm-1"><p>Temperature   : <br><span id="Temperature">0.0</span> °C</p></div>
+	<div class="col-sm-1"><p>Geiger Counter: <br><span id="Geiger">0.0</span> MeV</p></div>
+	<div class="col-sm-1"><p>Rover Heading : <br><span id="RoverHeading">0.0</span>°</p></div>
+	<div class="col-sm-1"><p>GPS Heading   : <br><span id="GPSHeading">0.0</span>°</p></div>
+	<div class="col-sm-1"><p>Current Lat   : <br><span id="CurrLat">0.0</span>°</p></div>
+	<div class="col-sm-1"><p>Current Long  : <br><span id="CurrLong">0.0</span>°</p></div>
+	<div class="col-sm-1"><p>Gate Lat 	   : <br><span id="GateLat">0.0</span>°</p></div>
+	<div class="col-sm-1"><p>Gate Long     : <br><span id="GateLong">0.0</span>°</p></div>
+</div>
+<div class="container-fluid" style="margin-left: 25px; margin-right: 25px;">
+	<div class="row">
+		<div class="col-lg-3 placeholder" id="Battery">
+			<h4>Battery Level</h4>
+			<div class="progress">
+				<div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
+			</div>
+			<div class="col-sm-12" style="padding:0px; margin: 0px;">
+				<div class="col-sm-4">
+					<h4>Temp 1</h4>
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<h4>Temp 2</h4>
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<h4>Temp 3</h4>
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"></div>
+					</div>
+				</div>
+			</div>
+			<button data-value="" id="kill-all" class="btn btn-default btn-danger">KILL POWER SYSTEMS</button>
+			<button data-value="" id="batRelay1" class="btn btn-default btn-warning">Batt 1</button>
+			<button data-value="" id="batRelay2" class="btn btn-default btn-warning">Batt 2</button>
+			<button data-value="" id="batRelay3" class="btn btn-default btn-warning">Batt 3</button>
+			<br><br>
+			<button data-value="" id="driveRelay" class="btn btn-default btn-default">Drive</button>
+			<button data-value="" id="steerRelay" class="btn btn-default btn-default">Steer</button>
+			<button data-value="" id="armRelay" class="btn btn-default btn-default">Arm</button>
+			<button data-value="" id="intelRelay" class="btn btn-default btn-default">Intel</button>
+			<button data-value="" id="mastRelay" class="btn btn-default btn-default">Mast</button>
+		</div>
+		<div class="col-lg-3 placeholder">
+			<h4>Orientation Meter</h4>
+			<div class="Orientation" id="Orientation">
+				<div class='form1'></div>
+				<div class='pitch-container'>
+					<div class="form3"></div>
+					<div class="pitch"></div>
+				</div>
+				<div class='form2'></div>
+			</div>
+		</div>
+		<div class="col-lg-3 placeholder">
+			<h4>Ultrasonic</h4>
+			<div id="ultrasonic">
+				<div id="svgcontain" style="float:left;">
+					<svg width="175" height="250" stroke="1">
+						<polygon id="corner1" points="0 0, 50 0, 50 25, 25 25, 25 50, 0 50" fill="rgb(255,0,0)" />
+						<polygon id="corner2" points="100 0, 150 0, 150 50, 125 50, 125 25, 100 25" fill="rgb(255,100,0)" />
+						<polygon id="corner3" points="125 150, 150 150, 150 200, 100 200, 100 175, 125 175" fill="rgb(255,255,0)" />
+						<polygon id="corner4" points="0 150, 25 150, 25 175, 50 175, 50 200, 0 200" fill="rgb(50,255,0)" />
+						<rect id="vertleft" x="50" , y="0" , width="50" , height="25" , fill="rgb(25,255,0)" />
+						<rect id="vertright" x="50" , y="175" , width="50" , height="25" , fill="rgb(0,255,0)" />
+						<rect id="hortop" x="0" , y="50" , width="25" , height="100" , fill="rgb(255,150,0)" />
+						<rect id="horbot" x="125" , y="50" , width="25" , height="100" , fill="rgb(0,255,0)" />
+						<rect x="25" , y="25" , width="100" , height="150" , fill="white" />
+						<polyline points="25,25 40,50 40,150 25,175 " style="fill:none;stroke:black;" />
+						<polyline points="125,25 110,50 110,150 125,175 " style="fill:none;stroke:black;" />
+						<text x="50" y="60" fill="black">S J S U</text>
+						<text x="50" y="75" fill="black"></text>
+					</svg>
+				</div>
+				<div id="sonictext" style="float: right;">
+					<div id="top">Top: 4m</div>
+					<div id="topleft">TopLeft: .23m</div>
+					<div id="topright">TopRight: .35m</div>
+					<div id="left">Left: .75m</div>
+					<div id="right">Right: 3.76m</div>
+					<div id="botleft">BotLeft: 4.56m</div>
+					<div id="botright">BotRight: 1.03m</div>
+					<div id="bottom">Bottom: 4.69m</div>
+					<button onclick="changeColor();">rand</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 placeholder">
 
-  </head>
+		</div>
+	</div>
+</div>
+<!-- Script -->
+<script type="text/javascript" src="interfaces/Captain/js/leaflet.js?r={{ANTI-CACHE-MARKER}}"></script>
 
-  <body>
-    <div class="text-center">
-      <h4>Captain Cabin </h4>
-    </div>
-
-
-    <div class="container-fluid map">
-
-      <img class="col-lg-8 camera-container" id="camera-container">
-      </img>
-
-      <div class="col-lg-4 autonomous-container">
-        <div id="mapid"></div>
-        <div id="info-box">
-            <div id="alerts">
-              <!---GPS Coordinate Input filed-->
-              <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Lat:Deg-Min-Dir,Lon:Deg-Min-Dir" id="GateCoordinate">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="GateEnter">Enter!</button>
-                  </span>
-              </div>
-              <!---Autonomous on off button-->
-              <div  class="input-group top-buffer">
-                    <button type="button" class="btn btn-default " id="method0" value="method0">Auto On</button>
-                    <button type="button" class="btn btn-default btn-info" id="method1" value="method1">Auto Off</button>
-                    <button type="button" class="btn btn-default " id="CamOn" value="method0">Cam On</button>
-                    <button type="button" class="btn btn-default " id="CamOff" value="method1">Cam Off</button>
-              </div>
-              <!---GPS/Sonic on off button-->
-              <div class="input-group top-buffer">
-                <button type="button" class="btn btn-default btn-info" id="method2" value="method2">GPS On</button>
-                <button type="button" class="btn btn-default " id="method3" value="method3">GPS Off</button>
-                <button type="button" class="btn btn-default " id="method4" value="method4">Sonic On</button>
-                <button type="button" class="btn btn-default btn-info" id="method5" value="method5">Sonic Off</button>
-              </div>
-
-              <div class="input-group ">
-                <b class="map-telemetry-items" >Rover Heading : </b></b><b style="color:#3498db;"><u id="RoverHeading"></u></b>
-                <b class="map-telemetry-items" >GPS Heading   : </b></b><b style="color:#3498db;"><u id="GPSHeading"></u></b>
-              </div>
-
-              <div class="input-group ">
-                <b class="map-telemetry-items ">Current Lat  : </b></b></b><b style="color:#3498db;"><u id="CurrLat"></u></b>
-                <b class="map-telemetry-items ">Current Long : </b></b></b><b style="color:#3498db;"><u id="CurrLong"></u></b>
-              </div>
-
-              <div class="input-group ">
-                <b class="map-telemetry-items">Gate Lat : </b></b><b style="color:#3498db;"><u id="GateLat"></u></b>
-                <b class="map-telemetry-items">Gate Long  : </b></b> <b style="color:#3498db;"><u id="GateLong"></u></b>
-              </div>
-
-               <div class="input-group ">
-                <b class="map-telemetry-items ">Command :</b> <b style="color:#3498db;"><u id="Command"></u></b>
-                <b class="map-telemetry-items ">Gate Reach : </b> <b style="color:#3498db;"><u id="GateReach"></u></b>
-              </div>
-
-            </div>
-        </div>
-      </div>
-
-      <div class="row" style="margin-top: 0px;">
-        <div class="col-md-6 col-lg-6">
-          <b class="map-telemetry-items">Altitude: <u>0.0</u> m</b>
-          <b class="map-telemetry-items">Temperature: <u>0.0</u> °C</b>
-        </div>
-          <div class="map-control-buttons">
-            <button type="button" class="btn btn-primary btn-sm" onclick="goToRover()">Go to Rover</button>
-            <!-- Single button -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">Go to Destination <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Destination 1</a></li>
-                <li><a href="#">Destination 2</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </div>
-          </div>
-      </div>
-    </div>
-
-
-    <div class="container-fluid" style="margin-left: 25px; margin-right: 25px;">
-      <div class="row">
-        <div class="col-lg-3 placeholder">
-          <div class="input-group ">
-            <div id="gauge"   style="width:140px; height:140px; display:inline-block" ></div>
-            <div id="gauge2"  style="width:140px; height:140px; display:inline-block" ></div>
-            <div id="gauge3"  style="width:95px; height:95px; display:inline-block" ></div>
-            <div id="gauge4"  style="width:95px; height:95px; display:inline-block" ></div>
-            <div id="gauge5"  style="width:95px; height:95px; display:inline-block" ></div>
-
-      </div>
-    </div>
-        <div class="col-lg-3 placeholder">  
-          <h4>Orientation Meter</h4>
-          <div class="Orientation" id="Orientation">
-          <div class='form1'></div>
-          <div class='pitch-container'>
-              <div class="form3"></div>
-              <div class="pitch"></div>
-          </div> 
-          <div class='form2'></div>
-          </div>
-        </div>
-
-        
-        <div class="col-lg-3 placeholder">
-          <h4>Ultrasonic</h4>
-          <div id="ultrasonic">
-            <div id="svgcontain" style="float:left;">
-            <svg width="175" height="250" stroke="1">
-              <polygon id="corner1" points="0 0, 50 0, 50 25, 25 25, 25 50, 0 50" fill="rgb(255,0,0)" />
-              <polygon id="corner2" points="100 0, 150 0, 150 50, 125 50, 125 25, 100 25" fill="rgb(255,100,0)" />
-              <polygon id="corner3" points="125 150, 150 150, 150 200, 100 200, 100 175, 125 175" fill="rgb(255,255,0)" />
-              <polygon id="corner4" points="0 150, 25 150, 25 175, 50 175, 50 200, 0 200" fill="rgb(50,255,0)" />
-              
-              <rect id="vertleft" x="50", y="0", width="50", height="25", fill="rgb(25,255,0)" />
-              <rect id="vertright" x="50", y="175", width="50", height="25", fill="rgb(0,255,0)" />
-        
-              <rect id="hortop" x="0", y="50", width="25", height="100", fill="rgb(255,150,0)" />
-              <rect id="horbot" x="125", y="50", width="25", height="100", fill="rgb(0,255,0)" />
-            
-              <rect x="25", y="25", width="100", height="150", fill="white" />
-              <polyline points="25,25 40,50 40,150 25,175 " style="fill:none;stroke:black;"/>
-              <polyline points="125,25 110,50 110,150 125,175 " style="fill:none;stroke:black;"/>
-              <text x="50" y="60" fill="black">S J S U</text>
-              <text x="50" y="75" fill="black"></text>
-            </svg>
-            </div>
-
-            <div id="sonictext" style="float: right;">
-              <div id="top">Top: 4m</div>
-              <div id="topleft">TopLeft: .23m</div>
-              <div id="topright">TopRight: .35m</div>
-              <div id="left">Left: .75m</div>
-              <div id="right">Right: 3.76m</div>
-              <div id="botleft">BotLeft: 4.56m</div>
-              <div id="botright">BotRight: 1.03m</div>
-              <div id="bottom">Bottom: 4.69m</div>
-              <button onclick="changeColor();">rand</button>
-            </div>
-          </div>
-          </div>
-
-        <div class="col-lg-3 placeholder">
-          <h4>Geiger Counter </h4>
-            <div id="geiger"   style="width:200px; height:200px; display:inline-block" ></div>
-
-        </div>
-
-        </div>
-      </div>
-
-    <!-- Script -->
-    
-    
-
-    <script type="text/javascript" src="interfaces/Captain/js/PowerSystem.js?r={{ANTI-CACHE-MARKER}}"></script>
-    <script type="text/javascript" src="interfaces/Captain/js/Orientation.js?r={{ANTI-CACHE-MARKER}}"></script>
-    <script type="text/javascript" src="interfaces/Captain/js/mapScript.js?r={{ANTI-CACHE-MARKER}}"></script>
-    <script type="text/javascript" src="interfaces/Captain/js/IntelligentSystem.js?r={{ANTI-CACHE-MARKER}}"></script>
-
-
-
-
-  </body>
-</html>
+<script type="text/javascript" src="interfaces/Captain/js/PowerSystem.js?r={{ANTI-CACHE-MARKER}}"></script>
+<script type="text/javascript" src="interfaces/Captain/js/Orientation.js?r={{ANTI-CACHE-MARKER}}"></script>
+<script type="text/javascript" src="interfaces/Captain/js/mapScript.js?r={{ANTI-CACHE-MARKER}}"></script>
+<script type="text/javascript" src="interfaces/Captain/js/IntelligentSystem.js?r={{ANTI-CACHE-MARKER}}"></script>

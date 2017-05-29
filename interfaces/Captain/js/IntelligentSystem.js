@@ -20,18 +20,7 @@ var GPSObject = {
    "Long" : 0,
 };
 
- var g6 = new JustGage({
-    id: "geiger",
-    titleFontColor : "white",
-    valueFontColor : "white",
-    value:0,
-    min: 0,
-    max: 200,
-    title: "Geiger"
-  });
-
 $("#camera-container").attr('src', 'http://192.168.1.12:9001');
-
 
 $("#GateEnter").click(function () {
        var string = $("#GateCoordinate").val();
@@ -47,13 +36,13 @@ $("#GateEnter").click(function () {
 
        latValue = (Math.round(latValue*100000))/100000;
        longValue = (Math.round(longValue*100000))/100000;
-       
+
        var lattitude = latValue;
        var longitude = longValue;
-      
+
 
        console.log("Lat :" + lattitude + "Long: " + longitude );
-      
+
 
       if(Connection.state === Connection.CONNECTED)
       {
@@ -162,7 +151,7 @@ function sendCommand(mode,flag)
     }
       payload = {
       target: "NeoCortex",
-      command: Commandpayload 
+      command: Commandpayload
       };
      primus.write(payload);
 }
@@ -174,7 +163,7 @@ function CamCommand(command)
     }
       payload = {
       target: "VideoServer",
-      command: Commandpayload 
+      command: Commandpayload
       };
      primus.write(payload);
 }
@@ -189,7 +178,7 @@ function GetModel(){
       //console.log(JSON.stringify(model));
       //var str = JSON.stringify(model)
       //console.log(model.NeoCortex.value.Direction);
-      //var str2 = str.replace(/["'(){}]/g,"");//take out hiddent char 
+      //var str2 = str.replace(/["'(){}]/g,"");//take out hiddent char
       //var formated = str2.replace(/,/g, ":")
       //formated = formated.split(":");
       //console.log(formated);
@@ -218,7 +207,7 @@ function GetModel(){
             "Batt1Temp" : model.Power.value.temperatures.Battery1,
             "Batt2Temp" : model.Power.value.temperatures.Battery2,
             "Batt3Temp" : model.Power.value.temperatures.Battery3,
-            "BattLevel": model.Power.value.batteryPercentage 
+            "BattLevel": model.Power.value.batteryPercentage
         }
       }
       catch(err){}
@@ -228,10 +217,10 @@ function GetModel(){
             "pitch" : model.Tracker.value.globalOr.Y,
             "roll" : model.Tracker.value.globalOr.X,
             "heading" : model.Tracker.value.globalOr.Z
-        } 
+        }
       }
       catch(err){}
- 
+
               //console.log(NeoCortexObject.Direction);
         document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  " ;
         document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish ;
