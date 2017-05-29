@@ -1,20 +1,12 @@
-var ModelInterval = setInterval(function()
+Model.on("update", () =>
 {
-	if(Connection.state === Connection.CONNECTED)
-	{
-		ModelJSONEditor.set(model);
-	}
-}, 200);
+	ModelJSONEditor.set(model);
+});
 
-var prev_message = messages;
-var MessageInterval = setInterval(function()
+Messages.on("update", () =>
 {
-	if(prev_message !== messages)
-	{
-		document.querySelector("#messages").innerHTML = messages;
-		prev_message = messages;
-	}
-}, 100);
+	document.querySelector("#messages").innerHTML = messages;
+});
 
 var options = {
     mode: 'code',
