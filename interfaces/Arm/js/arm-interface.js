@@ -65,11 +65,11 @@ var validator = {
 var command = new Proxy(ArmPayload, validator);
 
 
-//=============
-//Cam Selection
-//=============
+//======================
+//Cam Feed and Selection
+//======================
 
-//Load ClawCam initially
+//Load ClawCam img initially to be displayed on page load
 jQuery(function(){
   jQuery('#ClawCam').click();
 });
