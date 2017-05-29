@@ -1,7 +1,66 @@
-/**
-1. Leaflet start guide: http://leafletjs.com/examples/quick-start/
-2. Leaflet documentation: http://leafletjs.com/reference.html#map-usage
-**/
+var ModelInterval = setInterval(function()
+{
+  if(Connection.state === Connection.CONNECTED)
+  {
+    ModelJSONEditor.set(model);
+  }
+}, 200);
+
+var prev_message = messages;
+var MessageInterval = setInterval(function()
+{
+  if(prev_message !== messages)
+  {
+    document.querySelector("#messages").innerHTML = messages;
+    prev_message = messages;
+  }
+}, 100);
+
+var options = {
+    mode: 'code',
+    history: false,
+    modes: ['code', 'form', 'tree', 'view', 'text'], // allowed modes
+    error: function(err) {
+        alert(err.toString());
+    }
+};
+
+var TestEditor = new JSONEditor(document.querySelector("#info"), options);
+var ModelJSONEditor = new JSONEditor(document.querySelector("#model"), options);
+
+var command = {
+  "activeCamera": 0,
+  "lidar": false,
+  "pitch": {
+        "speed": 0,
+        "angle": 90
+      },
+  "yaw": {
+        "speed": 0,
+        "angle": 87
+  },
+  "zoom": 66
+};
+
+TestEditor.set(command);
+
+document.querySelector("#send-ctrl-signal").onclick = function()
+{
+  SendPayload(TestEditor.get());
+};
+
+function SendPayload(json)
+{
+  if(Connection.state === Connection.CONNECTED)
+  {
+    var target = Tracker;
+    var payload = {
+      target: target,
+      command: json
+    };
+    primus.write(payload);
+  }
+}
 
 var mymap = L.map('mapid').setView([38.4064, -110.7919], 15);
 
@@ -47,12 +106,16 @@ function YawSpeedEn(){
     button.classList.remove('disabled'); 
     button.textContent = 'Enabled';
     console.log('Yaw Speed Enabled');
+    command.yaw.speed = 1;
+    SendPayload(command);
   }
   else{
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Disabled';
     console.log('Yaw Speed Disabled');  
+    command.yaw.speed = 0;
+    SendPayload(command);
   }
 };
 
@@ -64,12 +127,20 @@ function YPSlides(sliderValue){
   inp.addEventListener("mousemove", function() {
     document.getElementById('YawPosCurrentValue').textContent = inp.value;
   });
+  command.yaw.angle = inp.value;
+};
+
+function YPSlideUnclick(){
+  command.yaw.angle = document.getElementById('YawPosSlide');
+  SendPayload(command);
 };
 
 function YPsetNewValZoom(){
   var zoomVal = document.getElementById("yawPosInp").value;
   document.getElementById('YawPosCurrentValue').textContent = zoomVal;
   document.getElementById('YawPosSlide').value = zoomVal;
+  command.yaw.angle = zoomVal;
+  SendPayload(command);
 };
 
 function YPEntZoom(val, e){
@@ -80,6 +151,8 @@ function YPEntZoom(val, e){
     document.getElementById('YawPosSlide').value = zoomVal;
     document.getElementById("yawPosInp").value="";
   }
+  command.yaw.angle = zoomVal;
+  SendPayload(command);
 };
 
 
@@ -92,12 +165,16 @@ function PitchSpeedEn(){
     button.classList.remove('disabled'); 
     button.textContent = 'Enabled';
     console.log('Pitch Speed Enabled');
+    command.pitch.speed = 1;
+    SendPayload(command);
   }
   else{
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Disabled';
     console.log('Pitch Speed Disabled');  
+    command.pitch.speed = 0;
+    SendPayload(command);
   }
 };
 
@@ -109,12 +186,21 @@ function PPSlides(sliderValue){
   inp.addEventListener("mousemove", function() {
     document.getElementById('PitchPosCurrentValue').textContent = inp.value;
   });
+  command.pitch.position = inp.value;
+  SendPayload(command);
+};
+
+function PPSlideUnclick(){
+  command.pitch.angle = document.getElementById('PitchPosSlide');
+  SendPayload(command);
 };
 
 function PPsetNewValZoom(){
   var zoomVal = document.getElementById("pitchPosInp").value;
   document.getElementById('PitchPosCurrentValue').textContent = zoomVal;
   document.getElementById('PitchPosSlide').value = zoomVal;
+  command.pitch.position = zoomVal;
+  SendPayload(command);
 };
 
 function PPEntZoom(val, e){
@@ -125,6 +211,8 @@ function PPEntZoom(val, e){
     document.getElementById('PitchPosSlide').value = zoomVal;
     document.getElementById("pitchPosInp").value="";
   }
+  command.pitch.position = zoomVal;
+  SendPayload(command);
 };
 
 //Lidar speed
@@ -136,13 +224,16 @@ function LidarClick(){
     button.classList.remove('disabled'); 
     button.textContent = 'Enabled';
     console.log('Lidar Enabled');
+    command.lidar = 1;
   }
   else{
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Disabled';
     console.log('Lidar Disabled');  
+    command.lidar = 0;
   }
+  SendPayload(command);
 };
 
 //Camera Switch  (disabled = camera B, enabled = camera A)     
@@ -156,6 +247,7 @@ function CamSwitch(){
     button.textContent = 'Switch to Camera A';
     cameraFeed.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/B-Flat.svg/1200px-B-Flat.svg.png";
     console.log('Camera B');
+    command.activeCamera = 1;
   }
   else{
     button.classList.add('disabled');
@@ -163,5 +255,7 @@ function CamSwitch(){
     button.textContent = 'Switch to Camera B';
     cameraFeed.src = "http://sspinnovations.com/sites/default/files/assets/assets/a18.png";
     console.log('Camera A');  
+    command.activeCamera = 0;
   }
+  SendPayload(command);
 };
