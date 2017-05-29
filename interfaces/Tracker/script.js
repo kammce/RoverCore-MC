@@ -240,7 +240,6 @@ function LidarClick(){
 //Camera Switch  (disabled = camera B, enabled = camera A)
 function CamSwitch(){
   console.log("Camera Switched");
-  var cameraFeed = document.getElementById("cameraFeed");
   var button = document.getElementById("CamSwitch");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
