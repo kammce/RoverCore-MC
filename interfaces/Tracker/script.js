@@ -126,7 +126,7 @@ function YPSlides(sliderValue){
   inp.addEventListener("mousemove", function() {
     document.getElementById('YawPosCurrentValue').textContent = inp.value;
   });
-  command.yaw.angle = inp.value;
+  command.yaw.angle = Number(inp.value);
 };
 
 function YPSlideUnclick(){
@@ -137,7 +137,7 @@ function YPsetNewValZoom(){
   var zoomVal = document.getElementById("yawPosInp").value;
   document.getElementById('YawPosCurrentValue').textContent = zoomVal;
   document.getElementById('YawPosSlide').value = zoomVal;
-  command.yaw.angle = zoomVal;
+  command.yaw.angle = Number(zoomVal);
   SendPayload(command);
 };
 
@@ -149,7 +149,7 @@ function YPEntZoom(val, e){
     document.getElementById('YawPosSlide').value = zoomVal;
     document.getElementById("yawPosInp").value="";
   }
-  command.yaw.angle = zoomVal;
+  command.yaw.angle = Number(zoomVal);
   SendPayload(command);
 };
 
@@ -184,7 +184,7 @@ function PPSlides(sliderValue){
   inp.addEventListener("mousemove", function() {
     document.getElementById('PitchPosCurrentValue').textContent = inp.value;
   });
-  command.pitch.angle = inp.value;
+  command.pitch.angle = Number(inp.value);
   SendPayload(command);
 };
 
@@ -196,7 +196,7 @@ function PPsetNewValZoom(){
   var zoomVal = document.getElementById("pitchPosInp").value;
   document.getElementById('PitchPosCurrentValue').textContent = zoomVal;
   document.getElementById('PitchPosSlide').value = zoomVal;
-  command.pitch.angle = zoomVal;
+  command.pitch.angle = Number(zoomVal);
   SendPayload(command);
 };
 
@@ -208,7 +208,7 @@ function PPEntZoom(val, e){
     document.getElementById('PitchPosSlide').value = zoomVal;
     document.getElementById("pitchPosInp").value="";
   }
-  command.pitch.angle = zoomVal;
+  command.pitch.angle = Number(zoomVal);
   SendPayload(command);
 };
 
