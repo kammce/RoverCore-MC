@@ -1,14 +1,18 @@
-<link rel="stylesheet" type="text/css" href="interfaces/Tracker/style.css?random={{ANTI-CACH-MARKER}}"/>
+
+ 
+
+<link rel="stylesheet" type="text/css" href="interfaces/Tracker/style.css?random={{ANTI-CACHE-MARKER}}"/>
+<link rel="stylesheet" src="interfaces/Tracker/leaflet.css?random={{ANTI-CACHE-MARKER}}"></script>
 
 <!--MAP-->
 <div class = "row">
 	<div class="col-sm-6" style"padding-left: 8px; padding-right:8px;">
-		<div class="container-fluid top-section">
-			<div id="mapid"></div>
+		<div class="top-section">
+			<div id="mapid" style="height:100px;"></div>
 		</div>
 	</div>
 	<div class="col-sm-6 top-section">
-		<img src="http://media-channel.nationalgeographic.com/media/uploads/photos/content/photo/2016/08/29/MARS_Helmets_DL.jpg" alt="Mars" class="img-responsive">
+		<img id = "cameraFeed" src="http://sspinnovations.com/sites/default/files/assets/assets/a18.png" alt="Mars" class="img-responsive">
 	</div>
 </div>
 
@@ -72,4 +76,6 @@
 </div>
 
 <!-- Script -->
+<script type="text/javascript" src="interfaces/Tracker/leaflet.js?={{ANTI-CACHE-MARKER}}"></script>
 <script type="text/javascript" src="interfaces/Tracker/script.js?={{ANTI-CACHE-MARKER}}"></script>
+

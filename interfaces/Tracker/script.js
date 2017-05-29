@@ -5,12 +5,12 @@
 
 var mymap = L.map('mapid').setView([38.4064, -110.7919], 15);
 
-/**L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
+L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 	maxZoom: 18,
 	id: 'your.mapbox.project.id',
 	accessToken: 'your.mapbox.public.access.token'
-}).addTo(mymap);**/
+}).addTo(mymap);
 
 //zoom
 function Slides(sliderValue){
@@ -148,17 +148,20 @@ function LidarClick(){
 //Camera Switch  (disabled = camera B, enabled = camera A)     
 function CamSwitch(){
   console.log("Camera Switched");
+  var cameraFeed = document.getElementById("cameraFeed");
   var button = document.getElementById("CamSwitch");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
     button.classList.remove('disabled'); 
     button.textContent = 'Switch to Camera A';
+    cameraFeed.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/B-Flat.svg/1200px-B-Flat.svg.png";
     console.log('Camera B');
   }
   else{
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Switch to Camera B';
+    cameraFeed.src = "http://sspinnovations.com/sites/default/files/assets/assets/a18.png";
     console.log('Camera A');  
   }
 };
