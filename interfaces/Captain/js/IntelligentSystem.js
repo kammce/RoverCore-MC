@@ -20,6 +20,18 @@ var GPSObject = {
    "Long" : 0,
 };
 
+ var PowerObject = {
+   "mAH" : 0,
+   "Batt1Temp" : 0,
+   "Batt2Temp" : 0,
+   "Batt3Temp" : 0,
+   "BattLevel": 0
+ }
+var BattLevel = document.getElementsByClassName("BattLevel");
+var BattTemp1 = document.getElementsByClassName("BattTemp1");
+var BattTemp2 = document.getElementsByClassName("BattTemp2");
+var BattTemp3 = document.getElementsByClassName("BattTemp3");
+
 $("#camera-container").attr('src', 'http://192.168.1.12:9001');
 
 $("#GateEnter").click(function () {
@@ -126,6 +138,20 @@ $("#method5").click(function() {
         sendCommand("Sonic", 0);
 });
 
+$("#method6").click(function() {
+        $("#method6").addClass('btn-info');
+        $("#method7").removeClass('btn-info');
+        console.log("Science On");
+        ScienceCommand("MUXON");
+});
+
+
+$("#method7").click(function() {
+        $("#method7").addClass('btn-info');
+        $("#method6").removeClass('btn-info');
+        console.log("Science Off");
+        ScienceCommand("MUXOFF");
+});
 
 /*
 var LobeAssignmentInterval = setInterval(function()
@@ -169,6 +195,20 @@ function CamCommand(command)
 }
 
 
+function ScienceCommand(command)
+{
+    Commandpayload = {
+      "mode" : command,
+    }
+      payload = {
+      target: "Sensors",
+      command: Commandpayload
+      };
+     primus.write(payload);
+}
+
+
+
 
 function GetModel(){
   setInterval(function()
@@ -202,6 +242,15 @@ function GetModel(){
       catch(err){}
 
       try{
+        OrientationObject = {
+            "pitch" : model.Tracker.value.globalOr.Y,
+            "roll" : model.Tracker.value.globalOr.X,
+            "heading" : model.Tracker.value.globalOr.Z
+        }
+      }
+      catch(err){}
+
+        try{
         PowerObject = {
             "mAH" : model.Power.value.mAhRemaining,
             "Batt1Temp" : model.Power.value.temperatures.Battery1,
@@ -212,14 +261,12 @@ function GetModel(){
       }
       catch(err){}
 
-      try{
-        OrientationObject = {
-            "pitch" : model.Tracker.value.globalOr.Y,
-            "roll" : model.Tracker.value.globalOr.X,
-            "heading" : model.Tracker.value.globalOr.Z
-        }
-      }
-      catch(err){}
+         //console.log(PowerObject.BattLevel);
+        BattLevel[0].style.width = (parseInt(PowerObject.BattLevel)).toString() + "%";
+        BattTemp1[0].style.width = ((parseInt(PowerObject.Batt1Temp)/140) * 100).toString() +"%" ;
+        BattTemp2[0].style.width = ((parseInt(PowerObject.Batt2Temp)/140) * 100).toString() + "%";
+        BattTemp3[0].style.width = ((parseInt(PowerObject.Batt3Temp)/140) * 100).toString() + "%";
+
 
               //console.log(NeoCortexObject.Direction);
         document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  " ;
@@ -230,11 +277,12 @@ function GetModel(){
         document.querySelector('#RoverHeading').innerHTML = OrientationObject.heading + " " ;
         document.querySelector('#CurrLat').innerHTML =  (Math.round(GPSObject.Lat*100000)/100000) + " " ;
         document.querySelector('#CurrLong').innerHTML = (Math.round(GPSObject.Long*100000)/100000) ;
-        g.refresh(PowerObject.BattLevel,100);
-        g2.refresh(PowerObject.mAH,10000);
-        g3.refresh(PowerObject.Batt1Temp,140);
-        g4.refresh(PowerObject.Batt2Temp,140);
-        g5.refresh(PowerObject.Batt3Temp,140)
+        document.querySelector('#BattLevel').innerHTML = PowerObject.BattLevel + "%";
+        
+        document.querySelector('#BattTemp1').innerHTML = PowerObject.Batt1Temp + " F";
+        document.querySelector('#BattTemp2').innerHTML = PowerObject.Batt2Temp + " F";
+        document.querySelector('#BattTemp3').innerHTML = PowerObject.Batt3Temp + " F";
+
         rover.setLatLng([GPSObject.Lat,GPSObject.Long]);//function from Mapscript.js
     }
   }, 200);
