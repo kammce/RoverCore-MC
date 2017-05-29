@@ -130,7 +130,6 @@ function YPSlides(sliderValue){
 };
 
 function YPSlideUnclick(){
-  command.yaw.angle = document.getElementById('YawPosSlide');
   SendPayload(command);
 };
 
@@ -190,7 +189,6 @@ function PPSlides(sliderValue){
 };
 
 function PPSlideUnclick(){
-  command.pitch.angle = document.getElementById('PitchPosSlide');
   SendPayload(command);
 };
 
@@ -244,7 +242,6 @@ function CamSwitch(){
     button.classList.add('enabled');
     button.classList.remove('disabled');
     button.textContent = 'Switch to Camera A';
-    cameraFeed.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/B-Flat.svg/1200px-B-Flat.svg.png";
     console.log('Camera B');
     command.activeCamera = 1;
   }
@@ -252,7 +249,6 @@ function CamSwitch(){
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Switch to Camera B';
-    cameraFeed.src = "http://sspinnovations.com/sites/default/files/assets/assets/a18.png";
     console.log('Camera A');
     command.activeCamera = 0;
   }
