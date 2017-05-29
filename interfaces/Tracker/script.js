@@ -33,11 +33,11 @@ var command = {
   "lidar": false,
   "pitch": {
         "speed": 0,
-        "angle": 90
+        "angle": 0
       },
   "yaw": {
         "speed": 0,
-        "angle": 87
+        "angle": 0
   },
   "zoom": 66
 };
@@ -53,9 +53,8 @@ function SendPayload(json)
 {
   if(Connection.state === Connection.CONNECTED)
   {
-    var target = Tracker;
     var payload = {
-      target: target,
+      target: "Tracker",
       command: json
     };
     primus.write(payload);
@@ -103,7 +102,7 @@ function YawSpeedEn(){
   var button = document.getElementById("YawSpeed");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
-    button.classList.remove('disabled'); 
+    button.classList.remove('disabled');
     button.textContent = 'Enabled';
     console.log('Yaw Speed Enabled');
     command.yaw.speed = 1;
@@ -113,7 +112,7 @@ function YawSpeedEn(){
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Disabled';
-    console.log('Yaw Speed Disabled');  
+    console.log('Yaw Speed Disabled');
     command.yaw.speed = 0;
     SendPayload(command);
   }
@@ -162,7 +161,7 @@ function PitchSpeedEn(){
   var button = document.getElementById("PitchSpeed");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
-    button.classList.remove('disabled'); 
+    button.classList.remove('disabled');
     button.textContent = 'Enabled';
     console.log('Pitch Speed Enabled');
     command.pitch.speed = 1;
@@ -172,7 +171,7 @@ function PitchSpeedEn(){
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Disabled';
-    console.log('Pitch Speed Disabled');  
+    console.log('Pitch Speed Disabled');
     command.pitch.speed = 0;
     SendPayload(command);
   }
@@ -186,7 +185,7 @@ function PPSlides(sliderValue){
   inp.addEventListener("mousemove", function() {
     document.getElementById('PitchPosCurrentValue').textContent = inp.value;
   });
-  command.pitch.position = inp.value;
+  command.pitch.angle = inp.value;
   SendPayload(command);
 };
 
@@ -199,7 +198,7 @@ function PPsetNewValZoom(){
   var zoomVal = document.getElementById("pitchPosInp").value;
   document.getElementById('PitchPosCurrentValue').textContent = zoomVal;
   document.getElementById('PitchPosSlide').value = zoomVal;
-  command.pitch.position = zoomVal;
+  command.pitch.angle = zoomVal;
   SendPayload(command);
 };
 
@@ -211,7 +210,7 @@ function PPEntZoom(val, e){
     document.getElementById('PitchPosSlide').value = zoomVal;
     document.getElementById("pitchPosInp").value="";
   }
-  command.pitch.position = zoomVal;
+  command.pitch.angle = zoomVal;
   SendPayload(command);
 };
 
@@ -221,7 +220,7 @@ function LidarClick(){
   var button = document.getElementById("LidarEnable");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
-    button.classList.remove('disabled'); 
+    button.classList.remove('disabled');
     button.textContent = 'Enabled';
     console.log('Lidar Enabled');
     command.lidar = 1;
@@ -230,20 +229,20 @@ function LidarClick(){
     button.classList.add('disabled');
     button.classList.remove('enabled');
     button.textContent = 'Disabled';
-    console.log('Lidar Disabled');  
+    console.log('Lidar Disabled');
     command.lidar = 0;
   }
   SendPayload(command);
 };
 
-//Camera Switch  (disabled = camera B, enabled = camera A)     
+//Camera Switch  (disabled = camera B, enabled = camera A)
 function CamSwitch(){
   console.log("Camera Switched");
   var cameraFeed = document.getElementById("cameraFeed");
   var button = document.getElementById("CamSwitch");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
-    button.classList.remove('disabled'); 
+    button.classList.remove('disabled');
     button.textContent = 'Switch to Camera A';
     cameraFeed.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/B-Flat.svg/1200px-B-Flat.svg.png";
     console.log('Camera B');
@@ -254,7 +253,7 @@ function CamSwitch(){
     button.classList.remove('enabled');
     button.textContent = 'Switch to Camera B';
     cameraFeed.src = "http://sspinnovations.com/sites/default/files/assets/assets/a18.png";
-    console.log('Camera A');  
+    console.log('Camera A');
     command.activeCamera = 0;
   }
   SendPayload(command);
