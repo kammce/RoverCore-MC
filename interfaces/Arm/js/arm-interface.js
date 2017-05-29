@@ -389,11 +389,7 @@ $("#stop_claw").click(function(){
 	$("#method6").removeClass('btn-info');
 	$("#stop_claw").addClass('btn-info');	
     $( "#messages" ).html("Claw STOPPED"); //add timestamp
-    $("#ClawSlider").slider('value', 0);
-    $("#ClawInputBox").val('0');
-    $("#ClawState").html("0");
 	command.claw = 0;
-	command.claw_torque = 0;
 });
 
 //Wrist Roll Left
