@@ -50,7 +50,7 @@
 					<div id="leftRange">-360</div>
 					<div id="rightRange">360</div>
 				</div>
-				<input id="YawPosSlide" type="range" data-slider-min="-360" data-slider-max="360" data-slider-step="1" onchange = "YPSlides(this.value)" unclick="YPSlideUnclick()" data-slider-value="0"/>
+				<input id="YawPosSlide" type="range" min="-360" max="360" data-slider-min="-360" data-slider-max="360" data-slider-step="1" onchange = "YPSlides(this.value)" unclick="YPSlideUnclick()" data-slider-value="300"/>
 				<span>Current Position: <span id="YawPosCurrentValue">43</span></span>
 				<form name="zoomForm" onsubmit="YPsetNewValZoom()">
 				<input type="text" id="yawPosInp" onkeypress="YPEntZoom(this.value, event)">
@@ -66,7 +66,7 @@
 					<div id="leftRange">-30</div>
 					<div id="rightRange">30</div>
 				</div>
-				<input id="PitchPosSlide" type="range" data-slider-min="-30" data-slider-max="30" data-slider-step="1" onchange = "PPSlides(this.value)" unclick="PPSlideUnclick()" data-slider-value="0"/></span>
+				<input id="PitchPosSlide" type="range" min="-30" max="30" data-slider-min="-30" data-slider-max="30" data-slider-step="1" onchange = "PPSlides(this.value)" unclick="PPSlideUnclick()" data-slider-value="30"/></span>
 				<span >Current Position: <span id="PitchPosCurrentValue">33</span></span>
 				<form name="zoomForm" onsubmit="PPsetNewValZoom()">
 				<input type="text" id="pitchPosInp" onkeypress="PPEntZoom(this.value, event)">
