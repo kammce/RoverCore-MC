@@ -69,16 +69,19 @@ var command = new Proxy(ArmPayload, validator);
 //Cam Feed and Selection
 //======================
 
-//Load ClawCam img initially to be displayed on page load
+//Load ProjectLoch (thatclaw.png) img initially to be displayed on page load
 jQuery(function(){
-  jQuery('#ClawCam').click();
+  jQuery('#camerafeed').attr('src', 'interfaces/Arm/css/images/thatclaw.png?r={{ANTI-CACHE-MARKER}}');
 });
 
+
+//claw camera might not be used because mechanical part is not ready for Loch
 $("#ClawCam").click(function(){
-	$("#camerafeed").attr('src', 'interfaces/Arm/css/images/thatclaw.png?r={{ANTI-CACHE-MARKER}}');
+	$("#camerafeed").attr('src', 'interfaces/Arm/css/images/thatbase.png?r={{ANTI-CACHE-MARKER}}');
 	$("#ClawCam").addClass('btn-success');
 	$("#ElbowCam").removeClass('btn-success');
 	$("#BaseCam").removeClass('btn-success');
+	$("#messages").html("Claw Camera selected!");
 });
 
 $("#ElbowCam").click(function(){
@@ -86,6 +89,7 @@ $("#ElbowCam").click(function(){
 	$("#ClawCam").removeClass('btn-success');
 	$("#ElbowCam").addClass('btn-success');
 	$("#BaseCam").removeClass('btn-success');
+	$("#messages").html("Elbow Camera selected!");
 });
 
 $("#BaseCam").click(function(){
@@ -93,6 +97,7 @@ $("#BaseCam").click(function(){
 	$("#ClawCam").removeClass('btn-success');
 	$("#ElbowCam").removeClass('btn-success');
 	$("#BaseCam").addClass('btn-success');
+	$("#messages").html("Rotunda Camera selected!");
 });
 
 
@@ -124,6 +129,7 @@ $("#RotundaInputBox").change(function () {
 });
 
 //Wrist Rotation Control
+/*Removed and replaced with buttons
 $("#Wrist_RollSlider").slider({
 	range: "min",
 	value: 0,
@@ -144,6 +150,7 @@ $("#Wrist_RollInputBox").change(function () {
 	$("#Wrist_RollState").text(parseInt(this.value)); 
 	$( "#messages" ).html("Wrist_Roll Changed!"); 
 });
+*/
 
 //Rotunda Camera Control
 $("#Rotunda_CameraSlider").slider({
@@ -272,7 +279,6 @@ $("#reset").click(function(){
 		clearInterval(LobeAssignmentInterval);
 	}
 	$("#buttonDisplay").html("Reset!");
-	$("#reset").addClass('btn-info');
 	$("#OpenClaw").removeClass('btn-info');
 	$("#CloseClaw").removeClass('btn-info');
 	$("#wrist_roll_left").removeClass('btn-info');
@@ -284,9 +290,12 @@ $("#reset").click(function(){
 
 	//commands sent to rovercore-s 
     //wrist_roll stops
+    
+    /*wrist_roll slider + inputbox replaced with buttons
     $("#Wrist_RollSlider").slider('value', 0);
     $("#Wrist_RollInputBox").val('0');
-    $("#Wrist_RollState").html("0");
+    */
+    $("#Wrist_RollState").html("Idle");
     command.wrist_roll = 0;
 
     //claw_torque stops
@@ -297,6 +306,7 @@ $("#reset").click(function(){
 
     //claw stops
     command.claw = 0;
+    $("#ClawAction").html("Idle!");
 
     //rotunda rotates to center
     $("#RotundaSlider").slider('value', 1500);
@@ -335,12 +345,8 @@ $("#OpenClaw").click(function(){
 	$("#buttonDisplay").html("0: Open Claw");
 	$("#OpenClaw").addClass('btn-info');
 	$("#CloseClaw").removeClass('btn-info');
-	$("#wrist_roll_left").removeClass('btn-info');
-	$("#wrist_roll_right").removeClass('btn-info');
-	$("#method4").removeClass('btn-info');
-	$("#GrabMast").removeClass('btn-info');
-	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 0: Open Claw!"); 
+    $("#ClawAction").html("Opening!");
 	command.claw = 2;
 });
 
@@ -349,12 +355,8 @@ $("#CloseClaw").click(function(){
 	$("#buttonDisplay").html("1: Close Claw");
 	$("#OpenClaw").removeClass('btn-info');
 	$("#CloseClaw").addClass('btn-info');
-	$("#wrist_roll_left").removeClass('btn-info');
-	$("#wrist_roll_right").removeClass('btn-info');
-	$("#method4").removeClass('btn-info');
-	$("#GrabMast").removeClass('btn-info');
-	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 1: Close Claw!"); 
+	$("#ClawAction").html("Closing!");
 	command.claw = 1;
 });
 
@@ -363,28 +365,19 @@ $("#stop_claw").click(function(){
 	$("#buttonDisplay").html("Claw STOPPED");
 	$("#OpenClaw").removeClass('btn-info');
 	$("#CloseClaw").removeClass('btn-info');
-	$("#wrist_roll_left").removeClass('btn-info');
-	$("#wrist_roll_right").removeClass('btn-info');
-	$("#method4").removeClass('btn-info');
-	$("#GrabMast").removeClass('btn-info');
-	$("#method6").removeClass('btn-info');
 	$("#stop_claw").addClass('btn-info');	
     $( "#messages" ).html("Claw STOPPED"); 
+	$("#ClawAction").html("Idle!");
 	command.claw = 0;
 });
 
 //Wrist Roll Left Button
 $("#wrist_roll_left").click(function(){
 	$("#buttonDisplay").html("2: Wrist Roll Left");
-	$("#OpenClaw").removeClass('btn-info');
-	$("#CloseClaw").removeClass('btn-info');
 	$("#wrist_roll_left").addClass('btn-info');
 	$("#wrist_roll_right").removeClass('btn-info');
-	$("#method4").removeClass('btn-info');
-	$("#GrabMast").removeClass('btn-info');
-	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 2: Wrist Roll Left!"); 
-    $("#Wrist_RollState").html("Roll left");
+    $("#Wrist_RollState").html("Rollin left");
 	command.wrist_roll = 1;
 });
 
@@ -395,27 +388,19 @@ $("#wrist_roll_right").click(function(){
 	$("#CloseClaw").removeClass('btn-info');
 	$("#wrist_roll_left").removeClass('btn-info');
 	$("#wrist_roll_right").addClass('btn-info');
-	$("#method4").removeClass('btn-info');
-	$("#GrabMast").removeClass('btn-info');
-	$("#method6").removeClass('btn-info');
     $( "#messages" ).html("Position changed to 3: Wrist Roll Right!"); 
-    $("#Wrist_RollState").html("Roll right");
+    $("#Wrist_RollState").html("Rollin right");
 	command.wrist_roll = 2;
 });
 
 //Stop Wrist Roll Button
 $("#stop_wrist_roll").click(function(){
 	$("#buttonDisplay").html("Wrist Roll STOPPED");
-	$("#OpenClaw").removeClass('btn-info');
-	$("#CloseClaw").removeClass('btn-info');
 	$("#wrist_roll_left").removeClass('btn-info');
 	$("#wrist_roll_right").removeClass('btn-info');
-	$("#method4").removeClass('btn-info');
-	$("#GrabMast").removeClass('btn-info');
-	$("#method6").removeClass('btn-info');
 	$("#stop_wrist_roll").addClass('btn-info');
     $( "#messages" ).html("Wrist Roll STOPPED"); 
-    $("#Wrist_RollState").html("0");
+    $("#Wrist_RollState").html("Idle");
 	command.wrist_roll = 0;
 });
 
@@ -423,15 +408,11 @@ $("#stop_wrist_roll").click(function(){
 //[INCOMPLETE]
 //Touch Ground???
 $("#method4").click(function(){
-	$("#buttonDisplay").html("4: Touch Ground");
-	$("#OpenClaw").removeClass('btn-info');
-	$("#CloseClaw").removeClass('btn-info');
-	$("#wrist_roll_left").removeClass('btn-info');
-	$("#wrist_roll_right").removeClass('btn-info');
+	$("#buttonDisplay").html("4: UNDEFINED");
 	$("#method4").addClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 4: Touch Ground!"); 
+    $( "#messages" ).html("Position changed to 4: UNDEFINED"); 
 
     //command sent to rovercore-s 
     /*
@@ -467,15 +448,11 @@ $("#method4").click(function(){
 //Grab Mast
 $("#GrabMast").click(function(){
 	//insert appropriate slider value
-	$("#buttonDisplay").html("5: Grab Mast");
-	$("#OpenClaw").removeClass('btn-info');
-	$("#CloseClaw").removeClass('btn-info');
-	$("#wrist_roll_left").removeClass('btn-info');
-	$("#wrist_roll_right").removeClass('btn-info');
+	$("#buttonDisplay").html("5: UNDEFINED");
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").addClass('btn-info');
 	$("#method6").removeClass('btn-info');
-    $( "#messages" ).html("Position changed to 5: Grab Mast!"); 
+    $( "#messages" ).html("Position changed to 5: UNDEFINED"); 
     //command sent to rovercore-s 
     /*
 	command.rotunda = 
@@ -510,15 +487,11 @@ $("#GrabMast").click(function(){
 //Reach Forward Button?
 $("#method6").click(function(){
 	//insert appropriate slider value
-	$("#buttonDisplay").html("6: Reach Forward");
-	$("#OpenClaw").removeClass('btn-info');
-	$("#CloseClaw").removeClass('btn-info');
-	$("#wrist_roll_left").removeClass('btn-info');
-	$("#wrist_roll_right").removeClass('btn-info');
+	$("#buttonDisplay").html("6: UNDEFINED");
 	$("#method4").removeClass('btn-info');
 	$("#GrabMast").removeClass('btn-info');
 	$("#method6").addClass('btn-info');
-    $( "#messages" ).html("Position changed to 6: Reach Forward!"); 
+    $( "#messages" ).html("Position changed to 6: UNDEFINED"); 
     //command sent to rovercore-s 
     
     /*
@@ -660,41 +633,46 @@ function gameLoop()
 	if (buttonPressed(gp.buttons[0])) 
 	{
 		document.getElementById("buttonDisplay").innerHTML = "0: Open Claw";
-	    document.getElementById("messages").innerHTML= "Position changed to 0: Open Claw!"; 
+	    document.getElementById("messages").innerHTML= "Position changed to 0: Open Claw!";
+	    document.getElementById("ClawAction").innerHTML= "Opening!";  
 		command.claw = 2;
 	} 
 	else if (buttonPressed(gp.buttons[1]))
 	{
 		document.getElementById("buttonDisplay").innerHTML = "1: Close Claw";
 	    document.getElementById("messages").innerHTML= "Position changed to 1: Close Claw!"; 
+	    document.getElementById("ClawAction").innerHTML= "Closing!";  
 		command.claw = 1;
 	}
 	else
 	{
 		command.claw = 0;
+	    document.getElementById("messages").innerHTML= "Claw STOPPED!"; 
+		document.getElementById("ClawAction").innerHTML= "Idle!";  
 	}
 	if (buttonPressed(gp.buttons[5])) {
-		document.getElementById("buttonDisplay").innerHTML = "5: Wrist Roll A";
-	    document.getElementById("messages").innerHTML= "Position changed to 5: Wrist Roll A!"; 
-		document.getElementById("Wrist_RollState").innerHTML = "A";
+		document.getElementById("buttonDisplay").innerHTML = "5: Wrist Roll Left";
+	    document.getElementById("messages").innerHTML= "Position changed to 5: Wrist Roll Left!"; 
+		document.getElementById("Wrist_RollState").innerHTML = "Rollin left";
 		command.wrist_roll = 1;
 	}
 	else if (buttonPressed(gp.buttons[6]))
 	{
-		document.getElementById("buttonDisplay").innerHTML = "6: Wrist Roll B";
-	    document.getElementById("messages").innerHTML= "Position changed to 6: Wrist Roll B!"; 
+		document.getElementById("buttonDisplay").innerHTML = "6: Wrist Roll Right";
+	    document.getElementById("messages").innerHTML= "Position changed to 6: Wrist Roll Right!"; 
 		command.wrist_roll = 2;
-		document.getElementById("Wrist_RollState").innerHTML = "B";
+		document.getElementById("Wrist_RollState").innerHTML = "Rollin right";
 	}
 	else
 	{
 		command.wrist_roll = 0;
+		document.getElementById("Wrist_RollState").innerHTML = "Idle";
 	}
 
 	//[INCOMPLETE]
 	//function that only works if you hold the button
 	if (buttonPressed(gp.buttons[4])) {
-	document.getElementById("buttonDisplay").innerHTML = "4: Touch Ground?";
+	document.getElementById("buttonDisplay").innerHTML = "4: UNDEFINED";
 	//command.rotunda = ;
 	//command.shoulder = ;
 	//command.elbow = ;
@@ -709,7 +687,7 @@ function gameLoop()
 	//[INCOMPLETE]
 	//function that only works if you hold the button
 	if (buttonPressed(gp.buttons[2])) {
-	document.getElementById("buttonDisplay").innerHTML = "2: Grab Mast?";
+	document.getElementById("buttonDisplay").innerHTML = "2: UNDEFINED";
 	//command.rotunda = ;
 	//command.shoulder = ;
 	//command.elbow = ;
@@ -721,7 +699,7 @@ function gameLoop()
 	//[INCOMPLETE]
 	//function that only works if you hold the button
 	if (buttonPressed(gp.buttons[3])) {
-	document.getElementById("buttonDisplay").innerHTML = "3: Reach Forward?";
+	document.getElementById("buttonDisplay").innerHTML = "3: UNDEFINED";
 	//command.rotunda = ;
 	//command.shoulder = ;
 	//command.elbow = ;
@@ -774,14 +752,29 @@ function gameLoop()
 		document.getElementById("messages").innerHTML = "MIMIC: Wrist_pitch (Axis 4) changed!";
 	}
 
-	//[INCOMPLETE] --> CHANGE TO rotunda_camera?
+	//========================================================================================
+	//[INCOMPLETE] --> CHANGE TO rotunda_camera? --> see commented out function below for this
+	//rotunda_camera change to axis 5
+	//========================================================================================
+
 	//wrist_rotation from mimic
+	/*
 	if(gp.axes[5] != 0) {
 		var wristRotationBit = controllerToBit(gp.axes[5]);
 		command.wrist_roll = map(-gp.axes[5], -1, 1, LIMITS["wrist_roll"][0], LIMITS["wrist_roll"][1]);
 		document.getElementById("Wrist_RollState").innerHTML = command.wrist_roll;
 		document.getElementById("messages").innerHTML = "MIMIC: Wrist_roll (Axis 5) changed!";
 	}
+	*/
+
+	//command.rotunda_camera being used for gp.axes[5] instead
+	if(gp.axes[5] != 0) {
+		var rotundaCameraBit = controllerToBit(gp.axes[5]);
+		command.rotunda_camera = map(-gp.axes[5], -1, 1, LIMITS["rotunda_camera"][0], LIMITS["rotunda_camera"][1]);
+		document.getElementById("Rotunda_CameraState").innerHTML = command.rotunda_camera;
+		document.getElementById("messages").innerHTML = "MIMIC: Rotunda_Camera (Axis 5) changed!";
+	}
+
 
 }
 
@@ -789,25 +782,40 @@ function gameLoop()
 intervalControl(false);
 
 
-//===============================
-//Manual Control and Mimic Toggle
-//===============================
+//===========================================================
+//Manual Control and Mimic Toggle and Current Feedback Toggle
+//===========================================================
 
 //[B]
 //[INCOMPLETE] --> Toggling Manual Control doesn't turn it off 
 	//it stays connected despite toggling MC on or Mimic Off
 	//to disconnect Mimic, unplug USB
 
+$("#ToggleCurrentFeedback").change(function(){
+	if($(this).prop("checked") == true){
+		$(".CurrentFeedback").css("display", "block");
+		$(".CurrentFeedback").css("opacity", "1");
+		$("#camerasection").removeClass("col-md-12");
+		$("#camerasection").addClass("col-md-11");
+	    $( "#messages" ).html("Current Feedback Shown!"); 
+	}else{
+		$("#camerasection").removeClass("col-md-11");
+		$("#camerasection").addClass("col-md-12");
+		$(".CurrentFeedback").css("display", "none");
+	    $( "#messages" ).html("Current Feedback Hidden!"); 
+	}
+});
+
 $("#ToggleManualControl").change(function(){
 	if($(this).prop("checked") == true){
 		$("#manualControl").css("display", "block");
 		$("#manualControl").css("opacity", "1");
 		$("#camerafeed").css("height", "600px");
-	    $( "#messages" ).html("Mission Control On!"); 
+	    $( "#messages" ).html("Manual Control On!"); 
 	}else{
 		$("#camerafeed").css("height", "800px");
 		$("#manualControl").css("display", "none");
-	    $( "#messages" ).html("Mission Control Off!"); 
+	    $( "#messages" ).html("Manual Control Off!"); 
 	}
 });
 

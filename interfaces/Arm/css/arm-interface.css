@@ -1,6 +1,14 @@
+.topsection {
+	background-color: #191919;
+}
+
 .CurrentFeedback{
 	border: 2px solid white;
-	padding-left: 2px;}
+	padding-left: 2px;
+	background-color: #191919;
+	display: none;
+	font-size: 14px;
+}
 
 .spaced {
 	padding-top: 5px;
@@ -57,7 +65,7 @@ body {
 }
 
 
-.mancontrolbutton {
+.toggleButtons {
   border: 2px solid white;
   padding: 6px;
   text-align: center;
