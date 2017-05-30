@@ -605,6 +605,18 @@ function gameLoop()
 {
 	var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
 
+	var ToggledManualControl = ($("#ToggleManualControl").prop("checked") == true);
+	var UntoggledManualControl = ($("#ToggleManualControl").prop("checked") == false);
+	var ToggledMimic = ($("#ToggleMimic").prop("checked") == true);
+	var UntoggledMimic = ($("#ToggleMimic").prop("checked") == false);
+
+
+	if (ToggledManualControl)
+	{
+		gameLoop(false);
+
+	}
+
 	if (!gamepads)
 	{
 		$("#ToggleMimic").prop('checked', false).change();
@@ -812,6 +824,7 @@ $("#ToggleManualControl").change(function(){
 		$("#manualControl").css("opacity", "1");
 		$("#camerafeed").css("height", "600px");
 	    $( "#messages" ).html("Manual Control On!"); 
+		$("#ToggleMimic").prop('checked', false).change();
 	}else{
 		$("#camerafeed").css("height", "800px");
 		$("#manualControl").css("display", "none");
