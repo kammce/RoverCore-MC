@@ -189,7 +189,6 @@ function PPSlides(sliderValue){
     document.getElementById('PitchPosCurrentValue').textContent = inp.value;
   });
   command.pitch.angle = Number(inp.value);
-  SendPayload(command);
 };
 
 function PPSlideUnclick(){
@@ -216,7 +215,7 @@ function PPEntZoom(val, e){
   SendPayload(command);
 };
 
-//Lidar speed
+//Lidar 
 function LidarClick(){
   console.log("Lidar clicked");
   var button = document.getElementById("LidarEnable");
