@@ -294,118 +294,111 @@ function ScienceCommand(command)
     primus.write(payload);
 }
 
-function GetModel()
+
+Model.on("update", () =>
 {
-    setInterval(function()
+    //console.log(JSON.stringify(model));
+    //var str = JSON.stringify(model)
+    //console.log(model.NeoCortex.value.Direction);
+    //var str2 = str.replace(/["'(){}]/g,"");//take out hiddent char
+    //var formated = str2.replace(/,/g, ":")
+    //formated = formated.split(":");
+    //console.log(formated);
+    try
     {
-        if (Connection.state === Connection.CONNECTED)
-        {
-            //console.log(JSON.stringify(model));
-            //var str = JSON.stringify(model)
-            //console.log(model.NeoCortex.value.Direction);
-            //var str2 = str.replace(/["'(){}]/g,"");//take out hiddent char
-            //var formated = str2.replace(/,/g, ":")
-            //formated = formated.split(":");
-            //console.log(formated);
-            try
-            {
-                NeoCortexObject = {
-                    "Direction": model.NeoCortex.value.Direction,
-                    "Finish": model.NeoCortex.value.Finish,
-                    "Gate_lattitude": model.NeoCortex.value.Gate_lattitude,
-                    "Gate_longitude": model.NeoCortex.value.Gate_longitude,
-                    "GPSHeading": model.NeoCortex.value.GPS_Heading,
-                    "Distance": model.NeoCortex.value.Distance
-                }
-            }
-            catch (err)
-            {}
-
-            try
-            {
-                GPSObject = {
-                    "Lat": model.GPS.value.lat,
-                    "Long": model.GPS.value.long,
-                    "Altitude": model.GPS.value.alt
-                }
-            }
-            catch (err)
-            {}
-
-            try
-            {
-                OrientationObject = {
-                    "pitch": model.Tracker.value.globalOr.Y,
-                    "roll": model.Tracker.value.globalOr.X,
-                    "heading": model.Tracker.value.globalOr.Z
-                }
-            }
-            catch (err)
-            {}
-
-            try
-            {
-                PowerObject = {
-                    "mAH": model.Power.value.mAhRemaining,
-                    "Batt1Temp": model.Power.value.temperatures.Battery1,
-                    "Batt2Temp": model.Power.value.temperatures.Battery2,
-                    "Batt3Temp": model.Power.value.temperatures.Battery3,
-                    "BattLevel": model.Power.value.batteryPercentage
-                }
-            }
-            catch (err)
-            {}
-
-            try
-            {
-                PowerObject = {
-                    "mAH": model.Power.value.mAhRemaining,
-                    "Batt1Temp": model.Power.value.temperatures.Battery1,
-                    "Batt2Temp": model.Power.value.temperatures.Battery2,
-                    "Batt3Temp": model.Power.value.temperatures.Battery3,
-                    "BattLevel": model.Power.value.batteryPercentage
-                }
-            }
-            catch (err)
-            {}
-
-            try
-            {
-                ScienceObject = {
-                    "CMP": model.Science.value.CMP
-                }
-            }
-            catch (err)
-            {}
-
-            //console.log(PowerObject.BattLevel);
-            BattLevel[0].style.width = (parseInt(PowerObject.BattLevel)).toString() + "%";
-            BattTemp1[0].style.width = ((parseInt(PowerObject.Batt1Temp) / 140) * 100).toString() + "%";
-            BattTemp2[0].style.width = ((parseInt(PowerObject.Batt2Temp) / 140) * 100).toString() + "%";
-            BattTemp3[0].style.width = ((parseInt(PowerObject.Batt3Temp) / 140) * 100).toString() + "%";
-            //console.log(NeoCortexObject.Direction);
-            document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  ";
-            document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish;
-            document.querySelector('#GateLat').innerHTML = NeoCortexObject.Gate_lattitude + " ";
-            document.querySelector('#GateLong').innerHTML = NeoCortexObject.Gate_longitude;
-            document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading + " ";
-            document.querySelector('#RoverHeading').innerHTML = OrientationObject.heading + " ";
-            document.querySelector('#Distance').innerHTML = NeoCortexObject.heading;
-
-            document.querySelector('#CurrLat').innerHTML = (Math.round(GPSObject.Lat * 100000) / 100000) + " ";
-            document.querySelector('#CurrLong').innerHTML = (Math.round(GPSObject.Long * 100000) / 100000);
-            document.querySelector('#Altitude').innerHTML = GPSObject.Altitude;
-
-            document.querySelector('#BattLevel').innerHTML = PowerObject.BattLevel + "%";
-            document.querySelector('#BattTemp1').innerHTML = PowerObject.Batt1Temp + " F";
-            document.querySelector('#BattTemp2').innerHTML = PowerObject.Batt2Temp + " F";
-            document.querySelector('#BattTemp3').innerHTML = PowerObject.Batt3Temp + " F";
-
-            document.querySelector('#Geiger').innerHTML = ScienceObject.CMP;
-
-            rover.setLatLng([GPSObject.Lat, GPSObject.Long]); //function from Mapscript.js
+        NeoCortexObject = {
+            "Direction": model.NeoCortex.value.Direction,
+            "Finish": model.NeoCortex.value.Finish,
+            "Gate_lattitude": model.NeoCortex.value.Gate_lattitude,
+            "Gate_longitude": model.NeoCortex.value.Gate_longitude,
+            "GPSHeading": model.NeoCortex.value.GPS_Heading,
+            "Distance": model.NeoCortex.value.Distance
         }
-    }, 200);
-}
+    }
+    catch (err)
+    {}
 
-GetModel();
+    try
+    {
+        GPSObject = {
+            "Lat": model.GPS.value.lat,
+            "Long": model.GPS.value.long,
+            "Altitude": model.GPS.value.alt
+        }
+    }
+    catch (err)
+    {}
+
+    try
+    {
+        OrientationObject = {
+            "pitch": model.Tracker.value.globalOr.Y,
+            "roll": model.Tracker.value.globalOr.X,
+            "heading": model.Tracker.value.globalOr.Z
+        }
+    }
+    catch (err)
+    {}
+
+    try
+    {
+        PowerObject = {
+            "mAH": model.Power.value.mAhRemaining,
+            "Batt1Temp": model.Power.value.temperatures.Battery1,
+            "Batt2Temp": model.Power.value.temperatures.Battery2,
+            "Batt3Temp": model.Power.value.temperatures.Battery3,
+            "BattLevel": model.Power.value.batteryPercentage
+        }
+    }
+    catch (err)
+    {}
+
+    try
+    {
+        PowerObject = {
+            "mAH": model.Power.value.mAhRemaining,
+            "Batt1Temp": model.Power.value.temperatures.Battery1,
+            "Batt2Temp": model.Power.value.temperatures.Battery2,
+            "Batt3Temp": model.Power.value.temperatures.Battery3,
+            "BattLevel": model.Power.value.batteryPercentage
+        }
+    }
+    catch (err)
+    {}
+
+    try
+    {
+        ScienceObject = {
+            "CMP": model.Science.value.CMP
+        }
+    }
+    catch (err)
+    {}
+
+    //console.log(PowerObject.BattLevel);
+    BattLevel[0].style.width = (parseInt(PowerObject.BattLevel)).toString() + "%";
+    BattTemp1[0].style.width = ((parseInt(PowerObject.Batt1Temp) / 140) * 100).toString() + "%";
+    BattTemp2[0].style.width = ((parseInt(PowerObject.Batt2Temp) / 140) * 100).toString() + "%";
+    BattTemp3[0].style.width = ((parseInt(PowerObject.Batt3Temp) / 140) * 100).toString() + "%";
+    //console.log(NeoCortexObject.Direction);
+    document.querySelector('#Command').innerHTML = NeoCortexObject.Direction + "  ";
+    document.querySelector('#GateReach').innerHTML = NeoCortexObject.Finish;
+    document.querySelector('#GateLat').innerHTML = NeoCortexObject.Gate_lattitude + " ";
+    document.querySelector('#GateLong').innerHTML = NeoCortexObject.Gate_longitude;
+    document.querySelector('#GPSHeading').innerHTML = NeoCortexObject.GPSHeading + " ";
+    document.querySelector('#RoverHeading').innerHTML = OrientationObject.heading + " ";
+    document.querySelector('#Distance').innerHTML = NeoCortexObject.heading;
+
+    document.querySelector('#CurrLat').innerHTML = (Math.round(GPSObject.Lat * 100000) / 100000) + " ";
+    document.querySelector('#CurrLong').innerHTML = (Math.round(GPSObject.Long * 100000) / 100000);
+    document.querySelector('#Altitude').innerHTML = GPSObject.Altitude;
+
+    document.querySelector('#BattLevel').innerHTML = PowerObject.BattLevel + "%";
+    document.querySelector('#BattTemp1').innerHTML = PowerObject.Batt1Temp + " F";
+    document.querySelector('#BattTemp2').innerHTML = PowerObject.Batt2Temp + " F";
+    document.querySelector('#BattTemp3').innerHTML = PowerObject.Batt3Temp + " F";
+
+    document.querySelector('#Geiger').innerHTML = ScienceObject.CMP;
+
+    rover.setLatLng([GPSObject.Lat, GPSObject.Long]); //function from Mapscript.js
+});

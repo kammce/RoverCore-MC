@@ -82,21 +82,26 @@ video_stream.onload = function()
 	video_stream.style.visibility = "visible";
 	$("#video-indicator").prop('checked', true).change();
 }
-
-setInterval(function()
+video_stream.onclick = function()
 {
-	if(Connection.state === Connection.CONNECTED)
+	video_stream.src = "";
+	console.log("testing onclick");
+	setTimeout(function()
 	{
-		if("Drive" in lobe_status)
-		{
-		//	$(`li#Drive`).removeClass().addClass(StatusMap[lobe_status["Drive"]]);
-		}
-		else
-		{
-		//	$(`li#Drive`).removeClass();
-		}
+		video_stream.src = `http://192.168.1.51/video.mjpg?r=${Math.random()}`;
+	}, 50);
+}
+
+
+Model.on("update", () =>
+{
+	try
+	{
+		model.Power.value.batteryPercentage;
 	}
-}, 500);
+	catch(e)
+	{}
+}, 50);
 
 function pollGamepads()
 {
