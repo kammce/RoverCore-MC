@@ -55,31 +55,3 @@
 //     max: 100,
 //     title: "Battery3 Temp"
 //   });
-
-document.querySelectorAll("#Battery > button").forEach(function(obj, index, array)
-{
-	array[index].onclick = function()
-	{
-		var value = parseInt(array[index].getAttribute("data-value"));
-		var id = array[index].id;
-		if(isNaN(value))
-		{
-			console.warn("did not parse");
-		}
-		else
-		{
-			var invert = (value == 1) ? 0 : 1;
-			var payload = {
-				target: "PowerSystems",
-				command: { }
-			};
-			payload.command[id] = invert;
-			primus.write(payload);
-			array[index].setAttribute("data-value", invert);
-			console.log(payload);
-			console.log(array[index].id);
-			console.log(value);
-			console.log(invert);
-		}
-	}
-});
