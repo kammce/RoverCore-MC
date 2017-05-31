@@ -5,6 +5,8 @@ var arrow_speed = document.querySelector("#arrow-speed");
 var arrow_orientation = document.querySelector("#arrow-orientation");
 var speed_percent = document.querySelector("#speed-percent");
 var max_speed_indicator = document.querySelector("#max-speed-indicator");
+var capacity_indicator = document.querySelector("#capacity-indicator");
+var capacity_value = document.querySelector("#capacity-value");
 
 var mode_image = document.querySelector("#mode-image");
 var mode_text = document.querySelector("#mode-text");
@@ -82,21 +84,32 @@ video_stream.onload = function()
 	video_stream.style.visibility = "visible";
 	$("#video-indicator").prop('checked', true).change();
 }
-
-setInterval(function()
+video_stream.onclick = function()
 {
-	if(Connection.state === Connection.CONNECTED)
+	video_stream.src = "";
+	console.log("testing onclick");
+	setTimeout(function()
 	{
-		if("Drive" in lobe_status)
-		{
-		//	$(`li#Drive`).removeClass().addClass(StatusMap[lobe_status["Drive"]]);
-		}
-		else
-		{
-		//	$(`li#Drive`).removeClass();
-		}
+		video_stream.src = `http://192.168.1.51/video.mjpg?r=${Math.random()}`;
+	}, 50);
+}
+
+
+Model.on("update", () =>
+{
+	try
+	{
+		var level = model.Power.value.batteryPercentage;
+		$(capacity_indicator)
+				.removeClass("progress-bar-disabled")
+				.addClass("progress-bar-info")
+				.addClass("active");
+		capacity_indicator.style.height = `${level}%`;
+		capacity_value.innerHTML = `Capacity ${level}%`;
 	}
-}, 500);
+	catch(e)
+	{}
+}, 50);
 
 function pollGamepads()
 {
@@ -225,6 +238,7 @@ function gameLoop()
 	arrow_orientation.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
 	max_speed_indicator.style.height = `${max_speed}%`;
 	max_speed_value.innerHTML = `Max Speed ${Math.round(max_speed)}%`;
+
 	for(var i = 0; i < compass.length; i++)
 	{
 		compass[i].style.transform = `rotate(${(i*90)+angle}deg)`;

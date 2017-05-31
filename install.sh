@@ -36,7 +36,7 @@ echo -e "\n Installing NodeJS"
 sudo apt-get install -y nodejs npm
 
 echo -e "\n Installing Apache2"
-sudo apt-get install apache2
+sudo apt-get install -y apache2
 
 echo -e "\n Changing ownership of folder to $USER"
 sudo chown $USER:$USER /var/www/html

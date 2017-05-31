@@ -1,0 +1,122 @@
+<style type="text/css">
+body
+{
+	/*background:black;*/
+}
+div.steering
+{
+	width: 200px;
+	height: 200px;
+}
+div.steering > div
+{
+	width: 100%;
+	height: calc(100% / 3);
+}
+div.steering div  div
+{
+	display: inline-block;
+	width: calc(100% / 3.2);
+	height: 100%;
+    vertical-align: middle;
+	text-align: center;
+}
+
+div.steering > div:nth-child(1) > div:nth-child(1) > div,
+div.steering > div:nth-child(1) > div:nth-child(3) > div,
+div.steering > div:nth-child(3) > div:nth-child(1) > div,
+div.steering > div:nth-child(3) > div:nth-child(3) > div
+{
+	width: 50%;
+	height: 75%;
+	opacity: .25;
+	transform: rotate(0deg);
+	background-color: black;
+    margin-bottom: 7.5%;
+    margin-top:12.5%;
+}
+
+div.steering > div:nth-child(2) > div:nth-child(2)
+{
+	background-color: black;
+}
+
+/*
+div.steering div:nth-child(1) div:nth-child(1) span,
+div.steering div:nth-child(3) div:nth-child(1) span
+{
+	transform: translateX(-50%);
+}
+
+div.steering div:nth-child(1) div:nth-child(3),
+div.steering div:nth-child(3) div:nth-child(3)
+{
+	transform: translateX(50%);
+}
+*/
+
+div.steering > div > div:nth-child(2),
+div.steering > div:nth-child(2) div,
+div.steering > div:nth-child(4) div
+{
+	/*background-color: white;*/
+}
+</style>
+
+<div class="steering">
+	<div>
+		<div>
+			<div></div>
+		</div>
+		<div>
+			<div></div>
+		</div>
+		<div>
+			<div></div>
+		</div>
+	</div>
+	<div>
+		<div>0&deg; <br><br> 0&deg;</div>
+		<div></div>
+		<div>0&deg; <br><br> 0&deg;</div>
+	</div>
+	<div>
+		<div>
+			<div></div>
+		</div>
+		<div>
+			<div></div>
+		</div>
+		<div>
+			<div></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+let wheels = document.querySelectorAll(".steering > div  > div:nth-child(1) > div, .steering > div > div:nth-child(3) > div");
+let wheelsIndicator = document.querySelectorAll(".steering > div:nth-child(2) > div:nth-child(1), .steering > div:nth-child(2) > div:nth-child(3)");
+let i = 0;
+let dir = 1;
+let switcher = 45;
+
+function run() {
+	setInterval(() =>
+	{
+		wheels[0].style.transform = `rotate(${i}deg)`;
+		wheels[1].style.transform = `rotate(${i}deg)`;
+		wheels[2].style.transform = `rotate(${-i}deg)`;
+		wheels[3].style.transform = `rotate(${-i}deg)`;
+		wheelsIndicator[0].innerHTML = `${i}&deg; <br><br> ${-i}&deg;`;
+		wheelsIndicator[1].innerHTML = `${i}&deg; <br><br> ${-i}&deg;`;
+		dir = (i < -switcher || i > switcher) ? -dir : dir;
+		i += dir*2;
+	}, 50);
+}
+
+run();
+
+</script>
+
+<!-- interfaces/Drive/ -->
