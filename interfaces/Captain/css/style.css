@@ -1,0 +1,228 @@
+.small-padding{
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+.map-telemetry-items
+{
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+.map-telemetry-items > div > p > span
+{
+	text-decoration: underline;
+}
+
+.btn-group
+{
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.map {
+	border-radius: 3px;
+	margin: 0 0 0 30px;
+
+}
+
+.placeholder {
+	border-right: solid rgba(255,255,255,.15);
+	background: #151515;
+	border-radius: 3px;
+	height: 280px;
+	margin-bottom: 20px;
+}
+
+#mapid {
+	height: 100%;
+
+}
+
+/** Bootstrap Overrides**/
+.btn{
+	transition: .25s ease-out;
+}
+
+#compass {
+	width:380px;
+	height:380px;
+	background-image: url('compasssssss.png');
+	position: relative;
+
+	height: 80% !important;
+	background-position: center !important;
+	width: 84% !important;
+	display: block !important;
+	margin: 0 auto !important;
+	background-size: 102% !important;
+	position: relative !important;
+}
+
+#arrow {
+	-webkit-transform:rotate(120deg);
+	-moz-transform:rotate(120deg);
+	-o-transform:rotate(120deg);
+	-ms-transform:rotate(120deg);
+
+	-moz-transition: all 1s ease;
+	-webkit-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+
+	bottom: 0 !important;
+	right: 0 !important;
+	left: 0 !important;
+	top: 0 !important;
+	position: absolute !important;
+}
+
+#fuck {
+	height: 100%;
+	background: purple;
+	width: 10px;
+	display: block;
+	margin: 0 auto;
+}
+
+#speedometer {
+	height: 250px;
+	width: 250px;
+	position: absolute;
+
+
+}
+
+#ultrasonic {
+	display: inline-block;
+}
+
+#compass:hover #arrow {
+	-webkit-transform:rotate(0deg);
+	-moz-transform:rotate(0deg);
+	-o-transform:rotate(0deg);
+	-ms-transform:rotate(0deg);
+}
+
+path.highcharts-plot-band.highcharts-pane {
+	height: 150px;
+	width:150px;
+}
+
+rect.highcharts-button-box{
+	display: none;
+}
+
+path.highcharts-button-symbol{
+	display: none;
+}
+
+text.highcharts-credits {
+	display: none;
+}
+
+text.highcharts-title{
+	display: none;
+}
+
+#info-box{
+	margin-top: 5px;
+	height: 50%;
+	padding: 5px;
+	background-color: #151515;
+	display: flex;
+	border-radius: 5px;
+}
+
+
+.top-buffer { margin-top:3px; }
+
+.left-buffer{ margin-left: 100px;}
+
+
+
+div.camera-container
+{
+	height: 50vh;
+	border: 1px solid grey;
+	border-radius: 5px;
+}
+
+img.camera
+{
+	height: 100%;
+}
+.autonomous-container{
+	height: 90%;
+}
+
+.text-indicator
+{
+
+}
+
+
+
+.sonar-wrapper {
+	overflow: hidden;
+}
+
+/* The circle */
+.sonar-emitter {
+	position: relative;
+	margin: 32px auto;
+	width: 130px;
+	height: 130px;
+	border-radius: 50%;
+	background-color: red;
+	z-index: 0;
+}
+
+/* pseudo element - same shape and size as its parent */
+.sonar-emitter::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	content: '';
+	background-color: red;
+	z-index: -1;
+	pointer-events: none;
+	opacity: 0;
+}
+
+.number::after  {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding-top:20%;
+	padding-left: 35%;
+	font-size: 400%;
+	content: '1000';
+	z-index: 1000;
+	pointer-events: none;
+}
+
+/*
+	Animate the pseudo element.
+	NOTE: add browser prefixes where needed.
+*/
+.sonar-emitter::after {
+	animation: sonarWave 2s linear infinite;
+}
+
+@keyframes sonarWave {
+	from
+	{
+		opacity: 0.5;
+	}
+	to
+	{
+		transform: scale(1.5);
+		opacity: 0;
+	}
+}
