@@ -78,9 +78,9 @@ jQuery(function()
 {
     jQuery('#camera').attr('src', `interfaces/Arm/css/images/thatclaw.png?r=${Math.random()}`);
 
-	video = $("#camera");
-	original_width = video.width();
-	original_height = video.height();
+    video = $("#camera");
+    original_width = video.width();
+    original_height = video.height();
 });
 
 
@@ -89,11 +89,11 @@ $("#ClawCam").click(function()
 {
     video.attr('src', `http://192.168.1.50/video.mjpg?r=${Math.random()}`);
 
-	video.css('height', original_height);
-	video.css('width', original_width);
+    video.css('height', original_height);
+    video.css('width', original_width);
 
     video.css("transform-origin", "50% 50% 0px");
-    video.css('transform','rotate(0deg)');
+    video.css('transform', 'rotate(0deg)');
 
     $("#ClawCam").addClass('btn-success');
     $("#ElbowCam").removeClass('btn-success');
@@ -106,11 +106,11 @@ $("#ElbowCam").click(function()
 {
     video.attr('src', `http://192.168.1.51/video.mjpg?r=${Math.random()}`);
 
-	video.css('height', original_height);
-	video.css('width', original_width);
+    video.css('height', original_height);
+    video.css('width', original_width);
 
-	video.css("transform-origin", "50% 50% 0px");
-    video.css('transform','rotate(0deg)');
+    video.css("transform-origin", "50% 50% 0px");
+    video.css('transform', 'rotate(0deg)');
 
     $("#ClawCam").removeClass('btn-success');
     $("#ElbowCam").addClass('btn-success');
@@ -122,12 +122,12 @@ $("#ElbowCam").click(function()
 
 $("#BaseCam").click(function()
 {
-	video.css('height', original_width);
-	video.css('width', original_height);
+    video.css('height', original_width);
+    video.css('width', original_height);
 
     video.attr('src', `http://192.168.1.51/video.mjpg?r=${Math.random()}`);
-	video.css('transform','rotate(90deg)');
-	video.css("transform-origin", "118.4% 50.1% 0px");
+    video.css('transform', 'rotate(90deg)');
+    video.css("transform-origin", "118.4% 50.1% 0px");
 
     $("#ClawCam").removeClass('btn-success');
     $("#ElbowCam").removeClass('btn-success');
@@ -405,17 +405,17 @@ $("#FaceMast").click(function()
     $("#Wrist_RollInputBox").val('0');
     */
 
-    //claw_torque stops
+    //claw_torque 50% to avoid breaking itself
     $("#ClawSlider").slider('value', 50);
     $("#ClawInputBox").val('50');
     $("#ClawState").html("50");
     command.claw_torque = 50;
 
-    //claw stops
+    //claw opens
     command.claw = 2;
     $("#ClawAction").html("Opening...");
 
-    //rotunda rotates to center
+    //rotunda rotates to face mast
     $("#RotundaSlider").slider('value', 2031);
     $("#RotundaInputBox").val('2031');
     $("#RotundaState").html("2031");
@@ -428,23 +428,24 @@ $("#FaceMast").click(function()
     command.rotunda_camera = 180;
 
     //shoulder
-    $("#ShoulderSlider").slider('value', 260);
-    $("#ShoulderInputBox").val('260');
-    $("#ShoulderState").html("260");
-    command.shoulder = 260;
+    $("#ShoulderSlider").slider('value', 270);
+    $("#ShoulderInputBox").val('270');
+    $("#ShoulderState").html("270");
+    command.shoulder = 270;
 
     //elbow
-    $("#ElbowSlider").slider('value', 200);
-    $("#ElbowInputBox").val('200');
-    $("#ElbowState").html("200");
-    command.elbow = 200;
+    $("#ElbowSlider").slider('value', 926);
+    $("#ElbowInputBox").val('926');
+    $("#ElbowState").html("926");
+    command.elbow = 926;
 
     //wrist_pitch
-    $("#Wrist_PitchSlider").slider('value', 183);
-    $("#Wrist_PitchInputBox").val('183');
-    $("#Wrist_PitchState").html("183");
-    command.wrist_pitch = 183;
+    $("#Wrist_PitchSlider").slider('value', 168);
+    $("#Wrist_PitchInputBox").val('168');
+    $("#Wrist_PitchState").html("168");
+    command.wrist_pitch = 168;
 
+    // No wrist roll
     $("#Wrist_RollState").html("Idle");
     command.wrist_roll = 0;
 });
@@ -470,7 +471,7 @@ $("#ApproachMast").click(function()
     $("#Wrist_RollInputBox").val('0');
     */
 
-    //claw_torque stops
+    //claw_torque
     $("#ClawSlider").slider('value', 50);
     $("#ClawInputBox").val('50');
     $("#ClawState").html("50");
@@ -480,7 +481,7 @@ $("#ApproachMast").click(function()
     command.claw = 0;
     $("#ClawAction").html("Stopping...");
 
-    //rotunda rotates to center
+    //rotunda maintains facing mast
     $("#RotundaSlider").slider('value', 2031);
     $("#RotundaInputBox").val('2031');
     $("#RotundaState").html("2031");
@@ -493,23 +494,24 @@ $("#ApproachMast").click(function()
     command.rotunda_camera = 180;
 
     //shoulder
-    $("#ShoulderSlider").slider('value', 247);
-    $("#ShoulderInputBox").val('247');
-    $("#ShoulderState").html("247");
-    command.shoulder = 247;
+    $("#ShoulderSlider").slider('value', 261);
+    $("#ShoulderInputBox").val('261');
+    $("#ShoulderState").html("261");
+    command.shoulder = 261;
 
     //elbow
-    $("#ElbowSlider").slider('value', 200);
-    $("#ElbowInputBox").val('200');
-    $("#ElbowState").html("200");
-    command.elbow = 200;
+    $("#ElbowSlider").slider('value', 926);
+    $("#ElbowInputBox").val('926');
+    $("#ElbowState").html("926");
+    command.elbow = 926;
 
     //wrist_pitch
-    $("#Wrist_PitchSlider").slider('value', 183);
-    $("#Wrist_PitchInputBox").val('183');
-    $("#Wrist_PitchState").html("183");
-    command.wrist_pitch = 183;
+    $("#Wrist_PitchSlider").slider('value', 165);
+    $("#Wrist_PitchInputBox").val('165');
+    $("#Wrist_PitchState").html("165");
+    command.wrist_pitch = 165;
 
+    // No wrist roll
     $("#Wrist_RollState").html("Idle");
     command.wrist_roll = 0;
 });
@@ -582,6 +584,87 @@ $("#stop_wrist_roll").click(function()
     $("#messages").html("Wrist Roll STOPPED");
     $("#Wrist_RollState").html("Idle");
     command.wrist_roll = 0;
+});
+
+
+//[INCOMPLETE]
+//Touch Ground???
+$("#method4").click(function()
+{
+    $("#buttonDisplay").html("4: UNDEFINED");
+    $("#method4").addClass('btn-info');
+    $("#GrabMast").removeClass('btn-info');
+    $("#method6").removeClass('btn-info');
+    $("#messages").html("Position changed to 4: UNDEFINED");
+
+    //command sent to rovercore-s
+    /*
+	command.rotunda =
+		//850-2350
+	command.shoulder =
+		//150-280
+	command.elbow =
+		//200-1000
+	command.wrist_pitch =
+		//90-270
+	command.wrist_roll =
+		//0-2
+	command.claw =
+		//0-2
+	command.claw_torque =
+		//0-100
+	//command.camera_select =
+		//0-2
+	//command.rotunda_camera =
+		//0-270
+	*/
+
+    //GUI changes according to command
+    /*
+	$("#ShoulderSlider").slider('value', 590);
+	$("#ShoulderInputBox").val('590');
+	$("#ShoulderState").text(parseInt(this.value));
+	*/
+});
+
+//[INCOMPLETE]
+//Grab Mast
+$("#GrabMast").click(function()
+{
+    //insert appropriate slider value
+    $("#buttonDisplay").html("5: UNDEFINED");
+    $("#method4").removeClass('btn-info');
+    $("#GrabMast").addClass('btn-info');
+    $("#method6").removeClass('btn-info');
+    $("#messages").html("Position changed to 5: UNDEFINED");
+    //command sent to rovercore-s
+    /*
+	command.rotunda =
+		//850-2350
+	command.shoulder =
+		//150-280
+	command.elbow =
+		//200-1000
+	command.wrist_pitch =
+		//90-270
+	command.wrist_roll =
+		//0-2
+	command.claw =
+		//0-2
+	command.claw_torque =
+		//0-100
+	//command.camera_select =
+		//0-2
+	//command.rotunda_camera =
+		//0-270
+	*/
+
+    //GUI changes according to command
+    /*
+	$("#ShoulderSlider").slider('value', 590);
+	$("#ShoulderInputBox").val('590');
+	$("#ShoulderState").text(parseInt(this.value));
+	*/
 });
 
 //================
@@ -858,13 +941,9 @@ function gameLoop()
         document.getElementById("Rotunda_CameraState").innerHTML = command.rotunda_camera;
         document.getElementById("messages").innerHTML = "MIMIC: Rotunda_Camera (Axis 5) changed!";
     }
-
-
 }
 
-
 intervalControl(false);
-
 
 //===========================================================
 //Manual Control and Mimic Toggle and Current Feedback Toggle
@@ -929,11 +1008,6 @@ $("#ToggleMimic").change(function()
 //======================
 //rovercore-s connection
 //======================
-
-
-var LobeAssignmentInterval = setInterval(function() {
-
-}, 100);
 
 var SendToRoverCoreS = setInterval(() =>
 {
