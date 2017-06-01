@@ -1,3 +1,19 @@
+.topsection {
+	background-color: #191919;
+}
+
+.CurrentFeedback{
+	border: 2px solid white;
+	padding-left: 2px;
+	background-color: #191919;
+	display: none;
+	font-size: 14px;
+}
+
+.spaced {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
 
 .InputBox {
 	color: black;
@@ -32,8 +48,12 @@ body {
 }
 
 
+#manualControl{
+	display: none;
+}
+
 #camerafeed{
-	height: 600px;
+	height: 800px;
 	width: 100%;
 	margin-bottom: 5px;
 }
@@ -45,9 +65,9 @@ body {
 }
 
 
-.mancontrolbutton {
+.toggleButtons {
   border: 2px solid white;
-  padding: 4px;
+  padding: 6px;
   text-align: center;
 }
 
@@ -116,35 +136,27 @@ body {
 	color: #2A9FD6;
 }
 
+.preset {
+	padding: 4px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
 .btn-info {
 	padding: 4px;
-	margin-left: 4px;
-	margin-right: 4px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.camselect {
+	padding: 8px;
 }
 
 
-/* 
-commented out on the armandclaw page 
-when i uncomment it, uncomment this
-
-#maninput3 {
-	display: inline;
-	width: 10%;
-}
-
-#maninput1 {
-	display: inline;
-	width: 10%;
-}
-
-#maninput2 {
-	display: inline;
-	width: 10%;
-}
-
-#maninput4 {
-	display: inline;
-	width: 10%;
-}
+/*
+   	     _
+     .__(.)< ("Quack")
+      \___)
+~~~~~~~~~~~~~~~~~~~~
 
 */
