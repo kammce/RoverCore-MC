@@ -121,7 +121,7 @@ Model.on("update", () =>
 {
 	try
 	{
-		var level = model.Power.value.batteryPercentage;
+		var level = model.Power.value.batteryPercentage.toFixed(3);
 		$(capacity_indicator)
 				.removeClass("progress-bar-disabled")
 				.addClass("progress-bar-info")
@@ -167,6 +167,8 @@ function intervalControl(poll_gamepad)
 		clearInterval(gameloop_interval);
 	}
 }
+
+var lag_angle = 0;
 
 function gameLoop()
 {
@@ -217,7 +219,13 @@ function gameLoop()
 	}
 
 	command.speed = (90 < angle && angle <= 270) ? -command.speed : command.speed;
-	command.angle = (90 < angle && angle <= 270) ? (180-angle) : angle;
+
+	weight = Math.abs(command.speed)/140;
+	lag_angle = ((weight*lag_angle)+(1-weight)*(angle));
+
+	command.angle = (90 < lag_angle && lag_angle <= 270) ? (180-lag_angle) : lag_angle;
+
+	console.log(weight, angle, lag_angle);
 
 	//var ratio = command.angle/90;
 	//command.angle = (ratio*ratio)*command.angle;
@@ -257,13 +265,13 @@ function gameLoop()
 
 	arrow_speed.style.clipPath = `inset(${ (buttonPressed(gp.buttons[JOYSTICK.TRIGGER])) ? (100-(magnitude*100)) : 100 }% 0px 0px 0px)`;
 	speed_percent.innerHTML = `${command.speed}%`;
-	arrow_orientation.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+	arrow_orientation.style.transform = `translate(-50%, -50%) rotate(${lag_angle}deg)`;
 	max_speed_indicator.style.height = `${max_speed}%`;
 	max_speed_value.innerHTML = `Max Speed ${Math.round(max_speed)}%`;
 
 	for(var i = 0; i < compass.length; i++)
 	{
-		compass[i].style.transform = `rotate(${(i*90)+angle}deg)`;
+		compass[i].style.transform = `rotate(${(i*90)+lag_angle}deg)`;
 	}
 }
 

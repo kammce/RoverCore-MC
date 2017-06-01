@@ -70,16 +70,31 @@ var command = new Proxy(ArmPayload, validator);
 //======================
 
 //Load ProjectLoch (thatclaw.png) img initially to be displayed on page load
+var video = $("#camera");
+var original_width = video.width();
+var original_height = video.height();
+
 jQuery(function()
 {
-    jQuery('#camerafeed').attr('src', 'interfaces/Arm/css/images/thatclaw.png?r={{ANTI-CACHE-MARKER}}');
+    jQuery('#camera').attr('src', `interfaces/Arm/css/images/thatclaw.png?r=${Math.random()}`);
+
+	video = $("#camera");
+	original_width = video.width();
+	original_height = video.height();
 });
 
 
 //claw camera might not be used because mechanical part is not ready for Loch
 $("#ClawCam").click(function()
 {
-    $("#camerafeed").attr('src', 'http://192.168.1.50/video.mjpg?r={{ANTI-CACHE-MARKER}}');
+    video.attr('src', `http://192.168.1.50/video.mjpg?r=${Math.random()}`);
+
+	video.css('height', original_height);
+	video.css('width', original_width);
+
+    video.css("transform-origin", "50% 50% 0px");
+    video.css('transform','rotate(0deg)');
+
     $("#ClawCam").addClass('btn-success');
     $("#ElbowCam").removeClass('btn-success');
     $("#BaseCam").removeClass('btn-success');
@@ -89,7 +104,14 @@ $("#ClawCam").click(function()
 
 $("#ElbowCam").click(function()
 {
-    $("#camerafeed").attr('src', 'http://192.168.1.51/video.mjpg?r={{ANTI-CACHE-MARKER}}');
+    video.attr('src', `http://192.168.1.51/video.mjpg?r=${Math.random()}`);
+
+	video.css('height', original_height);
+	video.css('width', original_width);
+
+	video.css("transform-origin", "50% 50% 0px");
+    video.css('transform','rotate(0deg)');
+
     $("#ClawCam").removeClass('btn-success');
     $("#ElbowCam").addClass('btn-success');
     $("#BaseCam").removeClass('btn-success');
@@ -97,10 +119,16 @@ $("#ElbowCam").click(function()
     command.camera_select = 0;
 });
 //
+
 $("#BaseCam").click(function()
 {
-    //$("#camerafeed").attr('src', 'http://192.168.1.50/video.mjpg?r={{ANTI-CACHE-MARKER}}');
-    $("#camerafeed").attr('src', 'http://192.168.1.51/video.mjpg?r={{ANTI-CACHE-MARKER}}');
+	video.css('height', original_width);
+	video.css('width', original_height);
+
+    video.attr('src', `http://192.168.1.51/video.mjpg?r=${Math.random()}`);
+	video.css('transform','rotate(90deg)');
+	video.css("transform-origin", "118.4% 50.1% 0px");
+
     $("#ClawCam").removeClass('btn-success');
     $("#ElbowCam").removeClass('btn-success');
     $("#BaseCam").addClass('btn-success');
@@ -359,8 +387,6 @@ $("#reset").click(function()
 //FaceMast Button
 $("#FaceMast").click(function()
 {
-
-
     $("#buttonDisplay").html("FaceMast!");
     $("#FaceMast").addClass('btn-info');
     $("#OpenClaw").removeClass('btn-info');

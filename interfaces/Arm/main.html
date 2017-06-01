@@ -1,8 +1,6 @@
 <link rel="stylesheet" type="text/css" href="interfaces/Arm/css/arm-interface.css?r={{ANTI-CACHE-MARKER}}">
-<link rel="stylesheet" type="text/css" href="interfaces/Arm/css/bootstrap-toggle.css?r={{ANTI-CACHE-MARKER}}">
 <link rel="stylesheet" type="text/css" href="interfaces/Arm/css/jquery-ui.css?r={{ANTI-CACHE-MARKER}}">
 <script type="text/javascript" src="interfaces/Arm/js/jquery.knob.min.js?r={{ANTI-CACHE-MARKER}}"></script>
-<script type="text/javascript" src="interfaces/Arm/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
 <script type="text/javascript" src="interfaces/Arm/js/jquery-ui.min.js?r={{ANTI-CACHE-MARKER}}"></script>
 
 <!-- Current Draw from Mimic's View -->
@@ -19,9 +17,11 @@
 
 <!-- Cam View -->
 <div id="camerasection" class="col-md-12">
-  <img id="camerafeed" ref="mainscreen"></img>
+	<div id="camerafeed">
+	  <img id="camera" ref="mainscreen" style="width: 100%; height: 100%; position: absolute"></img>
+	</div>
 </div>
-	
+
 <!-- Manual Control Off Section -->
 	<!-- Top row -->
 	<div class="topsection">
@@ -136,7 +136,7 @@
 		<p>
 			<text class="controlTitle">(T) CLAW</text> &nbsp;
 	        <input id="ClawInputBox" type="number" min="0" max="100" value="0" class="InputBox"/>
-			&nbsp; &nbsp; &nbsp; &nbsp; 
+			&nbsp; &nbsp; &nbsp; &nbsp;
 			<button type="button" class="preset btn btn-danger" id="stop_claw" value="stop_claw">STOP CLAW</button>
 			<button type="button" class="preset btn" id="OpenClaw" value="OpenClaw">Open Claw</button>
 			<button type="button" class="preset btn" id="CloseClaw" value="CloseClaw">Close Claw</button>
