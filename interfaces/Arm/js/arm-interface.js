@@ -77,11 +77,12 @@ jQuery(function(){
 
 //claw camera might not be used because mechanical part is not ready for Loch
 $("#ClawCam").click(function(){
-	$("#camerafeed").attr('src', 'interfaces/Arm/css/images/thatbase.png?r={{ANTI-CACHE-MARKER}}');
+	$("#camerafeed").attr('src', 'http://192.168.1.50/video.mjpg?r={{ANTI-CACHE-MARKER}}');
 	$("#ClawCam").addClass('btn-success');
 	$("#ElbowCam").removeClass('btn-success');
 	$("#BaseCam").removeClass('btn-success');
 	$("#messages").html("Claw Camera selected!");
+	//command.camera_select = 0;
 });
 
 $("#ElbowCam").click(function(){
@@ -90,14 +91,17 @@ $("#ElbowCam").click(function(){
 	$("#ElbowCam").addClass('btn-success');
 	$("#BaseCam").removeClass('btn-success');
 	$("#messages").html("Elbow Camera selected!");
+	command.camera_select = 0;
 });
-
+//
 $("#BaseCam").click(function(){
-	$("#camerafeed").attr('src', 'http://192.168.1.50/video.mjpg?r={{ANTI-CACHE-MARKER}}');
+	//$("#camerafeed").attr('src', 'http://192.168.1.50/video.mjpg?r={{ANTI-CACHE-MARKER}}');
+	$("#camerafeed").attr('src', 'http://192.168.1.51/video.mjpg?r={{ANTI-CACHE-MARKER}}');
 	$("#ClawCam").removeClass('btn-success');
 	$("#ElbowCam").removeClass('btn-success');
 	$("#BaseCam").addClass('btn-success');
 	$("#messages").html("Rotunda Camera selected!");
+	command.camera_select = 2;
 });
 
 
@@ -849,7 +853,7 @@ var LobeAssignmentInterval = setInterval(function()
 
 var SendToRoverCoreS = setInterval(() =>
 {
-	if(Connection.state === Connection.CONNECTED)
+	if(Connection.state === Connection.CONNECTED) 
 	{
 		var payload = {
 			target: 'Arm',
