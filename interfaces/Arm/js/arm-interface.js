@@ -287,9 +287,8 @@ $("#reset").click(function(){
 	$("#CloseClaw").removeClass('btn-info');
 	$("#wrist_roll_left").removeClass('btn-info');
 	$("#wrist_roll_right").removeClass('btn-info');
-	$("#method4").removeClass('btn-info');
-	$("#GrabMast").removeClass('btn-info');
-	$("#method6").removeClass('btn-info');
+	$("#FaceMast").removeClass('btn-info');
+	$("#ApproachMast").removeClass('btn-info');
     $( "#messages" ).html("All sliders reset and position is at rest!"); 
 
 	//commands sent to rovercore-s 
@@ -342,6 +341,154 @@ $("#reset").click(function(){
     $("#Wrist_PitchState").html("180");
     command.wrist_pitch = 180;
 
+});
+
+//FaceMast Button
+$("#FaceMast").click(function(){
+
+	if(Connection.state === Connection.CONNECTED)
+	{
+		primus.write(
+		{
+			target: 'Cortex',
+			command: 'Arm',
+		});
+		clearInterval(LobeAssignmentInterval);
+	}
+	$("#buttonDisplay").html("FaceMast!");
+	$("#FaceMast").addClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
+	$("#reset").removeClass('btn-info');
+	$("#ApproachMast").removeClass('btn-info');
+    $( "#messages" ).html("Facing Mast..."); 
+
+	//commands sent to rovercore-s 
+    //wrist_roll stops
+    
+    /*wrist_roll slider + inputbox replaced with buttons
+    $("#Wrist_RollSlider").slider('value', 0);
+    $("#Wrist_RollInputBox").val('0');
+    */
+
+    //claw_torque stops
+    $("#ClawSlider").slider('value', 50);
+    $("#ClawInputBox").val('50');
+    $("#ClawState").html("50");
+    command.claw_torque = 50;
+
+    //claw stops
+    command.claw = 2;
+    $("#ClawAction").html("Opening...");
+
+    //rotunda rotates to center
+    $("#RotundaSlider").slider('value', 2031);
+    $("#RotundaInputBox").val('2031');
+    $("#RotundaState").html("2031");
+    command.rotunda = 2031;
+
+    //rotunda cam faces straightforward
+	$("#Rotunda_CameraSlider").slider('value', 180);
+    $("#Rotunda_CameraInputBox").val('180');
+    $("#Rotunda_CameraState").html("180");
+    command.rotunda_camera = 180;
+
+    //shoulder 
+    $("#ShoulderSlider").slider('value', 260);
+    $("#ShoulderInputBox").val('260');
+    $("#ShoulderState").html("260");
+    command.shoulder = 260;
+
+    //elbow
+    $("#ElbowSlider").slider('value', 200);
+    $("#ElbowInputBox").val('200');
+    $("#ElbowState").html("200");
+    command.elbow = 200;
+
+    //wrist_pitch
+    $("#Wrist_PitchSlider").slider('value', 183);
+    $("#Wrist_PitchInputBox").val('183');
+    $("#Wrist_PitchState").html("183");
+    command.wrist_pitch = 183;
+
+    $("#Wrist_RollState").html("Idle");
+    command.wrist_roll = 0;
+});
+
+//ApproachMast Button
+$("#ApproachMast").click(function(){
+
+	if(Connection.state === Connection.CONNECTED)
+	{
+		primus.write(
+		{
+			target: 'Cortex',
+			command: 'Arm',
+		});
+		clearInterval(LobeAssignmentInterval);
+	}
+	$("#buttonDisplay").html("ApproachMast!");
+	$("#ApproachMast").addClass('btn-info');
+	$("#OpenClaw").removeClass('btn-info');
+	$("#CloseClaw").removeClass('btn-info');
+	$("#wrist_roll_left").removeClass('btn-info');
+	$("#wrist_roll_right").removeClass('btn-info');
+	$("#reset").removeClass('btn-info');
+	$("#FaceMast").removeClass('btn-info');
+    $( "#messages" ).html("Approaching Mast..."); 
+
+	//commands sent to rovercore-s 
+    //wrist_roll stops
+    
+    /*wrist_roll slider + inputbox replaced with buttons
+    $("#Wrist_RollSlider").slider('value', 0);
+    $("#Wrist_RollInputBox").val('0');
+    */
+
+    //claw_torque stops
+    $("#ClawSlider").slider('value', 50);
+    $("#ClawInputBox").val('50');
+    $("#ClawState").html("50");
+    command.claw_torque = 50;
+
+    //claw stops
+    command.claw = 0;
+    $("#ClawAction").html("Stopping...");
+
+    //rotunda rotates to center
+    $("#RotundaSlider").slider('value', 2031);
+    $("#RotundaInputBox").val('2031');
+    $("#RotundaState").html("2031");
+    command.rotunda = 2031;
+
+    //rotunda cam faces straightforward
+	$("#Rotunda_CameraSlider").slider('value', 180);
+    $("#Rotunda_CameraInputBox").val('180');
+    $("#Rotunda_CameraState").html("180");
+    command.rotunda_camera = 180;
+
+    //shoulder 
+    $("#ShoulderSlider").slider('value', 247);
+    $("#ShoulderInputBox").val('247');
+    $("#ShoulderState").html("247");
+    command.shoulder = 247;
+
+    //elbow
+    $("#ElbowSlider").slider('value', 200);
+    $("#ElbowInputBox").val('200');
+    $("#ElbowState").html("200");
+    command.elbow = 200;
+
+    //wrist_pitch
+    $("#Wrist_PitchSlider").slider('value', 183);
+    $("#Wrist_PitchInputBox").val('183');
+    $("#Wrist_PitchState").html("183");
+    command.wrist_pitch = 183;
+
+    $("#Wrist_RollState").html("Idle");
+    command.wrist_roll = 0;
 });
 
 //Open Claw Button
