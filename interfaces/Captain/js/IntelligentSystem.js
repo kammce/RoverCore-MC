@@ -24,10 +24,16 @@ var GPSObject = {
 
 var PowerObject = {
     "mAH": 0,
-    "Batt1Temp": 0,
-    "Batt2Temp": 0,
-    "Batt3Temp": 0,
-    "BattLevel": 0
+    "Batt1Temp":0,
+    "Batt2Temp":0,
+    "Batt3Temp":0,
+    "BattLevel":0,
+    "DriveCurrent":0,
+    "SteerCurrent":0,
+    "ArmCurrent":0,
+    "IntelCurrent":0,
+    "MastCurrent":0,
+    "ErrorMessage": "None"
 }
 
 var ScienceObject = {
@@ -347,7 +353,13 @@ Model.on("update", () =>
             "Batt1Temp": model.Power.value.temperatures.Battery1,
             "Batt2Temp": model.Power.value.temperatures.Battery2,
             "Batt3Temp": model.Power.value.temperatures.Battery3,
-            "BattLevel": model.Power.value.batteryPercentage
+            "BattLevel": model.Power.value.batteryPercentage,
+            "DriveCurrent":model.Power.value.currents.Drive,
+            "SteerCurrent":model.Power.value.currents.Steer,
+            "ArmCurrent":model.Power.value.currents.Arm,
+            "IntelCurrent":model.Power.value.currents.Intel,
+            "MastCurrent":model.Power.value.currents.Mast,
+            "ErrorMessage": model.Power.value.error
         }
     }
     catch (err)
@@ -397,6 +409,14 @@ Model.on("update", () =>
     document.querySelector('#BattTemp1').innerHTML = PowerObject.Batt1Temp + " F";
     document.querySelector('#BattTemp2').innerHTML = PowerObject.Batt2Temp + " F";
     document.querySelector('#BattTemp3').innerHTML = PowerObject.Batt3Temp + " F";
+
+    document.querySelector('#DriveCurrent').innerHTML = PowerObject.DriveCurrent;
+    document.querySelector('#SteerCurrent').innerHTML = PowerObject.SteerCurrent;
+    document.querySelector('#ArmCurrent').innerHTML = PowerObject.ArmCurrent;
+    document.querySelector('#IntelCurrent').innerHTML = PowerObject.IntelCurrent;
+    document.querySelector('#MastCurrent').innerHTML = PowerObject.MastCurrent;
+    document.querySelector('#ErrorMessage').innerHTML = PowerObject.ErrorMessage;
+
 
     document.querySelector('#Geiger').innerHTML = ScienceObject.CMP;
 
