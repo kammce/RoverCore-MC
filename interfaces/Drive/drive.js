@@ -13,6 +13,7 @@ var mode_text = document.querySelector("#mode-text");
 var max_speed_value = document.querySelector("#max-speed-value");
 var compass = document.querySelectorAll("[id^='compass-']");
 var joystick_indicator = document.querySelector("#joystick-indicator");
+var camera_indicator = document.querySelector("#camera-indicator");
 
 var video_stream = document.querySelector("#video-stream");
 
@@ -76,7 +77,7 @@ video_stream.onerror = function()
 	$("#video-indicator").prop('checked', false).change();
 	video_stream_interval = setTimeout(function()
 	{
-		video_stream.src = `http://192.168.1.51/video.mjpg?r=${Math.random()}`;
+		video_stream.src = `http://192.168.1.50/video.mjpg?r=${Math.random()}`;
 	}, 1000);
 }
 video_stream.onload = function()
@@ -90,9 +91,30 @@ video_stream.onclick = function()
 	console.log("testing onclick");
 	setTimeout(function()
 	{
-		video_stream.src = `http://192.168.1.51/video.mjpg?r=${Math.random()}`;
+		video_stream.src = `http://192.168.1.50/video.mjpg?r=${Math.random()}`;
 	}, 50);
 }
+
+video_stream.onclick = function()
+{
+	video_stream.src = "";
+	console.log("testing onclick");
+	setTimeout(function()
+	{
+		video_stream.src = `http://192.168.1.50/video.mjpg?r=${Math.random()}`;
+	}, 50);
+}
+
+$('#camera-indicator').change(function() {
+	var mux = $(this).prop('checked') ? 1 : 0;
+	var payload = {
+		target: "Tracker",
+		command: {
+			activeCamera: mux
+		}
+	};
+	primus.write(payload);
+});
 
 
 Model.on("update", () =>
