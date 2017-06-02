@@ -1,15 +1,54 @@
 // script.js
 
 $(document).keydown(function(event){
-  if (event.which === 74) { // "j" key
-    console.log("yawLeft");
-    yawLeft();
-  } else if (event.which === 76) {  // "l" key
-    console.log("yawRight");
-    yawRight();
-  } else if (event.which === 75) {  // "k" key
-    console.log("STOP");
-    yawNeutral();
+  // if (event.which === 74) { // "j" key
+  //   console.log("yawLeft");
+  //   yawLeft();
+  // } else if (event.which === 76) {  // "l" key
+  //   console.log("yawRight");
+  //   yawRight();
+  // } else if (event.which === 75) {  // "k" key
+  //   console.log("STOP");
+  //   yawNeutral();
+  // }
+  switch(event.which) {
+    case 74: {  // "j" key
+      console.log("yawLeft");
+      yawLeft();
+      break;
+    }
+    case 75: {  // "k" key
+      console.log("STOP");
+      yawNeutral();
+      break;
+    }
+    case 76: {  // "l" key
+      console.log("yawRight");
+      yawRight();
+      break;
+    }
+    case 77: {  // "m" key
+      console.log("Toggle Pitch Enable");
+      pitchToggle();
+      break;
+    }
+    case 79: {  // "o" key
+      console.log("Toggle Yaw Enable");
+      yawToggle();
+      break;
+    }
+    case 188: { // "," key
+      console.log("pitchDown");
+      // pitch down...
+      break;
+    }
+    case 190: { // "." key
+      console.log("pitchUp");
+      break;
+    }
+    default:
+      console.log("Unrecognized Key Binding");
+      break;
   }
 });
 
@@ -217,6 +256,9 @@ function yawNeutral() {
   command.yawMotion = 0.00;
   SendPayload(command);
 }
+function yawToggle() {
+  $("#YawSpeed").click();
+}
 
 //pitch speed
 function PitchSpeedEn(){
@@ -276,6 +318,11 @@ function PPEntZoom(val, e){
   command.pitch.angle = Number(zoomVal);
   SendPayload(command);
 };
+
+// RJ - push-release pitch
+function pitchToggle() {
+  $("#PitchSpeed").click();
+}
 
 //Lidar 
 function LidarClick(){
