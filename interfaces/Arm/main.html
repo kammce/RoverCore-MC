@@ -1,58 +1,68 @@
 <link rel="stylesheet" type="text/css" href="interfaces/Arm/css/arm-interface.css?r={{ANTI-CACHE-MARKER}}">
-<link rel="stylesheet" type="text/css" href="interfaces/Arm/css/bootstrap-toggle.css?r={{ANTI-CACHE-MARKER}}">
 <link rel="stylesheet" type="text/css" href="interfaces/Arm/css/jquery-ui.css?r={{ANTI-CACHE-MARKER}}">
 <script type="text/javascript" src="interfaces/Arm/js/jquery.knob.min.js?r={{ANTI-CACHE-MARKER}}"></script>
-<script type="text/javascript" src="interfaces/Arm/js/bootstrap-toggle.js?r={{ANTI-CACHE-MARKER}}"></script>
 <script type="text/javascript" src="interfaces/Arm/js/jquery-ui.min.js?r={{ANTI-CACHE-MARKER}}"></script>
 
-<!-- Current Draw from Mimic's View 
-<div class="CurrentFeedback col-md-2">
+<!-- Current Draw from Mimic's View -->
+<div class="CurrentFeedback col-md-1">
 	<center><strong class = "sectionTitle">MOTOR CURRENTS</strong></center><br>
-	<p>&nbsp;<b class = "sectionTitle">Rotunda Current =</b> <text id = "RotundaCurrent">?</text></p><br>
-	<p>&nbsp;<b class = "sectionTitle">Shoulder Current = </b> <text id = "ShoulderCurrent">?</text></p><br>
-	<p>&nbsp;<b class = "sectionTitle">Left Elbow Current = </b> <text id = "LElbowCurrent">?</text></p><br>
-	<p>&nbsp;<b class = "sectionTitle">Right Elbow Current = </b> <text id = "RElbowCurrent">?</text></p><br>
-	<p>&nbsp;<b class = "sectionTitle">Left Wrist Current = </b> <text id = "LWristCurrent">?</text></p><br>
-	<p>&nbsp;<b class = "sectionTitle">Right Wrist Current = </b> <text id = "RWristCurrent">?</text></p><br>
-	<p>&nbsp;<b class = "sectionTitle">Claw Current = </b> <text id = "ClawCurrent">?</text></p>
+	<p>&nbsp;<b class = "sectionTitle">Rotunda = </b><br>&nbsp;<text id = "RotundaCurrent">####</text></p><br>
+	<p>&nbsp;<b class = "sectionTitle">Shoulder = </b><br>&nbsp;<text id = "ShoulderCurrent">####</text></p><br>
+	<p>&nbsp;<b class = "sectionTitle">Left Elbow = </b><br>&nbsp;<text id = "LElbowCurrent">####</text></p><br>
+	<p>&nbsp;<b class = "sectionTitle">Right Elbow = </b><br>&nbsp;<text id = "RElbowCurrent">####</text></p><br>
+	<p>&nbsp;<b class = "sectionTitle">Left Wrist = </b><br>&nbsp;<text id = "LWristCurrent">####</text></p><br>
+	<p>&nbsp;<b class = "sectionTitle">Right Wrist = </b><br>&nbsp;<text id = "RWristCurrent">####</text></p><br>
+	<p>&nbsp;<b class = "sectionTitle">Claw = </b><br>&nbsp;<text id = "ClawCurrent">####</text></p>
 </div>
--->
 
 <!-- Cam View -->
-<div class="col-md-12">
-  <img id="camerafeed" ref="mainscreen"></img>
+<div id="camerasection" class="col-md-12">
+	<div id="camerafeed">
+	  <img id="camera" ref="mainscreen" style="width: 100%; height: 100%; position: absolute"></img>
+	</div>
 </div>
-	
+
 <!-- Manual Control Off Section -->
 	<!-- Top row -->
+	<div class="topsection">
 	<div class="row">
-		<div class="col-md-1 mancontrolbutton">
-			<!--
-			<input type="checkbox" checked data-toggle="toggle" data-on="MC On" data-off="MC Off" id="ToggleManualControl"></input>
-			-->
+		<div class="col-md-1 toggleButtons">
+			<input
+			id="ToggleCurrentFeedback"
+			type="checkbox"
+			data-toggle="toggle"
+			data-on="Current"
+			data-off="Current"
+			data-onstyle="warning"
+			>
+		</div>
+		<div class="col-md-1 toggleButtons">
 			<input
 			id="ToggleManualControl"
 			type="checkbox"
 			data-toggle="toggle"
-			data-on="MC On"
-			data-off="MC Off"
+			data-on="Manual"
+			data-off="Manual"
 			>
 		</div>
-		<div class="col-md-1 mancontrolbutton">
+		<div class="col-md-1 toggleButtons">
     	<!--<text id="gamepad-info"><b class="sectionTitle">MIMIC:</b> Off</text>-->
     	<input
 			id="ToggleMimic"
 			type="checkbox"
 			data-toggle="toggle"
-			data-on="Mimic On"
-			data-off="Mimic Off"
+			data-on="Mimic"
+			data-off="Mimic"
 			data-onstyle="warning"
 		>
     </div>
-	<div class="col-md-4 rovercon2">
+	<div class="col-md-3 rovercon2">
     	<text id="messages">Rover Feedback Log</text>
     </div>
 	<div class="col-md-2" id="mancontroloff"><b class="sectionTitle">CAM: </b>
+		<!--
+			Claw camera might not be used because mechanical part is not ready for Loch
+		-->
 		<button type="button" class="camselect btn" id="ClawCam">Claw</button>&nbsp;
 		<button type="button" class="camselect btn" id="ElbowCam">Elbow</button>&nbsp;
 		<button type="button" class="camselect btn" id="BaseCam">Base</button>&nbsp;
@@ -60,7 +70,8 @@
     <div class="col-md-2 clawclaw"><b class="sectionTitle">CLAW (T)ORQUE: </b>
     	<text id ="ClawState"></text>
     </div>
-    <div class="col-md-2 clawclaw1">
+    <div class="col-md-2 clawclaw1"><b class="sectionTitle">CLAW ACTION: </b>
+    	<text id ="ClawAction"></text>
     </div>
 	</div>
 	<!-- Bottom row -->
@@ -75,7 +86,7 @@
 			ELBOW: <text id="ElbowState"></text>  &nbsp;
 			WRIST: <text id="Wrist_PitchState"></text>  &nbsp;
 		</div>
-		<div class="col-md-4 clawclawclaw2"><b class="sectionTitle">LAST BUTTON POSITION: </b>
+		<div class="col-md-4 clawclawclaw2"><b class="sectionTitle">LAST BUTTON: </b>
 	    	<text id="buttonDisplay"></text>
 		</div>
 	</div>
@@ -125,7 +136,7 @@
 		<p>
 			<text class="controlTitle">(T) CLAW</text> &nbsp;
 	        <input id="ClawInputBox" type="number" min="0" max="100" value="0" class="InputBox"/>
-			&nbsp; &nbsp; &nbsp; &nbsp; 
+			&nbsp; &nbsp; &nbsp; &nbsp;
 			<button type="button" class="preset btn btn-danger" id="stop_claw" value="stop_claw">STOP CLAW</button>
 			<button type="button" class="preset btn" id="OpenClaw" value="OpenClaw">Open Claw</button>
 			<button type="button" class="preset btn" id="CloseClaw" value="CloseClaw">Close Claw</button>
@@ -137,12 +148,12 @@
 				<button type="button" class="btn btn-danger" id="reset" value="reset">REST POSITION</button>
 			</p>
 			<p>
-				<button type="button" class="preset btn" id="method4" value="method4">Touch Ground</button>
-				<button type="button" class="preset btn" id="GrabMast" value="GrabMast">Grab Mast</button>
-				<button type="button" class="preset btn" id="method6" value="method6">Reach Forward</button>
+				<button type="button" class="preset btn" id="FaceMast" value="FaceMast">Face Mast</button>
+				<button type="button" class="preset btn" id="ApproachMast" value="ApproachMast">Approach Mast</button>
 			</p>
 		</div>
 	</div>
+</div>
 </div>
 </div>
 

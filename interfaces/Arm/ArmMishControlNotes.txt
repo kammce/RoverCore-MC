@@ -1,0 +1,39 @@
+5/29 
+
+
+- FOR MIMIC: Changed axes[5] in arm-interface.js to control rotunda_camera rather than axes[5] controlling the wrist_rotation
+
+- Plugging in Mimic automatically disables Manual Control
+
+- Unplugging Mimic automatically enables Manual Control
+
+- You can have Manual Control and Mimic on at the same time by toggling Manual Control while Mimic is connected
+
+- The Mimic Toggle DOESN'T WORK!!!! Be aware that the Mimic is active unless unplugged
+
+- Motor Current feedback DOESN'T WORK!!! It's not configured with Sameer/Boyd yet
+
+- Preset positions are UNDEFINED for both Mission Control and Mimic
+	- potential positions: grab mast (stow Arm back), touch ground, grab and place PODS
+
+- Camera Feeds DO NOT WORK!! They have addresses tied to the button onClick but the feeds haven't been set up yet. The Claw Cam is linked to a static image because I was not given an address
+
+- If you are not in fullscreen, zoom in or out to preserve the look of the page because the CSS styling is not very dynamic AKA the arrangement will go away
+
+- ATTENTION USER: Claw doesn't open or close without specifying the torque on the page or the mimic
+
+- * OnChange function isntead of OnInterval function?
+
+- * Test if able to open/close claw and rotate wrist at same time with the mimic and the web page
+
+- The sliders and input boxes may be incremented with the directional keys
+
+- The sliders may be clicked on to instantly send the value of the slider's position
+
+- The WRIST and CLAW will continue to ROTATE and OPEN/CLAW respectively, unless the user hits the red STOP BUTTONS or if it hits the min/max 
+
+
+   	     _
+     .__(.)< ("Quack")
+      \___)
+~~~~~~~~~~~~~~~~~~~~

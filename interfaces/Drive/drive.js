@@ -13,6 +13,7 @@ var mode_text = document.querySelector("#mode-text");
 var max_speed_value = document.querySelector("#max-speed-value");
 var compass = document.querySelectorAll("[id^='compass-']");
 var joystick_indicator = document.querySelector("#joystick-indicator");
+var camera_indicator = document.querySelector("#camera-indicator");
 
 var video_stream = document.querySelector("#video-stream");
 
@@ -76,7 +77,7 @@ video_stream.onerror = function()
 	$("#video-indicator").prop('checked', false).change();
 	video_stream_interval = setTimeout(function()
 	{
-		video_stream.src = `http://192.168.1.51/video.mjpg?r=${Math.random()}`;
+		video_stream.src = `http://192.168.1.50/video.mjpg?r=${Math.random()}`;
 	}, 1000);
 }
 video_stream.onload = function()
@@ -90,16 +91,37 @@ video_stream.onclick = function()
 	console.log("testing onclick");
 	setTimeout(function()
 	{
-		video_stream.src = `http://192.168.1.51/video.mjpg?r=${Math.random()}`;
+		video_stream.src = `http://192.168.1.50/video.mjpg?r=${Math.random()}`;
 	}, 50);
 }
+
+video_stream.onclick = function()
+{
+	video_stream.src = "";
+	console.log("testing onclick");
+	setTimeout(function()
+	{
+		video_stream.src = `http://192.168.1.50/video.mjpg?r=${Math.random()}`;
+	}, 50);
+}
+
+$('#camera-indicator').change(function() {
+	var mux = $(this).prop('checked') ? 1 : 0;
+	var payload = {
+		target: "Tracker",
+		command: {
+			activeCamera: mux
+		}
+	};
+	primus.write(payload);
+});
 
 
 Model.on("update", () =>
 {
 	try
 	{
-		var level = model.Power.value.batteryPercentage;
+		var level = model.Power.value.batteryPercentage.toFixed(3);
 		$(capacity_indicator)
 				.removeClass("progress-bar-disabled")
 				.addClass("progress-bar-info")
@@ -145,6 +167,8 @@ function intervalControl(poll_gamepad)
 		clearInterval(gameloop_interval);
 	}
 }
+
+var lag_angle = 0;
 
 function gameLoop()
 {
@@ -195,7 +219,13 @@ function gameLoop()
 	}
 
 	command.speed = (90 < angle && angle <= 270) ? -command.speed : command.speed;
-	command.angle = (90 < angle && angle <= 270) ? (180-angle) : angle;
+
+	weight = Math.abs(command.speed)/140;
+	lag_angle = ((weight*lag_angle)+(1-weight)*(angle));
+
+	command.angle = (90 < lag_angle && lag_angle <= 270) ? (180-lag_angle) : lag_angle;
+
+	console.log(weight, angle, lag_angle);
 
 	//var ratio = command.angle/90;
 	//command.angle = (ratio*ratio)*command.angle;
@@ -235,13 +265,13 @@ function gameLoop()
 
 	arrow_speed.style.clipPath = `inset(${ (buttonPressed(gp.buttons[JOYSTICK.TRIGGER])) ? (100-(magnitude*100)) : 100 }% 0px 0px 0px)`;
 	speed_percent.innerHTML = `${command.speed}%`;
-	arrow_orientation.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+	arrow_orientation.style.transform = `translate(-50%, -50%) rotate(${lag_angle}deg)`;
 	max_speed_indicator.style.height = `${max_speed}%`;
 	max_speed_value.innerHTML = `Max Speed ${Math.round(max_speed)}%`;
 
 	for(var i = 0; i < compass.length; i++)
 	{
-		compass[i].style.transform = `rotate(${(i*90)+angle}deg)`;
+		compass[i].style.transform = `rotate(${(i*90)+lag_angle}deg)`;
 	}
 }
 
