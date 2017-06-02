@@ -1,4 +1,18 @@
 // script.js
+
+$(document).keydown(function(event){
+  if (event.which === 74) { // "j" key
+    console.log("yawLeft");
+    yawLeft();
+  } else if (event.which === 76) {  // "l" key
+    console.log("yawRight");
+    yawRight();
+  } else if (event.which === 75) {  // "k" key
+    console.log("STOP");
+    yawNeutral();
+  }
+});
+
 /* begin: model snapshot pane */
 var ModelInterval = setInterval(function()
 {
@@ -9,7 +23,7 @@ var ModelInterval = setInterval(function()
 
     // update interface values
     if (typeof model.Tracker !== "undefined") {
-      $("#recordedDistance").html(model.Tracker.value.distance);
+      $("#recordedDistance").html(model.Tracker.value.distance/100);  // show distance in meters
       $("#zoomFeedback").html(model.Tracker.value.zoom);
       $("#yawPosFeedback").html(model.Tracker.value.yaw.angle);
       $("#pitchPosFeedback").html(model.Tracker.value.pitch.angle);
@@ -61,7 +75,8 @@ var command = {
         "speed": 0,
         "angle": 0
   },
-  "zoom": 66
+  "zoom": 0,
+  "yawMotion": 0.0  // RJ
 };
 
 TestEditor.set(command);
@@ -88,14 +103,14 @@ function SendPayload(json)
 }
 
 /* Warning: Map needs to be locally saved; without it, using internet is necessary (but not feasible) */
-var mymap = L.map('mapid').setView([38.4064, -110.7919], 15);
+// var mymap = L.map('mapid').setView([38.4064, -110.7919], 15);
 
-L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
-  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-  maxZoom: 18,
-  id: 'your.mapbox.project.id',
-  accessToken: 'your.mapbox.public.access.token'
-}).addTo(mymap);
+// L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
+//   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//   maxZoom: 18,
+//   id: 'your.mapbox.project.id',
+//   accessToken: 'your.mapbox.public.access.token'
+// }).addTo(mymap);
 
 //zoom
 function Slides(sliderValue){
@@ -189,6 +204,19 @@ function YPEntZoom(val, e){
   SendPayload(command);
 };
 
+// RJ push-release yaw
+function yawLeft() {
+  command.yawMotion = -0.5;
+  SendPayload(command);
+}
+function yawRight() {
+  command.yawMotion = 0.5;
+  SendPayload(command);
+}
+function yawNeutral() {
+  command.yawMotion = 0.00;
+  SendPayload(command);
+}
 
 //pitch speed
 function PitchSpeedEn(){
