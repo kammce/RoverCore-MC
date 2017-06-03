@@ -1,53 +1,85 @@
 // script.js
+var keyDepressed = false;
 
 $(document).keydown(function(event){
-  // if (event.which === 74) { // "j" key
-  //   console.log("yawLeft");
-  //   yawLeft();
-  // } else if (event.which === 76) {  // "l" key
-  //   console.log("yawRight");
-  //   yawRight();
-  // } else if (event.which === 75) {  // "k" key
-  //   console.log("STOP");
-  //   yawNeutral();
-  // }
-  switch(event.which) {
-    case 74: {  // "j" key
-      console.log("yawLeft");
-      yawLeft();
-      break;
+  if (!keyDepressed) {
+    keyDepressed = true;
+    switch(event.which) {
+      /* YAW */
+      case 74: {  // "j" key
+        console.log("yawLeft");
+        yawLeft();
+        break;
+      }
+      case 75: {  // "k" key
+        console.log("Toggle Yaw Enable");
+        yawToggle();
+        break;
+      }
+      case 76: {  // "l" key
+        console.log("yawRight");
+        yawRight();
+        break;
+      }
+
+      /* PITCH */
+      case 85: {  // "u" key
+        console.log("pitchDown");
+        // pitch down...
+        break;
+      }
+      case 73: {  // "i" key
+        console.log("Toggle Pitch Enable");
+        pitchToggle();
+        break;
+      }
+      case 79: {  // "o" key
+        console.log("pitchUp");
+        // pitch up...
+        break;
+      }
+
+      /* MISC */
+      case 72: {  // "h" key
+        console.log("Launching HELP modal...");
+        $("#helpModal").modal("show");
+        break;
+      }
+      default:
+        // console.log("Unrecognized Key Binding");
+        break;
     }
-    case 75: {  // "k" key
-      console.log("STOP");
+  }
+});
+
+$(document).keyup(function(event) {
+  keyDepressed = false;
+  switch(event.which) {
+    /* YAW */
+    case 74: {  // "j" key
+      console.log("STOP yaw");
       yawNeutral();
       break;
     }
     case 76: {  // "l" key
-      console.log("yawRight");
-      yawRight();
+      console.log("STOP yaw");
+      yawNeutral();
       break;
     }
-    case 77: {  // "m" key
-      console.log("Toggle Pitch Enable");
-      pitchToggle();
+
+    /* PITCH */
+    case 85: { // "u" key
+      console.log("STOP pitch");
+      // pitch neutral...
       break;
     }
-    case 79: {  // "o" key
-      console.log("Toggle Yaw Enable");
-      yawToggle();
-      break;
-    }
-    case 188: { // "," key
-      console.log("pitchDown");
-      // pitch down...
-      break;
-    }
-    case 190: { // "." key
-      console.log("pitchUp");
+    case 79: { // "o" key
+      console.log("STOP pitch");
+      // pitch neutral...
       break;
     }
     default:
-      console.log("Unrecognized Key Binding");
+      // console.log("Unbinded key '" + event.which + "' released");
       break;
   }
 });
@@ -185,7 +217,7 @@ function EntZoom(val, e){
 
 //yaw speed
 function YawSpeedEn(){
-  console.log("clicked");
+  // console.log("clicked");
   var button = document.getElementById("YawSpeed");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
@@ -262,7 +294,7 @@ function yawToggle() {
 
 //pitch speed
 function PitchSpeedEn(){
-  console.log("clicked");
+  // console.log("clicked");
   var button = document.getElementById("PitchSpeed");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
@@ -320,6 +352,12 @@ function PPEntZoom(val, e){
 };
 
 // RJ - push-release pitch
+function pitchLeft() {
+  
+}
+function pitchRight() {
+
+}
 function pitchToggle() {
   $("#PitchSpeed").click();
 }
