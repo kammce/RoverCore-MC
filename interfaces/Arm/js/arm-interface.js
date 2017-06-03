@@ -6,7 +6,7 @@
 // default/rest values
 var ArmPayload = {
     "rotunda": 1500, //850-2350
-    "shoulder": 270, //150-280 (180 = full horizontal)
+    "shoulder": 270, //150-270 (180 = full horizontal)
     "elbow": 600, // 200-1000
     "wrist_pitch": 180, //90-270 (180 = full horizontal)
     "wrist_roll": 0, //0 = stop, 1 = left, 2 = right
@@ -33,7 +33,7 @@ function limit(value, low, high)
 
 const LIMITS = {
     "rotunda": [850, 2350],
-    "shoulder": [150, 280],
+    "shoulder": [150, 270],
     "elbow": [200, 1000],
     "wrist_pitch": [90, 270],
     "wrist_roll": [0, 2],
@@ -602,7 +602,7 @@ $("#method4").click(function()
 	command.rotunda =
 		//850-2350
 	command.shoulder =
-		//150-280
+		//150-270
 	command.elbow =
 		//200-1000
 	command.wrist_pitch =
@@ -642,7 +642,7 @@ $("#GrabMast").click(function()
 	command.rotunda =
 		//850-2350
 	command.shoulder =
-		//150-280
+		//150-270
 	command.elbow =
 		//200-1000
 	command.wrist_pitch =
