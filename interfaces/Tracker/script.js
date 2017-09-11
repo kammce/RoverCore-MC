@@ -1,4 +1,89 @@
 // script.js
+var keyDepressed = false;
+
+$(document).keydown(function(event){
+  if (!keyDepressed) {
+    keyDepressed = true;
+    switch(event.which) {
+      /* YAW */
+      case 74: {  // "j" key
+        console.log("yawLeft");
+        yawLeft();
+        break;
+      }
+      case 75: {  // "k" key
+        console.log("Toggle Yaw Enable");
+        yawToggle();
+        break;
+      }
+      case 76: {  // "l" key
+        console.log("yawRight");
+        yawRight();
+        break;
+      }
+
+      /* PITCH */
+      case 85: {  // "u" key
+        console.log("pitchDown");
+        // pitch down...
+        break;
+      }
+      case 73: {  // "i" key
+        console.log("Toggle Pitch Enable");
+        pitchToggle();
+        break;
+      }
+      case 79: {  // "o" key
+        console.log("pitchUp");
+        // pitch up...
+        break;
+      }
+
+      /* MISC */
+      case 72: {  // "h" key
+        console.log("Launching HELP modal...");
+        $("#helpModal").modal("show");
+        break;
+      }
+      default:
+        // console.log("Unrecognized Key Binding");
+        break;
+    }
+  }
+});
+
+$(document).keyup(function(event) {
+  keyDepressed = false;
+  switch(event.which) {
+    /* YAW */
+    case 74: {  // "j" key
+      console.log("STOP yaw");
+      yawNeutral();
+      break;
+    }
+    case 76: {  // "l" key
+      console.log("STOP yaw");
+      yawNeutral();
+      break;
+    }
+
+    /* PITCH */
+    case 85: { // "u" key
+      console.log("STOP pitch");
+      // pitch neutral...
+      break;
+    }
+    case 79: { // "o" key
+      console.log("STOP pitch");
+      // pitch neutral...
+      break;
+    }
+    default:
+      // console.log("Unbinded key '" + event.which + "' released");
+      break;
+  }
+});
+
 /* begin: model snapshot pane */
 var ModelInterval = setInterval(function()
 {
@@ -9,7 +94,7 @@ var ModelInterval = setInterval(function()
 
     // update interface values
     if (typeof model.Tracker !== "undefined") {
-      $("#recordedDistance").html(model.Tracker.value.distance);
+      $("#recordedDistance").html(model.Tracker.value.distance/100);  // show distance in meters
       $("#zoomFeedback").html(model.Tracker.value.zoom);
       $("#yawPosFeedback").html(model.Tracker.value.yaw.angle);
       $("#pitchPosFeedback").html(model.Tracker.value.pitch.angle);
@@ -61,7 +146,8 @@ var command = {
         "speed": 0,
         "angle": 0
   },
-  "zoom": 66
+  "zoom": 0,
+  "yawMotion": 0.0  // RJ
 };
 
 TestEditor.set(command);
@@ -88,14 +174,14 @@ function SendPayload(json)
 }
 
 /* Warning: Map needs to be locally saved; without it, using internet is necessary (but not feasible) */
-var mymap = L.map('mapid').setView([38.4064, -110.7919], 15);
+// var mymap = L.map('mapid').setView([38.4064, -110.7919], 15);
 
-L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
-  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-  maxZoom: 18,
-  id: 'your.mapbox.project.id',
-  accessToken: 'your.mapbox.public.access.token'
-}).addTo(mymap);
+// L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic3BhY2V0b2FjZSIsImEiOiJjaXZmb2FrZG0wMTV1MnlvNnF2eHd5OXhqIn0.vs5YxulzCxYVvT4Fmhficg', {
+//   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//   maxZoom: 18,
+//   id: 'your.mapbox.project.id',
+//   accessToken: 'your.mapbox.public.access.token'
+// }).addTo(mymap);
 
 //zoom
 function Slides(sliderValue){
@@ -131,7 +217,7 @@ function EntZoom(val, e){
 
 //yaw speed
 function YawSpeedEn(){
-  console.log("clicked");
+  // console.log("clicked");
   var button = document.getElementById("YawSpeed");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
@@ -189,10 +275,26 @@ function YPEntZoom(val, e){
   SendPayload(command);
 };
 
+// RJ push-release yaw
+function yawLeft() {
+  command.yawMotion = -0.5;
+  SendPayload(command);
+}
+function yawRight() {
+  command.yawMotion = 0.5;
+  SendPayload(command);
+}
+function yawNeutral() {
+  command.yawMotion = 0.00;
+  SendPayload(command);
+}
+function yawToggle() {
+  $("#YawSpeed").click();
+}
 
 //pitch speed
 function PitchSpeedEn(){
-  console.log("clicked");
+  // console.log("clicked");
   var button = document.getElementById("PitchSpeed");
   if(button.classList.contains("disabled")){
     button.classList.add('enabled');
@@ -248,6 +350,17 @@ function PPEntZoom(val, e){
   command.pitch.angle = Number(zoomVal);
   SendPayload(command);
 };
+
+// RJ - push-release pitch
+function pitchLeft() {
+  
+}
+function pitchRight() {
+
+}
+function pitchToggle() {
+  $("#PitchSpeed").click();
+}
 
 //Lidar 
 function LidarClick(){

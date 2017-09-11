@@ -6,7 +6,7 @@
 // default/rest values
 var ArmPayload = {
     "rotunda": 1500, //850-2350
-    "shoulder": 270, //150-280 (180 = full horizontal)
+    "shoulder": 270, //150-270 (180 = full horizontal)
     "elbow": 600, // 200-1000
     "wrist_pitch": 180, //90-270 (180 = full horizontal)
     "wrist_roll": 0, //0 = stop, 1 = left, 2 = right
@@ -15,6 +15,184 @@ var ArmPayload = {
     "camera_select": 0, //0 = , 1 = , 2 =
     "rotunda_camera": 180, //0-270 where 180 = straight ahead
 };
+
+
+var continue_sequence = true
+
+var Get_POD_sequence =
+[
+	{
+        /// Pick up
+        interval: 100,
+        rotunda: 1325,
+        shoulder: 270,
+        elbow: 863,
+        wrist_pitch: 90,
+        claw: 2,
+        claw_torque: 50,
+    },
+    {
+        /// Pick up
+        interval: 3000,
+        rotunda: 1325,
+        shoulder: 270,
+        elbow: 607,
+        wrist_pitch: 90,
+        claw: 2,
+        claw_torque: 50,
+    },
+    {
+        /// Pick up
+        interval: 2000,
+        rotunda: 1325,
+        shoulder: 248,
+        elbow: 607,
+        wrist_pitch: 90,
+        claw: 0,
+        claw_torque: 70,
+    }
+];
+
+var Deploy_POD_sequence = [
+    {
+        /// Pick up
+        interval: 1000,
+        rotunda: 1325,
+        shoulder: 263,
+        elbow: 200,
+        wrist_pitch: 90,
+        claw: 1,
+        claw_torque: 70,
+    },
+    {
+        /// Tilt with wrist
+        interval: 1000,
+        rotunda: 1325,
+        shoulder: 263,
+        elbow: 200,
+        wrist_pitch: 110,
+        claw: 1,
+        claw_torque: 70,
+    },
+     {
+        /// Lift out of box
+        interval: 1000,
+        rotunda: 1325,
+        shoulder: 270,
+        elbow: 200,
+        wrist_pitch: 110,
+        claw: 1,
+        claw_torque: 70,
+    },
+     {
+        /// Rotate away from box
+        interval: 3000,
+        rotunda: 1500,
+        shoulder: 270,
+        elbow: 200,
+        wrist_pitch: 110,
+        claw: 1,
+        claw_torque: 70,
+    },
+    {
+        /// Reduce shoulder angle to not hit base camera
+        interval: 1000,
+        rotunda: 1500,
+        shoulder: 260,
+        elbow: 200,
+        wrist_pitch: 110,
+        claw: 1,
+        claw_torque: 70,
+    },
+    {
+        /// Make pod vertical to ground
+        interval: 3000,
+        rotunda: 1500,
+        shoulder: 260,
+        elbow: 200,
+        wrist_pitch: 90,
+        claw: 1,
+        claw_torque: 70,
+    },
+    {
+        /// Approach ground
+        interval: 3000,
+        rotunda: 1500,
+        shoulder: 220,
+        elbow: 1000,
+        wrist_pitch: 90,
+        claw: 1,
+        claw_torque: 70,
+    },
+    {
+        /// set down and apply pressure
+        interval: 5000,
+        rotunda: 1500,	
+        shoulder: 215,
+        elbow: 1000,
+        wrist_pitch: 90,
+        claw: 1,
+        claw_torque: 70,
+    },
+    {
+        /// set down and apply pressure
+        interval: 5000,
+        rotunda: 1500,	
+        shoulder: 210,
+        elbow: 1000,
+        wrist_pitch: 90,
+        claw: 1,
+        claw_torque: 70,
+    }
+];
+
+function sequence(struct, index)
+{
+    var _index = index || 0;
+
+    if(struct.length > _index && continue_sequence)
+    {
+        setTimeout(() =>
+        {
+            //// LOGIC GOES HERE!!!
+
+            //claw_torque
+            $("#ClawSlider").slider('value', struct[_index].claw_torque);
+            $("#ClawInputBox").val(struct[_index].claw_torque);
+            $("#ClawState").html(struct[_index].claw_torque);
+            command.claw_torque = struct[_index].claw_torque;
+
+            //claw stops
+            command.claw = struct[_index].claw;
+
+            //rotunda maintains facing mast
+            $("#RotundaSlider").slider('value', struct[_index].rotunda);
+            $("#RotundaInputBox").val(struct[_index].rotunda);
+            $("#RotundaState").html(struct[_index].rotunda);
+            command.rotunda = struct[_index].rotunda;
+
+            //shoulder
+            $("#ShoulderSlider").slider('value', struct[_index].shoulder);
+            $("#ShoulderInputBox").val(struct[_index].shoulder);
+            $("#ShoulderState").html(struct[_index].shoulder);
+            command.shoulder = struct[_index].shoulder;
+
+            //elbow
+            $("#ElbowSlider").slider('value', struct[_index].elbow);
+            $("#ElbowInputBox").val(struct[_index].elbow);
+            $("#ElbowState").html(struct[_index].elbow);
+            command.elbow = struct[_index].elbow;
+
+            //wrist_pitch
+            $("#Wrist_PitchSlider").slider('value', struct[_index].wrist_pitch);
+            $("#Wrist_PitchInputBox").val(struct[_index].wrist_pitch);
+            $("#Wrist_PitchState").html(struct[_index].wrist_pitch);
+            command.wrist_pitch = struct[_index].wrist_pitch;
+            //// LOGIC ENDS HERE!!!
+            sequence(struct, _index+1);
+        }, struct[_index].interval);
+    }
+}
 
 
 function map(value, low1, high1, low2, high2)
@@ -33,7 +211,7 @@ function limit(value, low, high)
 
 const LIMITS = {
     "rotunda": [850, 2350],
-    "shoulder": [150, 280],
+    "shoulder": [150, 270],
     "elbow": [200, 1000],
     "wrist_pitch": [90, 270],
     "wrist_roll": [0, 2],
@@ -330,6 +508,9 @@ $("#reset").click(function()
     $("#wrist_roll_right").removeClass('btn-info');
     $("#FaceMast").removeClass('btn-info');
     $("#ApproachMast").removeClass('btn-info');
+    $("#GetPOD").removeClass('btn-info');
+    $("#DeployPOD").removeClass('btn-info');
+    $("#StopPOD").removeClass('btn-info');
     $("#messages").html("All sliders reset and position is at rest!");
 
     //commands sent to rovercore-s
@@ -395,6 +576,8 @@ $("#FaceMast").click(function()
     $("#wrist_roll_right").removeClass('btn-info');
     $("#reset").removeClass('btn-info');
     $("#ApproachMast").removeClass('btn-info');
+    $("#GetPOD").removeClass('btn-info');
+    $("#DeployPOD").removeClass('btn-info');
     $("#messages").html("Facing Mast...");
 
     //commands sent to rovercore-s
@@ -461,6 +644,8 @@ $("#ApproachMast").click(function()
     $("#wrist_roll_right").removeClass('btn-info');
     $("#reset").removeClass('btn-info');
     $("#FaceMast").removeClass('btn-info');
+    $("#GetPOD").removeClass('btn-info');
+    $("#DeployPOD").removeClass('btn-info');
     $("#messages").html("Approaching Mast...");
 
     //commands sent to rovercore-s
@@ -514,6 +699,65 @@ $("#ApproachMast").click(function()
     // No wrist roll
     $("#Wrist_RollState").html("Idle");
     command.wrist_roll = 0;
+});
+
+
+//Approach POD Button
+$("#GetPOD").click(function()
+{
+    $("#buttonDisplay").html("GetPOD!");
+    $("#GetPOD").addClass('btn-info');
+    $("#OpenClaw").removeClass('btn-info');
+    $("#CloseClaw").removeClass('btn-info');
+    $("#wrist_roll_left").removeClass('btn-info');
+    $("#wrist_roll_right").removeClass('btn-info');
+    $("#reset").removeClass('btn-info');
+    $("#FaceMast").removeClass('btn-info');
+    $("#ApproachMast").removeClass('btn-info');
+    $("#DeployPOD").removeClass('btn-info');
+    $("#messages").html("Approaching POD...");
+
+	continue_sequence = true;
+	sequence(Get_POD_sequence);
+
+});
+
+//Deploy POD Button
+$("#DeployPOD").click(function()
+{
+    $("#buttonDisplay").html("DeployPOD!");
+    $("#DeployPOD").addClass('btn-info');
+    $("#OpenClaw").removeClass('btn-info');
+    $("#CloseClaw").removeClass('btn-info');
+    $("#wrist_roll_left").removeClass('btn-info');
+    $("#wrist_roll_right").removeClass('btn-info');
+    $("#reset").removeClass('btn-info');
+    $("#FaceMast").removeClass('btn-info');
+    $("#ApproachMast").removeClass('btn-info');
+    $("#GetPOD").removeClass('btn-info');
+    $("#messages").html("Deploying POD...");
+
+	continue_sequence = true;
+	sequence(Deploy_POD_sequence);
+});
+
+//Stop POD Button
+$("#StopPOD").click(function()
+{
+    $("#buttonDisplay").html("StopPOD!");
+    $("#StopPOD").addClass('btn-info');
+    $("#OpenClaw").removeClass('btn-info');
+    $("#CloseClaw").removeClass('btn-info');
+    $("#wrist_roll_left").removeClass('btn-info');
+    $("#wrist_roll_right").removeClass('btn-info');
+    $("#reset").removeClass('btn-info');
+    $("#FaceMast").removeClass('btn-info');
+    $("#ApproachMast").removeClass('btn-info');
+    $("#GetPOD").removeClass('btn-info');
+    $("#DeployPOD").removeClass('btn-info');
+    $("#messages").html("Stopping POD sequence...");
+
+	continue_sequence = false;
 });
 
 //Open Claw Button
@@ -602,7 +846,7 @@ $("#method4").click(function()
 	command.rotunda =
 		//850-2350
 	command.shoulder =
-		//150-280
+		//150-270
 	command.elbow =
 		//200-1000
 	command.wrist_pitch =
@@ -642,7 +886,7 @@ $("#GrabMast").click(function()
 	command.rotunda =
 		//850-2350
 	command.shoulder =
-		//150-280
+		//150-270
 	command.elbow =
 		//200-1000
 	command.wrist_pitch =
