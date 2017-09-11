@@ -112,6 +112,7 @@ $("#CamOn").click(function()
 {
     $("#CamOn").addClass('btn-info');
     $("#CamOff").removeClass('btn-info');
+    $("#CamKill").removeClass('btn-info');
     console.log("Cam On");
     CamCommand("start");
 });
@@ -120,9 +121,34 @@ $("#CamOff").click(function()
 {
     $("#CamOff").addClass('btn-info');
     $("#CamOn").removeClass('btn-info');
+    $("#CamKill").removeClass('btn-info');
     console.log("Cam Off");
     CamCommand("stop");
+});
 
+$("#CamKill").click(function()
+{
+    $("#CamKill").addClass('btn-info');
+    $("#CamOff").removeClass('btn-info');
+    $("#CamOn").removeClass('btn-info');
+    console.log("Cam Off");
+    CamCommand("kill");
+});
+
+$("#CamBind").click(function()
+{
+    $("#CamBind").addClass('btn-info');
+    $("#CamUnbind").removeClass('btn-info');
+    console.log("Cam Off");
+    CamCommand("bind");
+});
+
+$("#CamUnbind").click(function()
+{
+    $("#CamUnbind").addClass('btn-info');
+    $("#CamBind").removeClass('btn-info');
+    console.log("Cam Off");
+    CamCommand("unbind");
 });
 
 $("#method0").click(function()

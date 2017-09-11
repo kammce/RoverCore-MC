@@ -29,13 +29,14 @@ const JOYSTICK = {
 	BTN_5: 4,
 	BTN_4: 3,
 	BTN_3: 2,
+	BTN_2: 1,
 	TRIGGER: 0
 }
 
 var command = {
 	speed: 0,
 	angle: 0,
-	mode: 'J'
+	mode: 'Y'
 };
 
 var gameloop_interval, check_gamepad_interval;
@@ -169,6 +170,7 @@ function intervalControl(poll_gamepad)
 }
 
 var lag_angle = 0;
+var speed_integrator = 0.0;
 
 function gameLoop()
 {
@@ -220,16 +222,37 @@ function gameLoop()
 
 	command.speed = (90 < angle && angle <= 270) ? -command.speed : command.speed;
 
-	weight = Math.abs(command.speed)/140;
-	lag_angle = ((weight*lag_angle)+(1-weight)*(angle));
+	// weight = Math.pow(Math.abs(command.speed)/100,(1/5))*.97;
+	lag_angle = angle;
 
-	command.angle = (90 < lag_angle && lag_angle <= 270) ? (180-lag_angle) : lag_angle;
+	command.angle = (90 < angle && angle <= 270) ? (180-angle) : angle;
 
-	console.log(weight, angle, lag_angle);
+	// if(command.angle < -45)
+	// {
+	// 	command.angle = -45;
+	// }
+	// if(command.angle > 45)
+	// {
+	// 	command.angle = 45;
+	// }
+
+
+	// console.log(weight, angle, 180-lag_angleangle, command.angle);
 
 	//var ratio = command.angle/90;
 	//command.angle = (ratio*ratio)*command.angle;
 	//console.log(command.angle, "::", y, "::", x);
+
+	if (buttonPressed(gp.buttons[JOYSTICK.BTN_2]))
+	{
+		speed_integrator += (speed_integrator < 20) ? 1 : 0;
+	}
+	else
+	{
+		speed_integrator = 0;
+	}
+
+	command.speed = Math.ceil(command.speed+speed_integrator);
 
 	if (buttonPressed(gp.buttons[JOYSTICK.BTN_4]) || buttonPressed(gp.buttons[JOYSTICK.BTN_3])) // X
 	{
